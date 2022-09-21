@@ -68,9 +68,10 @@ function Signup({navigation}) {
   };
 
   const handleSignUp = async () => {
-    const url = process.env.SERVER_BASE_URL + '/user/signup';
+    setIsPosting(true);
+    const url = process.env.SIGNUP;
     await axios
-      .post('https://7820-41-80-98-150.ap.ngrok.io/user/signup', {
+      .post(url, {
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber.replace(0, 254),
