@@ -68,7 +68,7 @@ export default function PublicProfile({route, navigation}) {
     axios
       .get(process.env.GET_MY_OTHER_SERVICES + userID)
       .then(response => {
-        if (response.data.data.length > 0) {
+        if (response.data.data) {
           setJobsList(response.data.data);
           setLoadingData(false);
           setNoJobsData(false);
@@ -89,7 +89,7 @@ export default function PublicProfile({route, navigation}) {
     await axios
       .get(url)
       .then(response => {
-        if (response.data.length > 0) {
+        if (response.data) {
           setReviewList(response.data);
           setLoadingData(false);
           setNoReviews(false);
@@ -416,12 +416,7 @@ export default function PublicProfile({route, navigation}) {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        <Entypo
-                          style={{}}
-                          name="eye"
-                          size={13}
-                          color="#ffbf80"
-                        />
+                        <Entypo name="eye" size={13} color="#ffbf80" />
                         {/* <Text
                           style={{
                             color: '#ffbf80',
@@ -554,8 +549,6 @@ export default function PublicProfile({route, navigation}) {
               alignItems: 'center',
               padding: 20,
               marginBottom: 40,
-              backgroundColor: 'red',
-              height: 400,
             }}>
             <Text
               style={{

@@ -96,13 +96,12 @@ export default function ServiceProviderProfile({route, navigation}) {
   // }
 
   async function getOtherServices() {
-    const url = process.env.GET_MY_OTHER_SERVICES;
-    const newURL = url + userID;
+    const url = process.env.GET_MY_OTHER_SERVICES + userID;
 
     await axios
-      .get(newURL)
+      .get(url)
       .then(response => {
-        setJobsList(response.data.data);
+        setJobsList(response.data);
         setLoading(false);
       })
       .catch(err => {
@@ -118,29 +117,29 @@ export default function ServiceProviderProfile({route, navigation}) {
   const starImgCorner =
     'https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png';
 
-  const CustomRatingBar = () => {
-    return (
-      <View style={styles.customratingBarStyle}>
-        {maxRating.map((item, key) => {
-          return (
-            <TouchableOpacity
-              onPress={() => setDefaultRating(item)}
-              activeOpacity={0.7}
-              key={item._id}>
-              <Image
-                style={styles.starImgStyle}
-                source={
-                  item <= defaultRating
-                    ? {uri: starImgFilled}
-                    : {uri: starImgCorner}
-                }
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
+  // const CustomRatingBar = () => {
+  //   return (
+  //     <View style={styles.customratingBarStyle}>
+  //       {maxRating.map((item, key) => {
+  //         return (
+  //           <TouchableOpacity
+  //             onPress={() => setDefaultRating(item)}
+  //             activeOpacity={0.7}
+  //             key={item._id}>
+  //             <Image
+  //               style={styles.starImgStyle}
+  //               source={
+  //                 item <= defaultRating
+  //                   ? {uri: starImgFilled}
+  //                   : {uri: starImgCorner}
+  //               }
+  //             />
+  //           </TouchableOpacity>
+  //         );
+  //       })}
+  //     </View>
+  //   );
+  // };
 
   const getCurrentUser = async () => {};
 
@@ -603,15 +602,7 @@ export default function ServiceProviderProfile({route, navigation}) {
 
         {jobsList.map(item => (
           <>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('PublicProfile', {
-                  userID: userId,
-                  userName: name,
-                })
-              }
-              style={styles.jobTitleContainer}
-              key={item._id}>
+            <TouchableOpacity style={styles.jobTitleContainer} key={item._id}>
               <Text
                 style={{
                   fontWeight: '700',
@@ -622,13 +613,14 @@ export default function ServiceProviderProfile({route, navigation}) {
 
               <FontAwesome name="location-arrow" size={15} color="gray" />
             </TouchableOpacity>
-            <View
+
+            {/* <View
               style={{
                 borderWidth: 0.2,
                 borderColor: '#262626',
                 marginVertical: 5,
               }}
-            />
+            /> */}
           </>
         ))}
       </View>
