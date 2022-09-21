@@ -555,7 +555,7 @@ export default function PublicProfile({route, navigation}) {
                 color: 'white',
                 fontWeight: '700',
               }}>
-              You haven't posted any jobs
+              No jobs available
             </Text>
           </View>
         )}
