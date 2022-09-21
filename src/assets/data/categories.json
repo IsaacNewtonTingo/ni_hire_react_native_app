@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Entertainment",
+    "key": "1"
+  },
+  {
+    "name": "Design",
+    "key": "2"
+  },
+  {
+    "name": "Home tasks",
+    "key": "3"
+  },
+  {
+    "name": "Office tasks",
+    "key": "4"
+  },
+  {
+    "name": "Handy jobs",
+    "key": "5"
+  },
+  {
+    "name": "Beauty",
+    "key": "6"
+  },
+  {
+    "name": "Health",
+    "key": "7"
+  },
+  {
+    "name": "Social media",
+    "key": "8"
+  },
+  {
+    "name": "Animation",
+    "key": "9"
+  },
+  {
+    "name": "Printing",
+    "key": "10"
+  },
+  {
+    "name": "Repairs",
+    "key": "11"
+  },
+  {
+    "name": "Art",
+    "key": "12"
+  },
+  {
+    "name": "Camera works",
+    "key": "13"
+  },
+  {
+    "name": "Decor",
+    "key": "14"
+  },
+  {
+    "name": "Security",
+    "key": "15"
+  }
+]

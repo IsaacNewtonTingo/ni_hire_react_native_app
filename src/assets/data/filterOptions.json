@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Price: Low-High",
+    "key": "1"
+  },
+  {
+    "name": "Price: High-Low",
+    "key": "2"
+  },
+
+  {
+    "name": "Rating: Lowest- Highest",
+    "key": "5"
+  },
+  {
+    "name": "Rating: Highest- Lowest",
+    "key": "6"
+  }
+]

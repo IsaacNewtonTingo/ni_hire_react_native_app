@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/AbrilFatface-Regular.ttf",
+      "sha1": "545553bf8733c6edc2846ba1b420f19e4a6ff2de"
+    },
+    {
+      "path": "src/assets/fonts/AlfaSlabOne-Regular.ttf",
+      "sha1": "3379279f774fdb42b7e4bb027efb64337d791f1c"
+    },
+    {
+      "path": "src/assets/fonts/FredokaOne-Regular.ttf",
+      "sha1": "c4377bea37b4f84e6d2183741664025d5cecef3e"
+    },
+    {
+      "path": "src/assets/fonts/LuckiestGuy-Regular.ttf",
+      "sha1": "7701304fb627ae9caa78cd982dce30d99a591296"
+    },
+    {
+      "path": "src/assets/fonts/PaytoneOne-Regular.ttf",
+      "sha1": "9774c05be95597112668c2b36c73d6e33176c2a4"
+    },
+    {
+      "path": "src/assets/fonts/TitanOne-Regular.ttf",
+      "sha1": "b2da1d8c562dc934c5b6377eb385263362179877"
+    },
+    {
+      "path": "src/assets/fonts/Ultra-Regular.ttf",
+      "sha1": "50d3f9625efc43d483764172981f95253a7db40d"
+    }
+  ]
+}

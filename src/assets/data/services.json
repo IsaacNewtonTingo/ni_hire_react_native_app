@@ -1,0 +1,1190 @@
+[
+  {"name": "actor", "key": "actor", "category": "630e24b284e428f126a46dfd"},
+  {
+    "name": "aesthetician",
+    "key": "aesthetician",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "affiliate marketing specialist",
+    "key": "affiliate marketing specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "airbrush artist",
+    "key": "airbrush artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "album cover designer",
+    "key": "album cover designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "animator",
+    "key": "animator",
+    "category": "631050d05cdf1279f53d12cd"
+  },
+  {
+    "name": "api engineer",
+    "key": "api engineer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "app designer",
+    "key": "app designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "app developer",
+    "key": "app developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "architectural illustrator",
+    "key": "architectural illustrator",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "art auctioneer",
+    "key": "art auctioneer",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "astrologist",
+    "key": "astrologist",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "audio ads producer",
+    "key": "audio ads producer",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "audio editor",
+    "key": "audio editor",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "audiobook producer",
+    "key": "audiobook producer",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "back end developer",
+    "key": "back end developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {"name": "barber", "key": "barber", "category": "631050b55cdf1279f53d12c7"},
+  {
+    "name": "beatmaker",
+    "key": "beatmaker",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "beauty school instructor",
+    "key": "beauty school instructor",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "blockchain developer",
+    "key": "blockchain developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {"name": "blogger", "key": "blogger", "category": "6310758461622de83a87de01"},
+  {
+    "name": "book designer",
+    "key": "book designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "book editor",
+    "key": "book editor",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "bot developer",
+    "key": "bot developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "brochure designer",
+    "key": "brochure designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "business cards designer",
+    "key": "business cards designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "business consultant",
+    "key": "business consultant",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "business names developer",
+    "key": "business names developer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "c developer",
+    "key": "c developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "car cleaner",
+    "key": "car cleaner",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "career counselor",
+    "key": "career counselor",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "carpenter",
+    "key": "carpenter",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "carpet cleaner",
+    "key": "carpet cleaner",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "cartoonist",
+    "key": "cartoonist",
+    "category": "631050d05cdf1279f53d12cd"
+  },
+  {
+    "name": "catalog designer",
+    "key": "catalog designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "cctv expert",
+    "key": "cctv expert",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "character animator",
+    "key": "character animator",
+    "category": "631050d05cdf1279f53d12cd"
+  },
+  {
+    "name": "character modelling",
+    "key": "character modelling",
+    "category": "631050d05cdf1279f53d12cd"
+  },
+  {"name": "chef", "key": "chef", "category": "6310629198efad78d9c715a1"},
+  {
+    "name": "commedian",
+    "key": "commedian",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "photographer",
+    "key": "photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "community management specialist",
+    "key": "community management specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "computer systems analyst",
+    "key": "computer systems analyst",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "concert promoter",
+    "key": "concert promoter",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "content strategist",
+    "key": "content strategist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "corporate team photographer",
+    "key": "corporate team photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "corporate videos creator",
+    "key": "corporate videos creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "cosmetic surgeon",
+    "key": "cosmetic surgeon",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "cosmetologist",
+    "key": "cosmetologist",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "courtroom artist",
+    "key": "courtroom artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "cover letter designer",
+    "key": "cover letter designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "cover letter specialist",
+    "key": "cover letter specialist",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {"name": "critic", "key": "critic", "category": "630e24b284e428f126a46dfd"},
+  {
+    "name": "crm manager",
+    "key": "crm manager",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {"name": "curator", "key": "curator", "category": "631050e85cdf1279f53d12d3"},
+  {
+    "name": "cv designer",
+    "key": "cv designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "cv specialist",
+    "key": "cv specialist",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "cyber security expert",
+    "key": "cyber security expert",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "dance coach",
+    "key": "dance coach",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "dancer",
+    "key": "dancer",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "data analyst",
+    "key": "data analyst",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "data entry specialist",
+    "key": "data entry specialist",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "data visualization speciaist",
+    "key": "data visualization speciaist",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "delivery driver",
+    "key": "delivery driver",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "delivery person",
+    "key": "delivery person",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "dermatologist",
+    "key": "dermatologist",
+    "category": "631050bd5cdf1279f53d12c9"
+  },
+  {
+    "name": "desktop app developer",
+    "key": "desktop app developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "dialect coach",
+    "key": "dialect coach",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "digital marketing manager",
+    "key": "digital marketing manager",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "dish washer",
+    "key": "dish washer",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {"name": "dj", "key": "dj", "category": "630e24b284e428f126a46dfd"},
+  {
+    "name": "django developer",
+    "key": "django developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "dressmaker",
+    "key": "dressmaker",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "drone pilot",
+    "key": "drone pilot",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {"name": "drummer", "key": "drummer", "category": "630e24b284e428f126a46dfd"},
+  {
+    "name": "e-commerce manager",
+    "key": "e-commerce manager",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "e-commerce product video creator",
+    "key": "e-commerce product video creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "eLearning content developer",
+    "key": "eLearning content developer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "electrician",
+    "key": "electrician",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "email marketing specialist",
+    "key": "email marketing specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "embroiderer",
+    "key": "embroiderer",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "erp manager",
+    "key": "erp manager",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "event photographer",
+    "key": "event photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "event planner",
+    "key": "event planner",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "eyelash technician",
+    "key": "eyelash technician",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "fashion consultant",
+    "key": "fashion consultant",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "fashion designer",
+    "key": "fashion designer",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "fencing specialist",
+    "key": "fencing specialist",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "fibre artist",
+    "key": "fibre artist",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "film crew",
+    "key": "film crew",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "flyer designer",
+    "key": "flyer designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "food photographer",
+    "key": "food photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {"name": "foreman", "key": "foreman", "category": "6310628098efad78d9c7159f"},
+  {
+    "name": "front end developer",
+    "key": "front end developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "full stack developer",
+    "key": "full stack developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "game designer",
+    "key": "game designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "game developer",
+    "key": "game developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {"name": "gamer", "key": "gamer", "category": "6310629198efad78d9c715a1"},
+  {
+    "name": "gardener",
+    "key": "gardener",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "glass artist",
+    "key": "glass artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "grant writer",
+    "key": "grant writer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "groundsman",
+    "key": "groundsman",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "guitarist",
+    "key": "guitarist",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "gutter cleaner",
+    "key": "gutter cleaner",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "hair dresser",
+    "key": "hair dresser",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "hair stylist",
+    "key": "hair stylist",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "home cleaner",
+    "key": "home cleaner",
+    "category": "6310628098efad78d9c7159f "
+  },
+  {
+    "name": "hr consultant",
+    "key": "hr consultant",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "icon designer",
+    "key": "icon designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "illustrator",
+    "key": "illustrator",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "influencer marketing specialist",
+    "key": "influencer marketing specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "infographics designer",
+    "key": "infographics designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "interiror designer",
+    "key": "interiror designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "internet of things specialist",
+    "key": "internet of things specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "intro & outro video creator",
+    "key": "intro & outro video creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "invitation designer",
+    "key": "invitation designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "java developer",
+    "key": "java developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "javascript developer",
+    "key": "javascript developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "jewelery designer",
+    "key": "jewelery designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "jeweller",
+    "key": "jeweller",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "landing page designer",
+    "key": "landing page designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "landscape designer",
+    "key": "landscape designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "laravel developer",
+    "key": "laravel developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "laser hair removal technician",
+    "key": "laser hair removal technician",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "legal consultant",
+    "key": "legal consultant",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "life coach",
+    "key": "life coach",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "lifestyle photographer",
+    "key": "lifestyle photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "lighting setup expert",
+    "key": "lighting setup expert",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "linen designer",
+    "key": "linen designer",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "logo designer",
+    "key": "logo designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "lyric video creator",
+    "key": "lyric video creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "makeup artist",
+    "key": "makeup artist",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "mama fua",
+    "key": "mama fua",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "market advisor",
+    "key": "market advisor",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "market research specialist",
+    "key": "market research specialist",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "marketing assistant",
+    "key": "marketing assistant",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {"name": "mason", "key": "mason", "category": "6310628098efad78d9c7159f"},
+  {
+    "name": "massage therapist",
+    "key": "massage therapist",
+    "category": "631050bd5cdf1279f53d12c9"
+  },
+  {
+    "name": "master of ceremony",
+    "key": "master of ceremony",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "mechanic",
+    "key": "mechanic",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "menu designer",
+    "key": "menu designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "mixing & mastering engineer",
+    "key": "mixing & mastering engineer",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "mobile app developer",
+    "key": "mobile app developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "mobile app marketing specialist",
+    "key": "mobile app marketing specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {"name": "model", "key": "model", "category": "6310629198efad78d9c715a1"},
+  {"name": "mover", "key": "mover", "category": "6310628098efad78d9c7159f"},
+  {
+    "name": "movie director",
+    "key": "movie director",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "movie editor",
+    "key": "movie editor",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "movie producer",
+    "key": "movie producer",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "mural artist",
+    "key": "mural artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "museum curator",
+    "key": "museum curator",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "museum director",
+    "key": "museum director",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "music producer",
+    "key": "music producer",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "music promoter",
+    "key": "music promoter",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "music publisher",
+    "key": "music publisher",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "music therapist",
+    "key": "music therapist",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "music transcription specialist",
+    "key": "music transcription specialist",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "music video director",
+    "key": "music video director",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "nail technician",
+    "key": "nail technician",
+    "category": "631050b55cdf1279f53d12c7"
+  },
+  {
+    "name": "nft animator",
+    "key": "nft animator",
+    "category": "631050d05cdf1279f53d12cd"
+  },
+  {
+    "name": "node js developer",
+    "key": "node js developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "office cleaner",
+    "key": "office cleaner",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "operations research analyst",
+    "key": "operations research analyst",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "packaging & label designer",
+    "key": "packaging & label designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {"name": "painter", "key": "painter", "category": "6310628098efad78d9c7159f"},
+  {
+    "name": "passport photographer",
+    "key": "passport photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "patrol officer",
+    "key": "patrol officer",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "pattern maker",
+    "key": "pattern maker",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "personal stylist",
+    "key": "personal stylist",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "personal trainer",
+    "key": "personal trainer",
+    "category": "6310629198efad78d9c715a1"
+  },
+  {
+    "name": "photo editor",
+    "key": "photo editor",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "photographer",
+    "key": "photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "photoshop expert",
+    "key": "photoshop expert",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {"name": "pianist", "key": "pianist", "category": "631062a098efad78d9c715a3"},
+  {"name": "plumber", "key": "plumber", "category": "6310628098efad78d9c7159f"},
+  {
+    "name": "podcast cover designer",
+    "key": "podcast cover designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "podcast marketing specialist",
+    "key": "podcast marketing specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "portrait artist",
+    "key": "portrait artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "poster designer",
+    "key": "poster designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "printmaker",
+    "key": "printmaker",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "private art teacher",
+    "key": "private art teacher",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "product designer",
+    "key": "product designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "product photographer",
+    "key": "product photographer",
+    "category": "631062ae98efad78d9c715a5"
+  },
+  {
+    "name": "professional artist",
+    "key": "professional artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "professional crafter",
+    "key": "professional crafter",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "professional speaker",
+    "key": "professional speaker",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "project manager",
+    "key": "project manager",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "proofreader",
+    "key": "proofreader",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "prop designer",
+    "key": "prop designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "protection officer",
+    "key": "protection officer",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "publicist",
+    "key": "publicist",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "python developer",
+    "key": "python developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {"name": "rapper", "key": "rapper", "category": "630e24b284e428f126a46dfd"},
+  {
+    "name": "react developer",
+    "key": "react developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "react native developer",
+    "key": "react native developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "resume designer",
+    "key": "resume designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "resume specialist",
+    "key": "resume specialist",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "roof cleaner",
+    "key": "roof cleaner",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "ruby developer",
+    "key": "ruby developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "screener",
+    "key": "screener",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "script editor",
+    "key": "script editor",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "script writer",
+    "key": "script writer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "security analyst",
+    "key": "security analyst",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security consultant",
+    "key": "security consultant",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security engineer",
+    "key": "security engineer",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security escort",
+    "key": "security escort",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security guard",
+    "key": "security guard",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security manager",
+    "key": "security manager",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security officer",
+    "key": "security officer",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "security specialist",
+    "key": "security specialist",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "seo & sem specialist",
+    "key": "seo & sem specialist",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "singer & vocalist",
+    "key": "singer & vocalist",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "social media marketer",
+    "key": "social media marketer",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "social media photographer",
+    "key": "social media photographer",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "software developer",
+    "key": "software developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "songwriter",
+    "key": "songwriter",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "speech writer",
+    "key": "speech writer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "spray painter",
+    "key": "spray painter",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "story board illustrator",
+    "key": "story board illustrator",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "stunt person",
+    "key": "stunt person",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {"name": "stylist", "key": "stylist", "category": "631050b55cdf1279f53d12c7"},
+  {
+    "name": "subtitles & captions pro",
+    "key": "subtitles & captions pro",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "supply chain manager",
+    "key": "supply chain manager",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "surveillance officer",
+    "key": "surveillance officer",
+    "category": "631051035cdf1279f53d12d9"
+  },
+  {
+    "name": "t-shirt designer",
+    "key": "t-shirt designer",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "tattoo artist",
+    "key": "tattoo artist",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "tattoo designer",
+    "key": "tattoo designer",
+    "category": "631050e85cdf1279f53d12d3"
+  },
+  {
+    "name": "technical writer",
+    "key": "technical writer",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "text message marketer",
+    "key": "text message marketer",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "textile designer",
+    "key": "textile designer",
+    "category": "6310626598efad78d9c7159b"
+  },
+  {
+    "name": "theatre consultant",
+    "key": "theatre consultant",
+    "category": "630e24b284e428f126a46dfd"
+  },
+  {
+    "name": "tiling specialist",
+    "key": "tiling specialist",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "toy designer",
+    "key": "toy designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "trailer video creator",
+    "key": "trailer video creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "transcriber",
+    "key": "transcriber",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "translator",
+    "key": "translator",
+    "category": "6310758461622de83a87de01"
+  },
+  {
+    "name": "truck driver",
+    "key": "truck driver",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "ui & ux designer",
+    "key": "ui & ux designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "vfx creator",
+    "key": "vfx creator",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "video director",
+    "key": "video director",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "video editor",
+    "key": "video editor",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "video marketer",
+    "key": "video marketer",
+    "category": "631062c598efad78d9c715a9"
+  },
+  {
+    "name": "virtual assistant specialist",
+    "key": "virtual assistant specialist",
+    "category": "63107894c7ee61d823cdb853"
+  },
+  {
+    "name": "virtual reality developer",
+    "key": "virtual reality developer",
+    "category": "6310618798efad78d9c71599"
+  },
+  {
+    "name": "vocal coach",
+    "key": "vocal coach",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "voice over artist",
+    "key": "voice over artist",
+    "category": "631062a098efad78d9c715a3"
+  },
+  {
+    "name": "web developer",
+    "key": "web developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "web designer",
+    "key": "web designer",
+    "category": "6310627398efad78d9c7159d"
+  },
+  {
+    "name": "website content developer",
+    "key": "website content developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "window washing expert",
+    "key": "window washing expert",
+    "category": "6310628098efad78d9c7159f"
+  },
+  {
+    "name": "wix developer",
+    "key": "wix developer",
+    "category": "631062b998efad78d9c715a7"
+  },
+  {
+    "name": "wordpress developer",
+    "key": "wordpress developer",
+    "category": "631062b998efad78d9c715a7"
+  }
+]

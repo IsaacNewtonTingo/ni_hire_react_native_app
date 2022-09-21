@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Graphics designer",
+    "key": "1",
+    "image": "https://visme.co/blog/wp-content/uploads/2021/10/what-is-graphic-design-header-1200.png"
+  },
+  {
+    "name": "Academic writer",
+    "key": "2",
+    "image": "https://www.moroccoworldnews.com/wp-content/uploads/2015/10/Approaches-to-the-Teaching-of-Academic-Writing-1024x664.jpg"
+  },
+  {
+    "name": "Home cleaner",
+    "key": "3",
+    "image": "https://taskmoby.com/wp-content/uploads/2022/01/house-cleaning.jpg"
+  },
+  {
+    "name": "Photographer",
+    "key": "4",
+    "image": "https://the.ismaili/sites/default/files/photography.jpg"
+  },
+  {
+    "name": "2D animation",
+    "key": "5",
+    "image": "https://darvideo.tv/wp-content/uploads/2021/10/2d-animation.jpg"
+  },
+  {
+    "name": "Web developer",
+    "key": "6",
+    "image": "https://1xqdqy285sk7212bfiejcprr-wpengine.netdna-ssl.com/wp-content/uploads/2017/12/Web-Development-Company-USA.jpg"
+  },
+  {
+    "name": "Mama fua",
+    "key": "7",
+    "image": "https://img.freepik.com/free-vector/washing-machine-laundry-set-cartoon-icon-illustration-technology-fashion-icon-concept-isolated-flat-cartoon-style_138676-2150.jpg?w=2000"
+  },
+  {
+    "name": "Music producer",
+    "key": "8",
+    "image": "https://www.careergirls.org/wp-content/uploads/2018/06/MusicProductionEngineering1440x1000.jpg"
+  },
+  {
+    "name": "Chauffeur",
+    "key": "9",
+    "image": "https://www.betterteam.com/images/driver-job-description-5558x3706-2020123.jpeg?crop=4:3,smart&width=1200&dpr=2"
+  },
+  {
+    "name": "Mobile app developer",
+    "key": "10",
+    "image": "https://cdn.mos.cms.futurecdn.net/9QTpESGBXa32D29J77VR3d.jpg"
+  }
+]
