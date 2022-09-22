@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -15,12 +15,19 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {CredentialsContext} from '../components/credentials-context';
+
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [disabled, setDisabled] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
 
   const empty = () => {
     setEmail('');
@@ -37,17 +44,34 @@ const Login = ({navigation}) => {
     }
   };
 
+  const persistLogin = async values => {
+    await AsyncStorage.setItem('loginCredentials', JSON.stringify(values))
+      .then(() => {
+        setStoredCredentials(values);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   async function handleLogin() {
     await axios
-      .post('https://7820-41-80-98-150.ap.ngrok.io/user/signin', {
+      .post(process.env.SIGNIN, {
         email,
         password,
       })
       .then(response => {
         console.log(response.data);
+
+        const result = response.data;
+        const {message, status, data} = result;
+
         if (response.data.status == 'Success') {
-          navigation.navigate('TabNavigator');
+          Alert.alert(message);
+          persistLogin({...data[0]}, message, status);
+          setIsPosting(false);
         } else {
+          setIsPosting(false);
           Alert.alert(response.data.message);
         }
         setIsPosting(false);

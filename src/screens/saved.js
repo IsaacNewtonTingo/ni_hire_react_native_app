@@ -13,9 +13,6 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function JobMembers({navigation}) {

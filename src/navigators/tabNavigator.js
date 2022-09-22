@@ -7,16 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Search from '../screens/search';
-import Saved from '../screens/saved';
-import Profile from '../screens/profile';
 import HomeStack from './homeStack';
-import PostStack from './postStack';
-import ProfileStack from './profileStack';
-import DrawerNav from './drawerNav';
-import ChatStack from './chatsStack';
-
-import PostService from '../screens/postService';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +41,7 @@ export default function TabNavigator() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Search"
         component={Search}
         options={{
@@ -99,7 +90,7 @@ export default function TabNavigator() {
             return <Ionicons name="settings" size={30} color={color} />;
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
