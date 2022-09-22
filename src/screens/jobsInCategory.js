@@ -26,7 +26,6 @@ export default function JobsInCategories({route, navigation}) {
 
   async function getJobs() {
     const url = process.env.GET_JOBS_IN_A_CATEGORY + categoryID;
-    console.log(url);
     await axios
       .get(url)
       .then(response => {

@@ -61,8 +61,6 @@ const Login = ({navigation}) => {
         password,
       })
       .then(response => {
-        console.log(response.data);
-
         const result = response.data;
         const {message, status, data} = result;
 

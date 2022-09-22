@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {Avatar} from 'react-native-paper';
 
 import Share from 'react-native-share';
@@ -16,6 +16,8 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CredentialsContext} from '../components/credentials-context';
+
 import axios from 'axios';
 
 // import files from '../assets/filesToShare/filesBase64';
@@ -26,39 +28,50 @@ export default function Settings({navigation}) {
   const [profilePicture, setProfilePicture] = useState();
 
   const [userCredentials, setUserCredentials] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
   useEffect(() => {
-    getStoredCredentials();
-    getUserDetails();
+    getUserData();
   }, []);
 
-  const getStoredCredentials = async () => {
-    await AsyncStorage.getItem('loginCredentials')
-      .then(async result => {
-        if (result !== null) {
-          const userID = JSON.parse(result)._id;
-          const url = process.env.GET_USER_DATA + userID;
+  const getUserData = async () => {
+    setIsLoading(true);
+    const url = process.env.GET_USER_DATA + _id;
 
-          await axios
-            .get(url)
-            .then(response => {
-              userData = response.data.data;
+    await axios
+      .get(url)
+      .then(response => {
+        userData = response.data.data;
 
-              setFirstName(userData.firstName);
-              setLastName(userData.lastName);
-              setProfilePicture(userData.profilePicture);
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          setUserCredentials(null);
-        }
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setProfilePicture(userData.profilePicture);
+
+        setIsLoading(false);
       })
-      .catch(error => console.log(error));
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
-  async function getUserDetails() {}
+  async function logout() {
+    setIsSubmitting(true);
+    await AsyncStorage.removeItem('loginCredentials')
+      .then(() => {
+        setStoredCredentials('');
+        setIsSubmitting(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
+  }
 
   async function shareApp() {
     // const shareOptions = {
@@ -154,18 +167,7 @@ export default function Settings({navigation}) {
 
         <View style={styles.line} />
 
-        <TouchableOpacity
-          onPress={() =>
-            auth()
-              .signOut()
-              .then(() => {
-                return null;
-              })
-              .catch(err => {
-                console.log(err);
-              })
-          }
-          style={styles.iconAndTextContainer}>
+        <TouchableOpacity onPress={logout} style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <MaterialIcons name="logout" color="white" size={25} />
             <Text style={styles.generalTexts}>Logout</Text>
