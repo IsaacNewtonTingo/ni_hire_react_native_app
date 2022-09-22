@@ -18,7 +18,7 @@ export default function AuthStack() {
   return (
     <CredentialsContext.Consumer>
       {({storedCredentials}) => (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Welcome">
           {storedCredentials ? (
             <Stack.Screen
               options={{
@@ -29,6 +29,13 @@ export default function AuthStack() {
             />
           ) : (
             <>
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="Welcome"
+                component={Welcome}
+              />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Signup" component={Signup} />
             </>
