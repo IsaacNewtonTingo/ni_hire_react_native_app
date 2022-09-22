@@ -8,6 +8,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeStack from './homeStack';
+import ProfileStack from './profileStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,20 @@ export default function TabNavigator() {
           headerTitle: '',
           tabBarIcon: ({focused, color, size}) => {
             return <AntDesign name="home" size={30} color={color} />;
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: '',
+          headerTitle: '',
+
+          tabBarIcon: ({focused, color, size}) => {
+            return <Ionicons name="settings" size={30} color={color} />;
           },
         }}
       />
@@ -78,19 +93,7 @@ export default function TabNavigator() {
           },
         }}
       />
-      <Tab.Screen
-        name="ProfileStack"
-        component={ProfileStack}
-        options={{
-          headerShown: false,
-          tabBarLabel: '',
-          headerTitle: '',
-
-          tabBarIcon: ({focused, color, size}) => {
-            return <Ionicons name="settings" size={30} color={color} />;
-          },
-        }}
-      /> */}
+       */}
     </Tab.Navigator>
   );
 }

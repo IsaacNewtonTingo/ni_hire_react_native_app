@@ -10,64 +10,49 @@ import {Avatar} from 'react-native-paper';
 
 import Share from 'react-native-share';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import files from '../assets/filesToShare/filesBase64';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// import files from '../assets/filesToShare/filesBase64';
 
 export default function Settings({navigation}) {
   const [name, setName] = useState('');
   const [profilePic, setProfilePic] = useState();
 
+  const [userCredentials, setUserCredentials] = useState('');
+  const [userID, setUserID] = useState('');
+
   useEffect(() => {
-    getCurrentUser();
+    getStoredCredentials();
   }, []);
 
-  async function getCurrentUser() {
-    const userID = auth().currentUser.uid;
-
-    const subscriber = firestore()
-      .collection('Users')
-      .doc(userID)
-      .onSnapshot(onResult, onError);
-
-    return () => subscriber();
-  }
-
-  function onResult(QuerySnapshot) {
-    const docData = QuerySnapshot.data();
-    try {
-      if (docData) {
-        setName(docData.name);
-        setProfilePic(docData.profilePicture);
-      } else {
-        setName('');
-        setProfilePic();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  function onError(error) {
-    console.log(error);
-  }
+  const getStoredCredentials = async () => {
+    await AsyncStorage.getItem('loginCredentials')
+      .then(result => {
+        if (result !== null) {
+          console.log(JSON.parse(result)._id);
+        } else {
+          setUserCredentials(null);
+        }
+      })
+      .catch(error => console.log(error));
+  };
 
   async function shareApp() {
-    const shareOptions = {
-      message:
-        'Looking to get hired, check out niHire mobile app and get employers looking for you for short term and long term jobs',
-      url: files.appLogo,
-    };
-    try {
-      const ShareResponse = await Share.open(shareOptions);
-    } catch (error) {
-      console.log(error);
-    }
+    // const shareOptions = {
+    //   message:
+    //     'Looking to get hired, check out niHire mobile app and get employers looking for you for short term and long term jobs',
+    //   url: files.appLogo,
+    // };
+    // try {
+    //   const ShareResponse = await Share.open(shareOptions);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
   return (
     <ScrollView style={styles.container}>
@@ -126,7 +111,7 @@ export default function Settings({navigation}) {
         {/* <View style={styles.line} /> */}
 
         <TouchableOpacity
-          onPress={shareApp}
+          // onPress={shareApp}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <FontAwesome name="share-square-o" color="white" size={25} />

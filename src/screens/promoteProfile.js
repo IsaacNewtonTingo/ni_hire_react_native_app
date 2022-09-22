@@ -14,15 +14,12 @@ import {WebView} from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {TINY_PESA_API_KEY} from '@env';
-import auth from '@react-native-firebase/auth';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-
-import firestore from '@react-native-firebase/firestore';
 
 export default function PromoteProfile({navigation}) {
   const [showModal, setShowModal] = useState(false);
@@ -339,21 +336,7 @@ export default function PromoteProfile({navigation}) {
     {label: 'wordpress developer', value: 'wordpress developer'},
   ]);
 
-  const userID = auth().currentUser.uid;
-
-  async function updateData() {
-    await firestore()
-      .collection('Users')
-      .doc(userID)
-      .update({
-        isPromoted: true,
-      })
-      .catch(error => {
-        console.log(error);
-        Alert.alert('Something went wrong');
-        return null;
-      });
-  }
+  async function updateData() {}
 
   const C = props => (
     <Text style={{color: '#66ffcc', fontWeight: '800'}}>{props.children}</Text>
@@ -406,11 +389,7 @@ export default function PromoteProfile({navigation}) {
       ],
     );
   }
-  async function updateGeneralTitle() {
-    await firestore().collection('Users').doc(userID).update({
-      generalPromotedTitle: service,
-    });
-  }
+  async function updateGeneralTitle() {}
 
   function submitForCheck() {
     if (!phoneNumber) {

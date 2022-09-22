@@ -16,10 +16,6 @@ import {
 
 import ImagePicker from 'react-native-image-crop-picker';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const width = Dimensions.get('window');
@@ -50,170 +46,21 @@ const EditProfile = ({navigation}) => {
     getUserData();
   }, []);
 
-  async function getUserData() {
-    const user = auth().currentUser;
-    if (user) {
-      const userID = user.uid;
-      const email = user.email;
-      setEmail(email);
-
-      const subscriber = firestore()
-        .collection('Users')
-        .doc(userID)
-        .onSnapshot(onResult, onError);
-      return subscriber;
-    } else {
-      return (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'black',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-            No user found
-          </Text>
-        </View>
-      );
-    }
-  }
-
-  function onResult(QuerySnapshot) {
-    const docData = QuerySnapshot.data();
-
-    if (docData) {
-      setName(docData.name);
-      setPhoneNumber(docData.phoneNumber);
-      setLocation(docData.location);
-      setBio(docData.bio);
-      setProfileImage(docData.profilePicture);
-    } else {
-      setLocation('');
-      setBio('');
-    }
-
-    return docData;
-  }
-
-  function onError(error) {
-    console.log(error);
-    return null;
-  }
+  async function getUserData() {}
 
   function handleDisplayButton() {
     setDisplayButton(true);
   }
 
-  async function reauthenticate(currentPassword) {
-    var user = auth().currentUser;
-    var cred = auth.EmailAuthProvider.credential(user.email, currentPassword);
-    return user.reauthenticateWithCredential(cred);
-  }
+  async function reauthenticate(currentPassword) {}
 
-  async function changeEmailInDB() {
-    await firestore().collection('Users').doc(currentUserId).update({
-      email: email,
-    });
-    setIsPosting(false);
-  }
+  async function changeEmailInDB() {}
 
-  async function updateEmail() {
-    reauthenticate(password)
-      .then(async () => {
-        await auth()
-          .currentUser.updateEmail(email)
-          .then(function () {
-            changeEmailInDB(email);
+  async function updateEmail() {}
 
-            setIsPosting(false);
-            setPassword('');
-          })
-          .catch(error => {
-            Alert.alert(error.message);
-            setIsPosting(false);
-          })
-          .finally(() => {
-            Alert.alert('Profile updated successfully');
-            setModalVisible(!modalVisible);
-            setDisplayButton(false);
-          });
-        return updateEmail;
-      })
-      .catch(error => {
-        if (error.code === 'auth/wrong-password') {
-          Alert.alert('Wrong password');
-        } else {
-          Alert.alert(error.message);
-        }
+  async function editProfile() {}
 
-        setIsPosting(false);
-      });
-  }
-
-  async function editProfile() {
-    if (!password) {
-      Alert.alert('Must enter password');
-    } else {
-      setIsPosting(true);
-      reauthenticate(password)
-        .then(async () => {
-          let imageUrl = await uploadImage();
-
-          const update = await firestore()
-            .collection('Users')
-            .doc(currentUserId)
-            .update({
-              name: name,
-              phoneNumber: phoneNumber,
-              location: location,
-              bio: bio,
-              profilePicture: imageUrl != null ? imageUrl : profileImage,
-            });
-          updateEmail();
-          return update;
-        })
-        .catch(error => {
-          if (error.code === 'auth/wrong-password') {
-            Alert.alert('Wrong password');
-          } else {
-            Alert.alert(error.message);
-          }
-        })
-        .finally(() => {
-          setIsPosting(false);
-        });
-    }
-  }
-
-  async function handleDelete() {
-    if (!password) {
-      Alert.alert('Password is required');
-    } else {
-      setIsDeleting(true);
-      reauthenticate(password)
-        .then(async () => {
-          await auth().currentUser.delete();
-          await firestore().collection('Users').doc(currentUserId).delete();
-          setIsDeleting(false);
-        })
-        .catch(error => {
-          if (error.code === 'auth/wrong-password') {
-            Alert.alert('Wrong password');
-          } else {
-            Alert.alert(error.message);
-          }
-
-          console.log(error.message);
-          setIsDeleting(false);
-        })
-        .finally(() => {
-          Alert.alert('Account deleted successfully');
-          setIsDeleting(false);
-          return null;
-        });
-    }
-  }
+  async function handleDelete() {}
 
   function openLibrary() {
     ImagePicker.openPicker({

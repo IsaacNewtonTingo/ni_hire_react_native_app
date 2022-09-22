@@ -42,7 +42,7 @@ export default function ProfileStack() {
         component={EditProfile}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{
           headerTitle: 'Promotion guide',
           headerTintColor: 'black',
@@ -58,7 +58,7 @@ export default function ProfileStack() {
         }}
         name="PromoteProfile"
         component={PromoteProfile}
-      />
+      /> */}
 
       <Stack.Screen
         options={{

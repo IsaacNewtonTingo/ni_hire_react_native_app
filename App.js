@@ -21,7 +21,6 @@ const App = () => {
       .then(result => {
         if (result !== null) {
           setStoredCredentials(JSON.parse(result));
-          console.log(result);
         } else {
           setStoredCredentials(null);
         }

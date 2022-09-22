@@ -28,9 +28,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-
 export default function Profile({navigation}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -64,157 +61,36 @@ export default function Profile({navigation}) {
     getReviews();
   }, [(navigation, loading)]);
 
-  async function getUserData() {
-    const subscriber = firestore()
-      .collection('Users')
-      .doc(currentUserID)
-      .onSnapshot(onResult, onError);
+  async function getUserData() {}
 
-    return () => subscriber();
-  }
+  function getJobs() {}
 
-  function onResult(QuerySnapshot) {
-    const docData = QuerySnapshot.data();
-    try {
-      if (docData) {
-        setName(docData.name);
-        setEmail(docData.email);
-        setPhoneNumber(docData.phoneNumber);
-        setLocation(docData.location);
-        setBio(docData.bio);
-        setImage(docData.profilePicture);
-      } else {
-        setLocation('');
-        setBio('');
+  async function getReviews() {}
 
-        setLoadingData(false);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingData(false);
-    }
-
-    return docData;
-  }
-
-  function onError(error) {
-    console.log(error);
-  }
-
-  function getJobs() {
-    const subscriber = firestore()
-      .collectionGroup('JobUsers')
-      .where('jobUserID', '==', currentUserID)
-      .get()
-      .then(querySnapshot => {
-        const jobs = [];
-        if (querySnapshot.size <= 0) {
-          setNoJobsData(true);
-        } else {
-          setNoJobsData(false);
-          querySnapshot.forEach(documentSnapshot => {
-            jobs.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.data().uniqueID,
-            });
-          });
-          setLoading(false);
-          setJobsList(jobs);
-        }
-      });
-    return () => subscriber();
-  }
-
-  async function getReviews() {
-    await firestore()
-      .collectionGroup('Reviews')
-      .where('jobUserID', '==', currentUserID)
-      .orderBy('createdAt', 'desc')
-      .limit(20)
-      .get()
-      .then(querySnapshot => {
-        const reviews = [];
-        if (querySnapshot.size <= 0) {
-          setNoReviews(true);
-        } else {
-          setNoReviews(false);
-          querySnapshot.forEach(documentSnapshot => {
-            reviews.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.key,
-            });
-          });
-          setLoading(false);
-          setReviewList(reviews);
-        }
-      });
-  }
-
-  async function addToJobViewedBy({jobID, userID}) {
-    await firestore()
-      .collection('Services')
-      .doc(jobID)
-      .update({
-        recentViews: firestore.FieldValue.arrayUnion(currentUserID),
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    await firestore()
-      .collection('Services')
-      .doc(jobID)
-      .collection('JobUsers')
-      .doc(userID)
-      .update({
-        jobViewedBy: firestore.FieldValue.arrayUnion(currentUserID),
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  async function addToJobViewedBy({jobID, userID}) {}
 
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  function getProfileVisits() {
-    const subscriber = firestore()
-      .collection('Users')
-      .doc(currentUserID)
-      .collection('ViewedBy')
-      .onSnapshot(querySnapshot => {
-        const viewList = [];
+  function getProfileVisits() {}
 
-        querySnapshot.forEach(documentSnapshot => {
-          viewList.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-        setLoading(false);
-        setViewList(viewList.length);
-      });
-    return () => subscriber();
-  }
-
-  if (loadingData) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'black',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <ActivityIndicator color="white" size="large" />
-        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-          Loading data
-        </Text>
-      </View>
-    );
-  }
+  // if (loadingData) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: 'black',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}>
+  //       <ActivityIndicator color="white" size="large" />
+  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+  //         Loading data
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView style={styles.container}>
