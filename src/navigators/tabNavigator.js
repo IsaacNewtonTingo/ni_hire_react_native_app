@@ -16,8 +16,6 @@ import ProfileStack from './profileStack';
 import DrawerNav from './drawerNav';
 import ChatStack from './chatsStack';
 
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import PostService from '../screens/postService';
 
 const Tab = createBottomTabNavigator();

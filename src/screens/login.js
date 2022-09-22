@@ -124,6 +124,19 @@ const Login = ({navigation}) => {
             Don't have an account? Signup
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontWeight: '700',
+              fontSize: 16,
+              color: '#6699ff',
+              marginTop: 20,
+            }}>
+            Forgot password? Reset
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
