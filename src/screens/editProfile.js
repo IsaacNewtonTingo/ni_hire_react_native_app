@@ -30,8 +30,6 @@ const EditProfile = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const currentUserId = auth().currentUser.uid;
-
   const [password, setPassword] = useState('');
 
   const [isPosting, setIsPosting] = useState(false);

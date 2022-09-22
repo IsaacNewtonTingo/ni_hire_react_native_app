@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -28,13 +28,19 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-export default function Profile({navigation}) {
-  const [name, setName] = useState('');
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CredentialsContext} from '../components/credentials-context';
+
+import axios from 'axios';
+
+export default function Profile({route, navigation}) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
-  const [image, setImage] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
 
   const [jobsList, setJobsList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
@@ -48,8 +54,12 @@ export default function Profile({navigation}) {
   const [loadingData, setLoadingData] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  const currentUserID = auth().currentUser.uid;
-  navigation.addListener('focus', () => setLoading(!loading));
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const currentUserID = route.params.userID;
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
 
   const scrollSwitching = useRef();
   const animation = useRef(new Animated.Value(0)).current;
@@ -61,7 +71,30 @@ export default function Profile({navigation}) {
     getReviews();
   }, [(navigation, loading)]);
 
-  async function getUserData() {}
+  async function getUserData() {
+    setLoadingData(true);
+    const url = process.env.GET_USER_DATA + currentUserID;
+
+    await axios
+      .get(url)
+      .then(response => {
+        userData = response.data.data;
+
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setEmail(userData.email);
+        setPhoneNumber(userData.phoneNumber);
+        setLocation(userData.location);
+        setBio(userData.bio);
+        setProfilePicture(userData.profilePicture);
+
+        setLoadingData(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   function getJobs() {}
 
@@ -107,8 +140,8 @@ export default function Profile({navigation}) {
         <Image
           style={{width: 120, height: 120, borderRadius: 60}}
           source={{
-            uri: image
-              ? image
+            uri: profilePicture
+              ? profilePicture
               : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
           }}
         />
@@ -139,7 +172,9 @@ export default function Profile({navigation}) {
             size={20}
             color="#ff4d4d"
           />
-          <Text style={[styles.text, {marginTop: 0}]}>{name}</Text>
+          <Text style={[styles.text, {marginTop: 0}]}>
+            {firstName} {lastName}
+          </Text>
         </View>
 
         <View>

@@ -89,7 +89,11 @@ export default function Settings({navigation}) {
     <ScrollView style={styles.container}>
       <View style={styles.innerContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() =>
+            navigation.navigate('Profile', {
+              userID: _id,
+            })
+          }
           style={styles.profileContainer}>
           <Avatar.Image
             size={100}

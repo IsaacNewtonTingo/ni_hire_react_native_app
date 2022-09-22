@@ -121,22 +121,22 @@ const Home = ({navigation}) => {
       });
   }
 
-  // if (loadingData == true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData == true) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>

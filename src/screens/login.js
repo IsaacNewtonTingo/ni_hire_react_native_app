@@ -65,7 +65,6 @@ const Login = ({navigation}) => {
         const {message, status, data} = result;
 
         if (response.data.status == 'Success') {
-          Alert.alert(message);
           persistLogin({...data[0]}, message, status);
           setIsPosting(false);
         } else {
