@@ -16,31 +16,49 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 // import files from '../assets/filesToShare/filesBase64';
 
 export default function Settings({navigation}) {
-  const [name, setName] = useState('');
-  const [profilePic, setProfilePic] = useState();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [profilePicture, setProfilePicture] = useState();
 
   const [userCredentials, setUserCredentials] = useState('');
-  const [userID, setUserID] = useState('');
 
   useEffect(() => {
     getStoredCredentials();
+    getUserDetails();
   }, []);
 
   const getStoredCredentials = async () => {
     await AsyncStorage.getItem('loginCredentials')
-      .then(result => {
+      .then(async result => {
         if (result !== null) {
-          console.log(JSON.parse(result)._id);
+          const userID = JSON.parse(result)._id;
+          const url = process.env.GET_USER_DATA + userID;
+
+          await axios
+            .get(url)
+            .then(response => {
+              userData = response.data.data;
+
+              setFirstName(userData.firstName);
+              setLastName(userData.lastName);
+              setProfilePicture(userData.profilePicture);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           setUserCredentials(null);
         }
       })
       .catch(error => console.log(error));
   };
+
+  async function getUserDetails() {}
 
   async function shareApp() {
     // const shareOptions = {
@@ -63,13 +81,15 @@ export default function Settings({navigation}) {
           <Avatar.Image
             size={100}
             source={{
-              uri: profilePic
-                ? profilePic
+              uri: profilePicture
+                ? profilePicture
                 : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             }}
           />
           <View style={{marginLeft: 20}}>
-            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.name}>
+              {firstName} {lastName}
+            </Text>
             <Text style={styles.viewProfileText}>View profile</Text>
           </View>
         </TouchableOpacity>
