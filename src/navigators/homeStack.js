@@ -24,6 +24,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import JobsInCategories from '../screens/jobsInCategory';
 import PublicProfile from '../screens/publicProfile';
+import JobMembers from '../screens/jobMembers';
 
 // import LocationSearchScreen from '../screens/locationSearchScreen';
 // import ServicePromotionPayment from '../screens/servicePromotionPayment';
@@ -63,9 +64,9 @@ function LogoTitle() {
 export default function HomeStack() {
   const navigation = useNavigation();
 
-  // function Capitalize(str) {
-  //   return str.charAt(0).toUpperCase() + str.slice(1);
-  // }
+  function Capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   return (
     <Stack.Navigator
@@ -121,10 +122,9 @@ export default function HomeStack() {
         component={PublicProfile}
       />
 
-      {/*
       <Stack.Screen
         options={({route}) => ({
-          title: Capitalize(route.params.jobId),
+          title: Capitalize(route.params.serviceName),
           headerStyle: {
             backgroundColor: '#3d3d5c',
           },
@@ -133,6 +133,7 @@ export default function HomeStack() {
         component={JobMembers}
       />
 
+      {/*
       <Stack.Screen
         options={{
           headerTitle: '',

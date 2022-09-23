@@ -96,9 +96,47 @@ export default function Profile({route, navigation}) {
       });
   }
 
-  function getJobs() {}
+  async function getJobs() {
+    const url = process.env.GET_MY_OTHER_SERVICES + userID;
 
-  async function getReviews() {}
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.status == 'Failed') {
+          setNoJobsData(true);
+          setLoadingData(false);
+        } else {
+          setJobsList(response.data);
+          setLoadingData(false);
+          setNoJobsData(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
+
+  async function getReviews() {
+    const url = process.env.GET_ALL_REVIEWS + userID;
+
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data) {
+          setReviewList(response.data);
+          setLoadingData(false);
+          setNoReviews(false);
+        } else {
+          setNoReviews(true);
+          setLoadingData(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   async function addToJobViewedBy({jobID, userID}) {}
 

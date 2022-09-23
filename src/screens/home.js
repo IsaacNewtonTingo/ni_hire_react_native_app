@@ -203,11 +203,11 @@ const Home = ({navigation}) => {
       </View>
 
       <View style={{flex: 1, marginBottom: 100}}>
-        {/* ----------------------------------Top servers-------------------------------------------------- */}
+        {/* ----------------------------------Featured users-------------------------------------------------- */}
 
         <View style={styles.topAndViewContainer}>
           <Text style={styles.topText}>Featured service providers</Text>
-          {/* <Text style={styles.viewAll}>View all</Text> */}
+          <Text style={styles.viewAll}>View all</Text>
         </View>
 
         <View style={{flex: 1, marginTop: 20}}>
@@ -298,7 +298,7 @@ const Home = ({navigation}) => {
 
         <View style={styles.topAndViewContainer}>
           <Text style={styles.topText}>Top services</Text>
-          {/* <Text style={styles.viewAll}>View all</Text> */}
+          <Text style={styles.viewAll}>View all</Text>
         </View>
 
         {/* -----------------------------------Top services---------------------------------------------- */}
@@ -313,7 +313,7 @@ const Home = ({navigation}) => {
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('JobMembers', {
-                    jobId: item.name,
+                    serviceName: item.name,
                   })
                 }
                 key={item.key}
@@ -365,6 +365,7 @@ const Home = ({navigation}) => {
         {noFeaturedServices == false && (
           <View style={styles.topAndViewContainer}>
             <Text style={styles.topText}> Top dawgs</Text>
+            <Text style={styles.viewAll}>View all</Text>
           </View>
         )}
 
@@ -518,6 +519,7 @@ const Home = ({navigation}) => {
         {noRecentlyViewed == false && (
           <View style={styles.topAndViewContainer}>
             <Text style={styles.topText}>Recently viewed</Text>
+            <Text style={styles.viewAll}>View all</Text>
           </View>
         )}
 
