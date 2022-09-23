@@ -65,16 +65,18 @@ export default function PublicProfile({route, navigation}) {
   async function getUserData() {}
 
   async function getJobs() {
-    axios
-      .get(process.env.GET_MY_OTHER_SERVICES + userID)
+    const url = process.env.GET_MY_OTHER_SERVICES + userID;
+
+    await axios
+      .get(url)
       .then(response => {
-        if (response.data.data) {
-          setJobsList(response.data.data);
-          setLoadingData(false);
-          setNoJobsData(false);
-        } else {
+        if (response.data.status == 'Failed') {
           setNoJobsData(true);
           setLoadingData(false);
+        } else {
+          setJobsList(response.data);
+          setLoadingData(false);
+          setNoJobsData(false);
         }
       })
       .catch(err => {
@@ -330,10 +332,24 @@ export default function PublicProfile({route, navigation}) {
                     //   jobID: item.jobTitle,
                     //   userID: item.jobUserID,
                     // });
-                    // navigation.navigate('ServiceProviderProfile', {
-                    //   userId: userID,
-                    //   jobId: item.jobTitle,
-                    // });
+                    navigation.navigate('ServiceProviderProfile', {
+                      serviceProviderID: item._id,
+                      userID: item.provider._id,
+                      firstName: item.provider.firstName,
+                      lastName: item.provider.lastName,
+                      email: item.provider.email,
+                      phoneNumber: item.provider.phoneNumber,
+                      profilePicture: item.provider.profilePicture,
+                      location: item.provider.location,
+                      image1: item.image1,
+                      image2: item.image2,
+                      image3: item.image3,
+                      rate: item.rate,
+                      rating: item.rating,
+                      description: item.description,
+                      isPromoted: item.isPromoted,
+                      serviceName: item.service.serviceName,
+                    });
                   }}
                   style={styles.jobContainer}
                   key={item._id}>

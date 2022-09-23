@@ -97,7 +97,6 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   async function getOtherServices() {
     const url = process.env.GET_MY_OTHER_SERVICES + userID;
-
     await axios
       .get(url)
       .then(response => {
@@ -603,27 +602,17 @@ export default function ServiceProviderProfile({route, navigation}) {
         )}
 
         {jobsList.map(item => (
-          <>
-            <TouchableOpacity style={styles.jobTitleContainer} key={item._id}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  color: 'white',
-                }}>
-                {item.service.serviceName}
-              </Text>
-
-              <FontAwesome name="location-arrow" size={15} color="gray" />
-            </TouchableOpacity>
-
-            {/* <View
+          <TouchableOpacity style={styles.jobTitleContainer} key={item._id}>
+            <Text
               style={{
-                borderWidth: 0.2,
-                borderColor: '#262626',
-                marginVertical: 5,
-              }}
-            /> */}
-          </>
+                fontWeight: '700',
+                color: 'white',
+              }}>
+              {item.service.serviceName}
+            </Text>
+
+            <FontAwesome name="location-arrow" size={15} color="gray" />
+          </TouchableOpacity>
         ))}
       </View>
 
