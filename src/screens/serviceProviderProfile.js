@@ -208,7 +208,55 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-      <View
+      <ScrollView
+        horizontal
+        pagingEnabled={true}
+        style={{
+          backgroundColor: '#333333',
+          height: width / 1.7,
+          width: width,
+          flex: 1,
+        }}>
+        <Image
+          source={{
+            uri: route.params.image1
+              ? route.params.image1
+              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+          }}
+          style={{
+            width: width - 40,
+            height: width / 1.7,
+            marginRight: 10,
+          }}
+        />
+        <Image
+          source={{
+            uri: route.params.image2
+              ? route.params.image2
+              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+          }}
+          style={{
+            width: width - 40,
+            height: width / 1.7,
+            marginRight: 10,
+          }}
+        />
+
+        <Image
+          source={{
+            uri: route.params.image3
+              ? route.params.image3
+              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+          }}
+          style={{
+            width: width - 40,
+            height: width / 1.7,
+            marginRight: 10,
+          }}
+        />
+      </ScrollView>
+
+      {/* <View
         style={{
           backgroundColor: '#333333',
           height: width / 1.7,
@@ -225,7 +273,7 @@ export default function ServiceProviderProfile({route, navigation}) {
             height: '100%',
           }}
         />
-      </View>
+      </View> */}
 
       <TouchableOpacity
         onPress={() => {
