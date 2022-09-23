@@ -31,19 +31,6 @@ const {width} = Dimensions.get('window');
 const B = props => <Text style={{color: 'gray'}}>{props.children}</Text>;
 
 export default function ServiceProviderProfile({route, navigation}) {
-  const [name, setName] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [rate, setRate] = useState('');
-  const [rating, setRating] = useState('');
-  const [totalRating, setTotalRating] = useState(0);
-  const [location, setLocation] = useState('');
-  const [jobUniqueID, setJobUniqueID] = useState('');
-  const [jobViewedBy, setJobViewedBy] = useState();
-  const [jobImage, setJobImage] = useState('');
   const [isPromoted, setIsPromoted] = useState();
 
   const [jobsList, setJobsList] = useState([]);
@@ -242,10 +229,16 @@ export default function ServiceProviderProfile({route, navigation}) {
 
       <TouchableOpacity
         onPress={() => {
-          // navigation.navigate('PublicProfile', {
-          //   userID: userId,
-          //   userName: name,
-          // })
+          navigation.navigate('PublicProfile', {
+            userID: userID,
+            firstName: route.params.firstName,
+            lastName: route.params.lastName,
+            email: route.params.email,
+            phoneNumber: route.params.phoneNumber,
+            bio: route.params.bio,
+            location: route.params.location,
+            profilePicture: route.params.profilePicture,
+          });
         }}
         style={{
           padding: 10,

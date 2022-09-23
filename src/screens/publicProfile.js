@@ -339,6 +339,7 @@ export default function PublicProfile({route, navigation}) {
                       lastName: item.provider.lastName,
                       email: item.provider.email,
                       phoneNumber: item.provider.phoneNumber,
+                      bio: item.provider.bio,
                       profilePicture: item.provider.profilePicture,
                       location: item.provider.location,
                       image1: item.image1,

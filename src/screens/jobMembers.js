@@ -111,13 +111,28 @@ export default function JobMembers({route, navigation}) {
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
-                  addToJobViewedBy({
-                    jobID: item.jobTitle,
-                    jobUserID: item.key,
-                  });
+                  // addToJobViewedBy({
+                  //   jobID: item.jobTitle,
+                  //   jobUserID: item.key,
+                  // });
+
                   navigation.navigate('ServiceProviderProfile', {
-                    userId: item.key,
-                    jobId: jobId,
+                    serviceProviderID: item._id,
+                    userID: item.provider._id,
+                    firstName: item.provider.firstName,
+                    lastName: item.provider.lastName,
+                    email: item.provider.email,
+                    phoneNumber: item.provider.phoneNumber,
+                    profilePicture: item.provider.profilePicture,
+                    location: item.provider.location,
+                    image1: item.image1,
+                    image2: item.image2,
+                    image3: item.image3,
+                    rate: item.rate,
+                    rating: item.rating,
+                    description: item.description,
+                    isPromoted: item.isPromoted,
+                    serviceName: item.service.serviceName,
                   });
                 }}
                 key={item._id}

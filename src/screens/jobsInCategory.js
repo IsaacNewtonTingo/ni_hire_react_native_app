@@ -74,7 +74,7 @@ export default function JobsInCategories({route, navigation}) {
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('JobMembers', {
-                    jobId: item.jobTitle,
+                    serviceName: item.serviceName,
                   })
                 }
                 style={styles.jobTitleContainer}
