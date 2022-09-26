@@ -10,13 +10,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import HomeStack from './homeStack';
 import ProfileStack from './profileStack';
 import Discover from '../screens/discover';
+import PostService from '../screens/postService';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="HomeStack"
       screenOptions={() => ({
         tabBarActiveTintColor: '#ff6600',
         tabBarInactiveTintColor: 'white',
@@ -31,6 +32,21 @@ export default function TabNavigator() {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
+        name="Discover"
+        component={Discover}
+        options={{
+          tabBarLabel: '',
+          headerTitle: '',
+          headerShown: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <MaterialCommunityIcons name="fire" size={35} color={color} />
+            );
+          },
+        }}
+      />
+
+      <Tab.Screen
         name="HomeStack"
         component={HomeStack}
         options={{
@@ -44,16 +60,13 @@ export default function TabNavigator() {
       />
 
       <Tab.Screen
-        name="Discover"
-        component={Discover}
+        name="PostService"
+        component={PostService}
         options={{
           tabBarLabel: '',
-          headerTitle: '',
-          headerShown: false,
+          headerTitle: 'Post a service',
           tabBarIcon: ({focused, color, size}) => {
-            return (
-              <MaterialCommunityIcons name="fire" size={35} color={color} />
-            );
+            return <MaterialIcons name="post-add" size={30} color={color} />;
           },
         }}
       />
@@ -73,17 +86,7 @@ export default function TabNavigator() {
       />
 
       {/*
-      <Tab.Screen
-        name="PostService"
-        component={PostService}
-        options={{
-          tabBarLabel: '',
-          headerTitle: 'Post a service',
-          tabBarIcon: ({focused, color, size}) => {
-            return <MaterialIcons name="post-add" size={30} color={color} />;
-          },
-        }}
-      />
+      
       <Tab.Screen
         name="Saved"
         component={Saved}
