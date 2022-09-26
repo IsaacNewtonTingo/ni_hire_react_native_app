@@ -9,6 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import HomeStack from './homeStack';
 import ProfileStack from './profileStack';
+import Discover from '../screens/discover';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,21 @@ export default function TabNavigator() {
       />
 
       <Tab.Screen
+        name="Discover"
+        component={Discover}
+        options={{
+          tabBarLabel: '',
+          headerTitle: '',
+          headerShown: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <MaterialCommunityIcons name="fire" size={35} color={color} />
+            );
+          },
+        }}
+      />
+
+      <Tab.Screen
         name="ProfileStack"
         component={ProfileStack}
         options={{
@@ -56,21 +72,7 @@ export default function TabNavigator() {
         }}
       />
 
-      {/* <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarLabel: '',
-          headerTitle: '',
-          headerShown: false,
-          tabBarIcon: ({focused, color, size}) => {
-            return (
-              <MaterialCommunityIcons name="fire" size={35} color={color} />
-            );
-          },
-        }}
-      />
-
+      {/*
       <Tab.Screen
         name="PostService"
         component={PostService}
