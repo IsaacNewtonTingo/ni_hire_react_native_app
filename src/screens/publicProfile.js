@@ -110,7 +110,20 @@ export default function PublicProfile({route, navigation}) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  async function addToJobViewedBy({jobID}) {}
+  async function addToJobViewedBy({userID, serviceProviderID}) {
+    const url = process.env.ADD_TO_MY_VIEWS;
+    await axios
+      .post(url, {
+        serviceProviderID,
+        userID,
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   function getProfileVisits() {}
 
@@ -328,10 +341,10 @@ export default function PublicProfile({route, navigation}) {
               {jobsList.map(item => (
                 <TouchableOpacity
                   onPress={() => {
-                    // addToJobViewedBy({
-                    //   jobID: item.jobTitle,
-                    //   userID: item.jobUserID,
-                    // });
+                    addToJobViewedBy({
+                      userID: item._id,
+                      serviceProviderID: item.provider._id,
+                    });
                     navigation.navigate('ServiceProviderProfile', {
                       serviceProviderID: item._id,
                       userID: item.provider._id,

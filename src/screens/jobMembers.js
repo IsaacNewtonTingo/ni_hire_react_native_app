@@ -75,7 +75,20 @@ export default function JobMembers({route, navigation}) {
       });
   }
 
-  async function addToJobViewedBy({jobID, jobUserID}) {}
+  async function addToJobViewedBy({userID, serviceProviderID}) {
+    const url = process.env.ADD_TO_MY_VIEWS;
+    await axios
+      .post(url, {
+        serviceProviderID,
+        userID,
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -111,10 +124,10 @@ export default function JobMembers({route, navigation}) {
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
-                  // addToJobViewedBy({
-                  //   jobID: item.jobTitle,
-                  //   jobUserID: item.key,
-                  // });
+                  addToJobViewedBy({
+                    serviceProviderID: item._id,
+                    userID: item.provider._id,
+                  });
 
                   navigation.navigate('ServiceProviderProfile', {
                     serviceProviderID: item._id,

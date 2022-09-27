@@ -64,6 +64,8 @@ export default function Profile({route, navigation}) {
   const scrollSwitching = useRef();
   const animation = useRef(new Animated.Value(0)).current;
 
+  navigation.addListener('focus', () => setLoading(!loading));
+
   useEffect(() => {
     getUserData();
     getJobs();

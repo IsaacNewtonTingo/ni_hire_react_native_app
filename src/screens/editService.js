@@ -1287,8 +1287,6 @@ const EditService = () => {
     }
   }
 
-  //push
-
   async function sendToDB() {
     setDisabled(true);
     setIsSubmitting(true);

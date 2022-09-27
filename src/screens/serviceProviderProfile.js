@@ -712,6 +712,20 @@ export default function ServiceProviderProfile({route, navigation}) {
             </TouchableOpacity>
           )}
 
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate('EditService')}
+            style={{
+              backgroundColor: '#0099cc',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 50,
+              marginTop: 20,
+              marginHorizontal: 20,
+              borderRadius: 10,
+            }}>
+            <Text style={{color: 'white', fontWeight: '700'}}>Edit</Text>
+          </TouchableOpacity> */}
+
           <TouchableOpacity
             onPress={deleteService}
             style={{

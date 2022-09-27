@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -18,33 +18,67 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CredentialsContext} from '../components/credentials-context';
+
+import axios from 'axios';
+
 const width = Dimensions.get('window');
 
 const EditProfile = ({navigation}) => {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState();
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
+  const [profilePicture, setProfilePicture] = useState();
+  const [password, setPassword] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const [password, setPassword] = useState('');
-
   const [isPosting, setIsPosting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [displayButton, setDisplayButton] = useState(false);
 
   const [transferred, setTransferred] = useState(0);
-  const [profileImage, setProfileImage] = useState();
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
   useEffect(() => {
     getUserData();
   }, []);
 
-  async function getUserData() {}
+  async function getUserData() {
+    setIsLoading(true);
+    const url = process.env.GET_USER_DATA + _id;
+
+    await axios
+      .get(url)
+      .then(response => {
+        userData = response.data.data;
+
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setPhoneNumber(userData.phoneNumber.toString());
+        setEmail(userData.email);
+        setBio(userData.bio);
+        setLocation(userData.location);
+        setProfilePicture(userData.profilePicture);
+
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  }
 
   function handleDisplayButton() {
     setDisplayButton(true);
@@ -56,7 +90,30 @@ const EditProfile = ({navigation}) => {
 
   async function updateEmail() {}
 
-  async function editProfile() {}
+  async function editProfile() {
+    setIsPosting(true);
+    const url = process.env.EDIT_PROFILE + _id;
+    console.log(url);
+
+    await axios
+      .put(url, {
+        firstName,
+        lastName,
+        bio,
+        profilePicture,
+        location,
+        password,
+        email,
+      })
+      .then(response => {
+        Alert.alert(response.data.message);
+        setIsPosting(false);
+      })
+      .catch(err => {
+        setIsPosting(false);
+        console.log(err);
+      });
+  }
 
   async function handleDelete() {}
 
@@ -69,7 +126,7 @@ const EditProfile = ({navigation}) => {
       mediaType: 'photo',
     })
       .then(image => {
-        setProfileImage(image.path);
+        setProfilePicture(image.path);
       })
       .catch(error => {
         console.log(error);
@@ -78,12 +135,12 @@ const EditProfile = ({navigation}) => {
   }
 
   const uploadImage = async () => {
-    if (profileImage == null) {
+    if (profilePicture == null) {
       return null;
-    } else if (profileImage.startsWith('https')) {
+    } else if (profilePicture.startsWith('https')) {
       return null;
     } else {
-      const uploadUri = profileImage;
+      const uploadUri = profilePicture;
       let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
       // Add timestamp to File Name
@@ -115,7 +172,7 @@ const EditProfile = ({navigation}) => {
         const url = await storageRef.getDownloadURL();
 
         setIsPosting(false);
-        setProfileImage(null);
+        setProfilePicture(null);
         return url;
       } catch (e) {
         console.log(e);
@@ -140,8 +197,8 @@ const EditProfile = ({navigation}) => {
           <Image
             style={{width: 180, height: 180, borderRadius: 90}}
             source={{
-              uri: profileImage
-                ? profileImage
+              uri: profilePicture
+                ? profilePicture
                 : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             }}
           />
@@ -158,11 +215,11 @@ const EditProfile = ({navigation}) => {
 
       <View style={{paddingBottom: 10, margin: 10}}>
         <View style={styles.lableAndInputContainer}>
-          <Text style={styles.lable}>Name :</Text>
+          <Text style={styles.lable}>First name :</Text>
           <TextInput
             onChange={handleDisplayButton}
-            value={name}
-            onChangeText={setName}
+            value={firstName}
+            onChangeText={setFirstName}
             style={styles.input}
           />
         </View>
@@ -172,11 +229,26 @@ const EditProfile = ({navigation}) => {
         />
 
         <View style={styles.lableAndInputContainer}>
+          <Text style={styles.lable}>Last name :</Text>
+          <TextInput
+            onChange={handleDisplayButton}
+            value={lastName}
+            onChangeText={setLastName}
+            style={styles.input}
+          />
+        </View>
+
+        <View
+          style={{borderWidth: 0.3, marginTop: 10, borderColor: '#404040'}}
+        />
+
+        {/* <View style={styles.lableAndInputContainer}>
           <Text style={styles.lable}>Email :</Text>
           <TextInput
             onChange={handleDisplayButton}
             value={email}
             onChangeText={setEmail}
+            editable={false}
             style={styles.input}
           />
         </View>
@@ -190,10 +262,11 @@ const EditProfile = ({navigation}) => {
           <TextInput
             onChange={handleDisplayButton}
             value={phoneNumber}
+            editable={false}
             onChangeText={setPhoneNumber}
             style={styles.input}
           />
-        </View>
+        </View> */}
 
         <View
           style={{borderWidth: 0.3, marginTop: 10, borderColor: '#404040'}}
@@ -379,6 +452,7 @@ const styles = StyleSheet.create({
     color: '#cc0066',
     padding: 0,
     fontWeight: '700',
+    marginTop: 10,
   },
   inputPass: {
     borderRadius: 10,

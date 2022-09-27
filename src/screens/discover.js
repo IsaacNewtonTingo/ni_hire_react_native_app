@@ -123,7 +123,20 @@ const Discover = ({navigation}) => {
 
   function findKeyAndSearch({item}) {}
 
-  async function addToJobViewedBy({jobID, jobUserID}) {}
+  async function addToJobViewedBy({userID, serviceProviderID}) {
+    const url = process.env.ADD_TO_MY_VIEWS;
+    await axios
+      .post(url, {
+        serviceProviderID,
+        userID,
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const onRefresh = () => {
     setTimeout(() => {
@@ -179,10 +192,10 @@ const Discover = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => {
-                // addToJobViewedBy({
-                //   jobID: item._id,
-                //   jobUserID: item.provider,
-                // });
+                addToJobViewedBy({
+                  userID: item._id,
+                  serviceProviderID: item.provider._id,
+                });
                 navigation.navigate('ServiceProviderProfile', {
                   serviceProviderID: item._id,
                   userID: item.provider._id,
@@ -319,10 +332,10 @@ const Discover = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => {
-                // addToJobViewedBy({
-                //   jobID: item.jobTitle,
-                //   jobUserID: item.key,
-                // });
+                addToJobViewedBy({
+                  userID: item._id,
+                  serviceProviderID: item.provider._id,
+                });
 
                 navigation.navigate('ServiceProviderProfile', {
                   serviceProviderID: item._id,

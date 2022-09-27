@@ -83,7 +83,20 @@ const Home = ({navigation}) => {
 
   async function handleProviderClicked({userID, jobID}) {}
 
-  async function addToJobViewedBy({jobID, jobUserID}) {}
+  async function addToJobViewedBy({userID, serviceProviderID}) {
+    const url = process.env.ADD_TO_MY_VIEWS;
+    await axios
+      .post(url, {
+        serviceProviderID,
+        userID,
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   async function getRecentlyViewed() {}
 
@@ -387,10 +400,10 @@ const Home = ({navigation}) => {
               <>
                 <TouchableOpacity
                   onPress={() => {
-                    // addToJobViewedBy({
-                    //   jobID: item._id,
-                    //   jobUserID: item.provider,
-                    // });
+                    addToJobViewedBy({
+                      serviceProviderID: item._id,
+                      userID: item.provider._id,
+                    });
                     navigation.navigate('ServiceProviderProfile', {
                       serviceProviderID: item._id,
                       userID: item.provider._id,
