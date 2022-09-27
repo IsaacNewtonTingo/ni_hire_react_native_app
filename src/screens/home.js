@@ -87,7 +87,7 @@ const Home = ({navigation}) => {
 
   async function getRecentlyViewed() {}
 
-  // navigation.addListener('focus', () => setLoading(!loading));
+  navigation.addListener('focus', () => setLoading(!loading));
 
   async function getFeaturedUsers() {
     setLoadingData(true);

@@ -79,8 +79,14 @@ export default function ServiceProviderProfile({route, navigation}) {
     await axios
       .get(url)
       .then(response => {
-        setJobsList(response.data);
-        setLoading(false);
+        if (response.data.status == 'Failed') {
+          setLoading(false);
+          setNoData(true);
+        } else {
+          setJobsList(response.data);
+          setLoading(false);
+          setNoData(false);
+        }
       })
       .catch(err => {
         setLoading(false);
@@ -190,7 +196,12 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   async function Unsave() {}
 
-  async function deletePost() {
+  async function deleteService() {
+    const url =
+      process.env.DELETE_SERVICE_PROVIDER +
+      serviceProviderID +
+      '?userID=' +
+      _id;
     Alert.alert(
       'Delete this service you offer?',
       "You'll forever lose your data",
@@ -202,7 +213,20 @@ export default function ServiceProviderProfile({route, navigation}) {
         },
         {
           text: 'OK',
-          onPress: async () => {},
+          onPress: async () => {
+            setIsDeleting(true);
+            await axios
+              .delete(url)
+              .then(response => {
+                Alert.alert(response.data.message);
+                setIsDeleting(false);
+                navigation.navigate('HomeStack', {screen: 'Home'});
+              })
+              .catch(err => {
+                console.log(err);
+                setIsDeleting(false);
+              });
+          },
         },
       ],
     );
@@ -673,9 +697,9 @@ export default function ServiceProviderProfile({route, navigation}) {
         ))}
       </View>
 
-      {/* {currentUserID == userId && (
+      {_id == userID && (
         <View style={styles.payAndDeleteContainer}>
-          {isPromoted == false && (
+          {route.params.isFeatured == false && (
             <TouchableOpacity
               style={styles.btn}
               onPress={() =>
@@ -689,7 +713,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           )}
 
           <TouchableOpacity
-            onPress={deletePost}
+            onPress={deleteService}
             style={{
               backgroundColor: '#ff6600',
               alignItems: 'center',
@@ -703,7 +727,7 @@ export default function ServiceProviderProfile({route, navigation}) {
             <Text style={{color: 'white', fontWeight: '700'}}>Delete</Text>
           </TouchableOpacity>
         </View>
-      )} */}
+      )}
     </ScrollView>
   );
 }

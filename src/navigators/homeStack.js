@@ -26,6 +26,7 @@ import JobsInCategories from '../screens/jobsInCategory';
 import PublicProfile from '../screens/publicProfile';
 import JobMembers from '../screens/jobMembers';
 import AllFeaturedServiceProviders from '../screens/allFeaturedServiceProviders';
+import EditService from '../screens/editService';
 
 // import LocationSearchScreen from '../screens/locationSearchScreen';
 // import ServicePromotionPayment from '../screens/servicePromotionPayment';
@@ -143,6 +144,17 @@ export default function HomeStack() {
         })}
         name="AllFeaturedServiceProviders"
         component={AllFeaturedServiceProviders}
+      />
+
+      <Stack.Screen
+        options={({route}) => ({
+          title: 'Edit profile',
+          headerStyle: {
+            backgroundColor: '#3d3d5c',
+          },
+        })}
+        name="EditService"
+        component={EditService}
       />
 
       {/*
