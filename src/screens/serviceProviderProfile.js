@@ -157,6 +157,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         Alert.alert(response.data.message);
         setIsPosting(false);
         setDisabled(false);
+        getReviewList();
       })
       .catch(err => {
         console.log(err);
@@ -165,7 +166,19 @@ export default function ServiceProviderProfile({route, navigation}) {
       });
   }
 
-  function deleteReview({item}) {}
+  async function deleteReview({item}) {
+    const url = process.env.DELETE_REVIEW + item._id + '?userID=' + _id;
+
+    await axios
+      .delete(url)
+      .then(response => {
+        Alert.alert(response.data.message);
+        getReviewList();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -211,22 +224,22 @@ export default function ServiceProviderProfile({route, navigation}) {
   //   );
   // }
 
-  // if (loading == true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loading == true) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
