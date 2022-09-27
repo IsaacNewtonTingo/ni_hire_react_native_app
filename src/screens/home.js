@@ -298,7 +298,10 @@ const Home = ({navigation}) => {
 
         <View style={styles.topAndViewContainer}>
           <Text style={styles.topText}>Top services</Text>
-          <Text style={styles.viewAll}>View all</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AllFeaturedServiceProviders')}>
+            <Text style={styles.viewAll}>View all</Text>
+          </TouchableOpacity>
         </View>
 
         {/* -----------------------------------Top services---------------------------------------------- */}
@@ -365,7 +368,13 @@ const Home = ({navigation}) => {
         {noFeaturedServices == false && (
           <View style={styles.topAndViewContainer}>
             <Text style={styles.topText}> Top dawgs</Text>
-            <Text style={styles.viewAll}>View all</Text>
+
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('AllFeaturedServiceProviders')
+              }>
+              <Text style={styles.viewAll}>View all</Text>
+            </TouchableOpacity>
           </View>
         )}
 

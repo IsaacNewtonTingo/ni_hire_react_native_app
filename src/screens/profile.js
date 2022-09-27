@@ -97,7 +97,7 @@ export default function Profile({route, navigation}) {
   }
 
   async function getJobs() {
-    const url = process.env.GET_MY_OTHER_SERVICES + userID;
+    const url = process.env.GET_MY_OTHER_SERVICES + currentUserID;
 
     await axios
       .get(url)
@@ -118,18 +118,18 @@ export default function Profile({route, navigation}) {
   }
 
   async function getReviews() {
-    const url = process.env.GET_ALL_REVIEWS + userID;
+    const url = process.env.GET_ALL_REVIEWS + currentUserID;
 
     await axios
       .get(url)
       .then(response => {
-        if (response.data) {
+        if (response.data.length <= 0) {
+          setNoReviews(true);
+          setLoadingData(false);
+        } else {
           setReviewList(response.data);
           setLoadingData(false);
           setNoReviews(false);
-        } else {
-          setNoReviews(true);
-          setLoadingData(false);
         }
       })
       .catch(err => {
@@ -377,22 +377,36 @@ export default function Profile({route, navigation}) {
               {jobsList.map(item => (
                 <TouchableOpacity
                   onPress={() => {
-                    addToJobViewedBy({
-                      jobID: item.jobTitle,
-                      userID: item.jobUserID,
-                    });
+                    // addToJobViewedBy({
+                    //   jobID: item.jobTitle,
+                    //   userID: item.jobUserID,
+                    // });
 
                     navigation.navigate('ServiceProviderProfile', {
-                      userId: currentUserID,
-                      jobId: item.jobTitle,
+                      serviceProviderID: item._id,
+                      userID: item.provider._id,
+                      firstName: item.provider.firstName,
+                      lastName: item.provider.lastName,
+                      email: item.provider.email,
+                      phoneNumber: item.provider.phoneNumber,
+                      profilePicture: item.provider.profilePicture,
+                      location: item.provider.location,
+                      image1: item.image1,
+                      image2: item.image2,
+                      image3: item.image3,
+                      rate: item.rate,
+                      rating: item.rating,
+                      description: item.description,
+                      isPromoted: item.isPromoted,
+                      serviceName: item.service.serviceName,
                     });
                   }}
                   style={styles.jobContainer}
-                  key={item.uniqueID}>
+                  key={item._id}>
                   <Image
                     source={{
-                      uri: item.jobImage
-                        ? item.jobImage
+                      uri: item.image1
+                        ? item.image1
                         : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
                     }}
                     style={{
@@ -420,9 +434,11 @@ export default function Profile({route, navigation}) {
                           fontWeight: '700',
                           marginRight: 10,
                         }}>
-                        {item.jobTitle.length <= 20
-                          ? Capitalize(item.jobTitle)
-                          : Capitalize(item.jobTitle.slice(0, 20) + '...')}
+                        {item.service.serviceName.length <= 20
+                          ? Capitalize(item.service.serviceName)
+                          : Capitalize(
+                              item.service.serviceName.slice(0, 20) + '...',
+                            )}
                       </Text>
 
                       <View
@@ -472,7 +488,7 @@ export default function Profile({route, navigation}) {
                           size={13}
                           color="#ffbf80"
                         />
-                        <Text
+                        {/* <Text
                           style={{
                             color: '#ffbf80',
                             fontWeight: '800',
@@ -480,7 +496,7 @@ export default function Profile({route, navigation}) {
                             marginLeft: 10,
                           }}>
                           {item.jobViewedBy.length} view(s)
-                        </Text>
+                        </Text> */}
                       </View>
                     </View>
                   </View>

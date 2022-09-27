@@ -3,6 +3,8 @@
 .DS_Store
 
 .env
+google-services.json
+
 # Xcode
 #
 build/

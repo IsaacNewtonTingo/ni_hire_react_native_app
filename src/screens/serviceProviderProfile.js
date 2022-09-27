@@ -66,6 +66,7 @@ export default function ServiceProviderProfile({route, navigation}) {
     getOtherServices();
     getCurrentUser();
     getReviewList();
+    console.log(route.params.image1);
   }, [(newLoading, navigation)]);
 
   // async function getUserData() {
@@ -220,7 +221,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <Image
           source={{
             uri: route.params.image1
-              ? route.params.image1
+              ? route.params.image1.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{
@@ -232,7 +233,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <Image
           source={{
             uri: route.params.image2
-              ? route.params.image2
+              ? route.params.image2.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{
@@ -245,7 +246,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <Image
           source={{
             uri: route.params.image3
-              ? route.params.image3
+              ? route.params.image3.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{

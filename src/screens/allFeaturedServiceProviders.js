@@ -29,12 +29,12 @@ import axios from 'axios';
 
 const {width} = Dimensions.get('window');
 
-const Discover = ({navigation}) => {
+const AllFeaturedServiceProviders = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [noFeaturedServices, setNoFeaturedServices] = useState(false);
-  const [featuredServices, setFeaturedServices] = useState([]);
-  const [allServiceProviders, setAllServiceProviders] = useState([]);
+  const [noFeaturedServiceProviders, setNoFeaturedServiceProviders] =
+    useState(false);
+  const [featuredServiceProviders, setFeaturedServiceProviders] = useState([]);
 
   const [noDataInArea, setNoDataInArea] = useState(false);
   const [noData, setNoData] = useState(false);
@@ -76,7 +76,7 @@ const Discover = ({navigation}) => {
 
   useEffect(() => {
     getFeaturedServices();
-    getAllServiceProviders();
+    getFeaturedServiceProviders();
   }, [(navigation, loading)]);
 
   navigation.addListener('focus', () => setLoading(!loading));
@@ -87,19 +87,13 @@ const Discover = ({navigation}) => {
 
   function getFeaturedServices() {}
 
-  async function getAllServiceProviders() {
-    const url = process.env.GET_SERVICE_PROVIDERS;
+  async function getFeaturedServiceProviders() {
+    setLoadingData(true);
     await axios
-      .get(url)
+      .get(process.env.GET_FEATURED_SERVICE_PROVIDERS)
       .then(response => {
-        if (response.data.status == 'Failed') {
-          setNoDataInArea(true);
-          setLoadingData(false);
-        } else {
-          setNoDataInArea(false);
-          setAllServiceProviders(response.data);
-          setLoadingData(false);
-        }
+        setFeaturedServiceProviders(response.data);
+        setLoadingData(false);
       })
       .catch(err => {
         console.log(err);
@@ -155,7 +149,7 @@ const Discover = ({navigation}) => {
       {noData == false ? (
         <View style={{flex: 1}}>
           <FlatList
-            data={allServiceProviders}
+            data={featuredServiceProviders}
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
@@ -315,7 +309,7 @@ const Discover = ({navigation}) => {
   );
 };
 
-export default Discover;
+export default AllFeaturedServiceProviders;
 
 const styles = StyleSheet.create({
   container: {

@@ -36,6 +36,8 @@ import {CredentialsContext} from '../components/credentials-context';
 
 import axios from 'axios';
 
+import storage from '@react-native-firebase/storage';
+
 const PostService = () => {
   const ref = useRef();
 
@@ -52,14 +54,16 @@ const PostService = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [description, setDescription] = useState('');
   const [rate, setRate] = useState(null);
-  const [image1, setImage1] = useState();
-  const [image2, setImage2] = useState();
-  const [image3, setImage3] = useState();
+  const [image1, setImage1] = useState('');
+  const [image2, setImage2] = useState('');
+  const [image3, setImage3] = useState('');
 
   const [transferred, setTransferred] = useState(0);
   const [uid, setUserId] = useState('');
 
   const [location, setLocation] = useState('');
+
+  const [disabled, setDisabled] = useState(false);
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
@@ -1286,17 +1290,22 @@ const PostService = () => {
   //push
 
   async function sendToDB() {
+    setDisabled(true);
     setIsSubmitting(true);
     const url = process.env.POST_SERVICE;
+
+    let imageUrl1 = await uploadImage1();
+    let imageUrl2 = await uploadImage2();
+    let imageUrl3 = await uploadImage3();
 
     await axios
       .post(url, {
         service,
         category,
         description,
-        image1,
-        image2,
-        image3,
+        image1: imageUrl1.trim().toString(),
+        image2: imageUrl2.trim().toString(),
+        image3: imageUrl3.trim().toString(),
         rate,
         provider: _id,
       })
@@ -1304,10 +1313,12 @@ const PostService = () => {
         console.log(response.data);
         Alert.alert(response.data.message);
         setIsSubmitting(false);
+        setDisabled(false);
       })
       .catch(err => {
         console.log(err);
         setIsSubmitting(false);
+        setDisabled(false);
       });
   }
 
@@ -1342,7 +1353,7 @@ const PostService = () => {
       });
   }
 
-  function openLibrary() {
+  function openLibrary1() {
     ImagePicker.openPicker({
       // width: 300,
       // height: 300,
@@ -1359,40 +1370,187 @@ const PostService = () => {
       });
   }
 
-  const uploadImage = async () => {
-    // if (image1 == null) {
-    //   return null;
-    // }
-    // const uploadUri = image1;
-    // let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-    // // Add timestamp to File Name
-    // const extension = filename.split('.').pop();
-    // const name = filename.split('.').slice(0, -1).join('.');
-    // filename = name + Date.now() + '.' + extension;
-    // setIsSubmitting(true);
-    // setTransferred(0);
-    // const storageRef = storage().ref(`photos/${filename}`);
-    // const task = storageRef.putFile(uploadUri);
-    // // Set transferred state
-    // task.on('state_changed', taskSnapshot => {
-    //   console.log(
-    //     `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-    //   );
-    //   setTransferred(
-    //     Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-    //       100,
-    //   );
-    // });
-    // try {
-    //   await task;
-    //   const url = await storageRef.getDownloadURL();
-    //   setIsSubmitting(false);
-    //   setImage1(null);
-    //   return url;
-    // } catch (e) {
-    //   console.log(e);
-    //   return null;
-    // }
+  function openLibrary2() {
+    ImagePicker.openPicker({
+      // width: 300,
+      // height: 300,
+      // cropping: true,
+      compressImageQuality: 0.6,
+      mediaType: 'photo',
+    })
+      .then(image => {
+        setImage2(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+        return null;
+      });
+  }
+
+  function openLibrary3() {
+    ImagePicker.openPicker({
+      // width: 300,
+      // height: 300,
+      // cropping: true,
+      compressImageQuality: 0.6,
+      mediaType: 'photo',
+    })
+      .then(image => {
+        setImage3(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+        return null;
+      });
+  }
+
+  // const cloudinaryUpload1 = image1 => {
+  //   const data = new FormData();
+  //   data.append('file', image1);
+  //   data.append('upload_preset', 'nihire');
+  //   data.append('cloud_name', 'drwktiurw');
+
+  //   fetch('https://api.cloudinary.com/v1_1/drwktiurw/image/upload', {
+  //     method: 'post',
+  //     body: data,
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setPhoto(data.secure_url);
+  //     })
+  //     .catch(err => {
+  //       Alert.alert('An Error Occured While Uploading');
+  //     });
+  // };
+
+  const uploadImage1 = async () => {
+    if (!image1) {
+      return null;
+    } else {
+      const uploadUri = image1;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+      // Add timestamp to File Name
+      const extension = filename.split('.').pop();
+      const name = filename.split('.').slice(0, -1).join('.');
+      filename = name + Date.now() + '.' + extension;
+
+      setIsSubmitting(true);
+      setTransferred(0);
+
+      const storageRef = storage().ref(`photos/${filename}`);
+      const task = storageRef.putFile(uploadUri);
+
+      // Set transferred state
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+
+        setTransferred(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+            100,
+        );
+      });
+
+      try {
+        await task;
+
+        const url = await storageRef.getDownloadURL();
+
+        setIsSubmitting(false);
+        return url;
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    }
+  };
+
+  const uploadImage2 = async () => {
+    if (image2 == null) {
+      return null;
+    }
+    const uploadUri = image2;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    // Add timestamp to File Name
+    const extension = filename.split('.').pop();
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename = name + Date.now() + '.' + extension;
+
+    setIsSubmitting(true);
+    setTransferred(0);
+
+    const storageRef = storage().ref(`photos/${filename}`);
+    const task = storageRef.putFile(uploadUri);
+
+    // Set transferred state
+    task.on('state_changed', taskSnapshot => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+          100,
+      );
+    });
+
+    try {
+      await task;
+
+      const url = await storageRef.getDownloadURL();
+
+      setIsSubmitting(false);
+      return url;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+
+  const uploadImage3 = async () => {
+    if (image3 == null) {
+      return null;
+    }
+    const uploadUri = image3;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    // Add timestamp to File Name
+    const extension = filename.split('.').pop();
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename = name + Date.now() + '.' + extension;
+
+    setIsSubmitting(true);
+    setTransferred(0);
+
+    const storageRef = storage().ref(`photos/${filename}`);
+    const task = storageRef.putFile(uploadUri);
+
+    // Set transferred state
+    task.on('state_changed', taskSnapshot => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+          100,
+      );
+    });
+
+    try {
+      await task;
+
+      const url = await storageRef.getDownloadURL();
+
+      setIsSubmitting(false);
+      return url;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   };
 
   return (
@@ -1497,7 +1655,7 @@ const PostService = () => {
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.imageContainer}>
             <TouchableOpacity
-              onPress={openLibrary}
+              onPress={openLibrary1}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
 
@@ -1518,7 +1676,7 @@ const PostService = () => {
 
           <View style={styles.imageContainer}>
             <TouchableOpacity
-              onPress={openLibrary}
+              onPress={openLibrary2}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
 
@@ -1539,7 +1697,7 @@ const PostService = () => {
 
           <View style={styles.imageContainer}>
             <TouchableOpacity
-              onPress={openLibrary}
+              onPress={openLibrary3}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
 
@@ -1642,9 +1800,12 @@ const PostService = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={validate} style={styles.addButton}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={validate}
+        style={styles.addButton}>
         {isSubmitting ? (
-          <ActivityIndicator size="small" color="gray" animating />
+          <ActivityIndicator size="small" color="white" animating />
         ) : (
           <Text style={styles.btnText}>Submit</Text>
         )}

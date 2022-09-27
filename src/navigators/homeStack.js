@@ -25,6 +25,7 @@ import {useNavigation} from '@react-navigation/native';
 import JobsInCategories from '../screens/jobsInCategory';
 import PublicProfile from '../screens/publicProfile';
 import JobMembers from '../screens/jobMembers';
+import AllFeaturedServiceProviders from '../screens/allFeaturedServiceProviders';
 
 // import LocationSearchScreen from '../screens/locationSearchScreen';
 // import ServicePromotionPayment from '../screens/servicePromotionPayment';
@@ -131,6 +132,17 @@ export default function HomeStack() {
         })}
         name="JobMembers"
         component={JobMembers}
+      />
+
+      <Stack.Screen
+        options={({route}) => ({
+          title: 'Featured',
+          headerStyle: {
+            backgroundColor: '#3d3d5c',
+          },
+        })}
+        name="AllFeaturedServiceProviders"
+        component={AllFeaturedServiceProviders}
       />
 
       {/*
