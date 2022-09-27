@@ -23,8 +23,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import axios from 'axios';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CredentialsContext} from '../components/credentials-context';
 
 const {width} = Dimensions.get('window');
 
@@ -59,29 +62,17 @@ export default function ServiceProviderProfile({route, navigation}) {
   const serviceProviderID = route.params.serviceProviderID;
   const userID = route.params.userID;
 
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+
+  const {_id} = storedCredentials;
+
   navigation.addListener('focus', () => setNewLoading(!newLoading));
 
   useEffect(() => {
-    // getUserData();
     getOtherServices();
-    getCurrentUser();
     getReviewList();
-    console.log(route.params.image1);
   }, [(newLoading, navigation)]);
-
-  // async function getUserData() {
-  //   setLoading(true);
-  //   await axios
-  //     .get()
-  //     .then(response => {
-  //       console.log(response.data)
-  //       setLoading(false)
-  //     })
-  //     .catch((err)=>{
-  //       console.log(err)
-  //       setLoading(false)
-  //     })
-  // }
 
   async function getOtherServices() {
     const url = process.env.GET_MY_OTHER_SERVICES + userID;
@@ -97,40 +88,51 @@ export default function ServiceProviderProfile({route, navigation}) {
       });
   }
 
-  async function getReviewList() {}
+  async function getReviewList() {
+    const url = process.env.GET_JOB_REVIEWS + serviceProviderID;
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.status == 'Failed') {
+          setNoReviews(true);
+          setLoading(false);
+        } else {
+          setReviewList(response.data);
+          setNoReviews(false);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
-  const starImgFilled =
-    'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png';
-  const starImgCorner =
-    'https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png';
+  const starImgFilled = () => {
+    return <AntDesign name="star" color="orange" size={20} />;
+  };
 
-  // const CustomRatingBar = () => {
-  //   return (
-  //     <View style={styles.customratingBarStyle}>
-  //       {maxRating.map((item, key) => {
-  //         return (
-  //           <TouchableOpacity
-  //             onPress={() => setDefaultRating(item)}
-  //             activeOpacity={0.7}
-  //             key={item._id}>
-  //             <Image
-  //               style={styles.starImgStyle}
-  //               source={
-  //                 item <= defaultRating
-  //                   ? {uri: starImgFilled}
-  //                   : {uri: starImgCorner}
-  //               }
-  //             />
-  //           </TouchableOpacity>
-  //         );
-  //       })}
-  //     </View>
-  //   );
-  // };
+  const starImgCorner = () => {
+    return <AntDesign name="staro" color="orange" size={20} />;
+  };
 
-  const getCurrentUser = async () => {};
+  const CustomRatingBar = () => {
+    return (
+      <View style={styles.customratingBarStyle}>
+        {maxRating.map((item, key) => {
+          return (
+            <TouchableOpacity
+              onPress={() => setDefaultRating(item)}
+              activeOpacity={0.7}
+              key={key}>
+              {item <= defaultRating ? starImgFilled() : starImgCorner()}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
 
-  const validate = () => {
+  const validateReview = () => {
     if (!review) {
       Alert.alert('Add something in review');
       setDisabled(false);
@@ -138,11 +140,30 @@ export default function ServiceProviderProfile({route, navigation}) {
     } else {
       setIsPosting(true);
       setDisabled(true);
-      sendToDB();
+      postReview();
     }
   };
 
-  async function sendToDB() {}
+  async function postReview() {
+    const url = process.env.POST_REVIEW + serviceProviderID;
+    await axios
+      .post(url, {
+        userID: _id,
+        reviewMessage: review,
+        rating: defaultRating,
+      })
+      .then(response => {
+        console.log(response.data);
+        Alert.alert(response.data.message);
+        setIsPosting(false);
+        setDisabled(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsPosting(false);
+        setDisabled(false);
+      });
+  }
 
   function deleteReview({item}) {}
 
@@ -256,25 +277,6 @@ export default function ServiceProviderProfile({route, navigation}) {
           }}
         />
       </ScrollView>
-
-      {/* <View
-        style={{
-          backgroundColor: '#333333',
-          height: width / 1.7,
-          width: width,
-        }}>
-        <Image
-          source={{
-            uri: route.params.image1
-              ? route.params.image1
-              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-        />
-      </View> */}
 
       <TouchableOpacity
         onPress={() => {
@@ -467,7 +469,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         }}
       />
 
-      {/* {noReviews == false && (
+      {noReviews == false && (
         <View>
           <Text
             style={{
@@ -488,7 +490,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         data={reviewList}
         renderItem={({item}) => (
           <View
-            key={item.key}
+            key={item._id}
             style={{
               backgroundColor: '#1a1a1a',
               width: width - 40,
@@ -508,17 +510,17 @@ export default function ServiceProviderProfile({route, navigation}) {
                 left: 10,
               }}>
               <Text style={{color: 'gray', fontWeight: '700', marginRight: 10}}>
-                {item.whoRated}
+                {item.whoReviewed.firstName} {item.whoReviewed.lastName}
               </Text>
 
               <AntDesign name="star" size={15} color="orange" />
 
               <Text style={{color: 'white', marginLeft: 10, fontWeight: '700'}}>
-                {item.myStars}
+                {item.rating}
               </Text>
             </View>
 
-            {currentUserID === item.whoRatedID && (
+            {_id === item.whoReviewed._id && (
               <TouchableOpacity
                 style={{position: 'absolute', zIndex: 1, right: 10, top: 10}}
                 onPress={() => deleteReview({item})}>
@@ -532,7 +534,7 @@ export default function ServiceProviderProfile({route, navigation}) {
                 color: 'white',
                 fontSize: 16,
               }}>
-              {item.comment}
+              {item.reviewMessage}
             </Text>
 
             <Text
@@ -550,7 +552,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         )}
       />
 
-      {currentUserID != userId && (
+      {_id != userID && (
         <View
           style={{
             backgroundColor: '#1a1a1a',
@@ -581,7 +583,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           <TextInput
             placeholder="Your text here"
             placeholderTextColor="gray"
-            multiline={true}
+            multiline={false}
             maxLength={90}
             value={review}
             onChangeText={setReview}
@@ -616,16 +618,16 @@ export default function ServiceProviderProfile({route, navigation}) {
 
           <TouchableOpacity
             disabled={disabled}
-            onPress={validate}
+            onPress={validateReview}
             style={styles.button}>
             {posting ? (
-              <ActivityIndicator size="small" color="gray" animating />
+              <ActivityIndicator size="small" color="white" animating />
             ) : (
               <Text style={styles.buttonText}>Submit</Text>
             )}
           </TouchableOpacity>
         </View>
-      )} */}
+      )}
 
       <View>
         {noData == false && (

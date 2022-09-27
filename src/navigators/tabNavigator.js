@@ -32,21 +32,6 @@ export default function TabNavigator() {
         tabBarShowLabel: false,
       })}>
       <Tab.Screen
-        name="Discover"
-        component={Discover}
-        options={{
-          tabBarLabel: '',
-          headerTitle: '',
-          headerShown: false,
-          tabBarIcon: ({focused, color, size}) => {
-            return (
-              <MaterialCommunityIcons name="fire" size={35} color={color} />
-            );
-          },
-        }}
-      />
-
-      <Tab.Screen
         name="HomeStack"
         component={HomeStack}
         options={{
@@ -55,6 +40,20 @@ export default function TabNavigator() {
           headerTitle: '',
           tabBarIcon: ({focused, color, size}) => {
             return <AntDesign name="home" size={30} color={color} />;
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="Discover"
+        component={Discover}
+        options={{
+          tabBarLabel: '',
+          headerTitle: 'Discover',
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <MaterialCommunityIcons name="fire" size={35} color={color} />
+            );
           },
         }}
       />
