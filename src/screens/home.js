@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -21,6 +21,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 
 import axios from 'axios';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CredentialsContext} from '../components/credentials-context';
 
 const data = require('../assets/data/categories.json');
 const servicesData = require('../assets/data/services.json');
@@ -46,6 +49,10 @@ const Home = ({navigation}) => {
   const [displayX, setDisplayX] = useState(false);
 
   const [currentUserId, setCurrentUserId] = useState('');
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
   function displaySearchScreen() {
     setSearchPage(true);
@@ -98,7 +105,25 @@ const Home = ({navigation}) => {
       });
   }
 
-  async function getRecentlyViewed() {}
+  async function getRecentlyViewed() {
+    const url = process.env.GET_RECENTLY_VIEWED + _id;
+
+    await axios
+      .get(url)
+      .then(response => {
+        setLoadingData(false);
+        if (response.data.status == 'Failed') {
+          setNoRecentlyViewed(true);
+        } else {
+          setViewedUsersList(response.data);
+          setNoRecentlyViewed(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   navigation.addListener('focus', () => setLoading(!loading));
 
@@ -413,6 +438,7 @@ const Home = ({navigation}) => {
                       phoneNumber: item.provider.phoneNumber,
                       profilePicture: item.provider.profilePicture,
                       location: item.provider.location,
+                      bio: item.provider.bio,
                       image1: item.image1,
                       image2: item.image2,
                       image3: item.image3,
@@ -555,11 +581,26 @@ const Home = ({navigation}) => {
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('ServiceProviderProfile', {
-                      userId: item.jobUserID,
-                      jobId: item.jobTitle,
+                      serviceProviderID: item.provider._id,
+                      userID: item.provider.provider._id,
+                      firstName: item.provider.provider.firstName,
+                      lastName: item.provider.provider.lastName,
+                      email: item.provider.provider.email,
+                      phoneNumber: item.provider.provider.phoneNumber,
+                      profilePicture: item.provider.provider.profilePicture,
+                      location: item.provider.provider.location,
+                      bio: item.provider.provider.bio,
+                      image1: item.provider.image1,
+                      image2: item.provider.image2,
+                      image3: item.provider.image3,
+                      rate: item.provider.rate,
+                      rating: item.provider.rating,
+                      description: item.provider.description,
+                      isPromoted: item.provider.isPromoted,
+                      serviceName: item.provider.service.serviceName,
                     });
                   }}
-                  key={item.uniqueID}
+                  key={item._id}
                   style={styles.card}>
                   <View
                     style={{
@@ -569,8 +610,8 @@ const Home = ({navigation}) => {
                     }}>
                     <Image
                       source={{
-                        uri: item.jobImage
-                          ? item.jobImage
+                        uri: item.provider.image1
+                          ? item.provider.image1
                           : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
                       }}
                       style={{width: '100%', height: '100%'}}
@@ -594,9 +635,10 @@ const Home = ({navigation}) => {
                           fontSize: 16,
                           marginRight: 10,
                         }}>
-                        {item.name.length <= 15
-                          ? item.name
-                          : item.name.slice(0, 15) + '...'}
+                        {item.provider.provider.firstName.length <= 15
+                          ? item.provider.provider.firstName
+                          : item.provider.provider.firstName.slice(0, 15) +
+                            '...'}
                       </Text>
 
                       <View
@@ -609,7 +651,7 @@ const Home = ({navigation}) => {
                             color: 'orange',
                             fontWeight: '700',
                           }}>
-                          {item.rating.toFixed(1)}
+                          {item.provider.rating.toFixed(1)}
                         </Text>
                       </View>
                     </View>
@@ -620,9 +662,10 @@ const Home = ({navigation}) => {
                         fontWeight: '700',
                         fontSize: 12,
                       }}>
-                      {item.jobTitle.length <= 30
-                        ? item.jobTitle
-                        : item.jobTitle.slice(0, 30) + '...'}
+                      {item.provider.service.serviceName.length <= 30
+                        ? item.provider.service.serviceName
+                        : item.provider.service.serviceName.slice(0, 30) +
+                          '...'}
                     </Text>
 
                     <Text
@@ -630,9 +673,9 @@ const Home = ({navigation}) => {
                         color: '#a6a6a6',
                         fontSize: 10,
                       }}>
-                      {item.description.length <= 75
-                        ? item.description
-                        : item.description.slice(0, 75) + '...'}
+                      {item.provider.description.length <= 75
+                        ? item.provider.description
+                        : item.provider.description.slice(0, 75) + '...'}
                     </Text>
 
                     <View
@@ -651,9 +694,10 @@ const Home = ({navigation}) => {
                           fontWeight: '700',
                           marginRight: 20,
                         }}>
-                        {item.location.length <= 20
-                          ? item.location
-                          : item.location.slice(0, 20) + '...'}
+                        {item.provider.provider.location.length <= 20
+                          ? item.provider.provider.location
+                          : item.provider.provider.location.slice(0, 20) +
+                            '...'}
                       </Text>
 
                       <Text
@@ -662,7 +706,7 @@ const Home = ({navigation}) => {
                           fontWeight: '700',
                           fontSize: 12,
                         }}>
-                        KSH. {item.rate}
+                        KSH. {item.provider.rate}
                       </Text>
                     </View>
                   </View>
