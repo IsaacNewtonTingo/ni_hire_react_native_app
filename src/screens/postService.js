@@ -1303,9 +1303,9 @@ const PostService = () => {
         service,
         category,
         description,
-        image1: imageUrl1.trim().toString(),
-        image2: imageUrl2.trim().toString(),
-        image3: imageUrl3.trim().toString(),
+        image1: image1 != '' ? imageUrl1.trim().toString() : '',
+        image2: image2 != '' ? imageUrl2.trim().toString() : '',
+        image3: image3 != '' ? imageUrl3.trim().toString() : '',
         rate,
         provider: _id,
       })

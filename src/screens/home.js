@@ -38,6 +38,7 @@ const Home = ({navigation}) => {
 
   const [loading, setLoading] = useState(true);
   const [loadingData, setLoadingData] = useState(true);
+
   const [noRecentlyViewed, setNoRecentlyViewed] = useState(false);
   const [noFeaturedServices, setNoFeaturedServices] = useState(false);
 
@@ -92,17 +93,21 @@ const Home = ({navigation}) => {
 
   async function addToJobViewedBy({userID, serviceProviderID}) {
     const url = process.env.ADD_TO_MY_VIEWS;
-    await axios
-      .post(url, {
-        serviceProviderID,
-        userID,
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (userID != _id) {
+      await axios
+        .post(url, {
+          serviceProviderID,
+          userID,
+        })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      return;
+    }
   }
 
   async function getRecentlyViewed() {
@@ -114,9 +119,11 @@ const Home = ({navigation}) => {
         setLoadingData(false);
         if (response.data.status == 'Failed') {
           setNoRecentlyViewed(true);
+          setLoadingData(false);
         } else {
           setViewedUsersList(response.data);
           setNoRecentlyViewed(false);
+          setLoadingData(false);
         }
       })
       .catch(err => {
@@ -403,318 +410,325 @@ const Home = ({navigation}) => {
 
         {/* -------------------------Featured service providers--------------------------------- */}
 
-        {noFeaturedServices == false && (
-          <View style={styles.topAndViewContainer}>
-            <Text style={styles.topText}> Top dawgs</Text>
+        {featuredServices.length > 0 && (
+          <>
+            <View style={styles.topAndViewContainer}>
+              <Text style={styles.topText}> Top dawgs</Text>
 
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('AllFeaturedServiceProviders')
-              }>
-              <Text style={styles.viewAll}>View all</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('AllFeaturedServiceProviders')
+                }>
+                <Text style={styles.viewAll}>View all</Text>
+              </TouchableOpacity>
+            </View>
 
-        <View style={{flex: 1, marginTop: 20}}>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={featuredServices}
-            renderItem={({item}) => (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    addToJobViewedBy({
-                      serviceProviderID: item._id,
-                      userID: item.provider._id,
-                    });
-                    navigation.navigate('ServiceProviderProfile', {
-                      serviceProviderID: item._id,
-                      userID: item.provider._id,
-                      firstName: item.provider.firstName,
-                      lastName: item.provider.lastName,
-                      email: item.provider.email,
-                      phoneNumber: item.provider.phoneNumber,
-                      profilePicture: item.provider.profilePicture,
-                      location: item.provider.location,
-                      bio: item.provider.bio,
-                      image1: item.image1,
-                      image2: item.image2,
-                      image3: item.image3,
-                      rate: item.rate,
-                      rating: item.rating,
-                      description: item.description,
-                      isPromoted: item.isPromoted,
-                      serviceName: item.service.serviceName,
-                    });
-                  }}
-                  key={item._id}
-                  style={styles.card}>
-                  <View
-                    style={{
-                      backgroundColor: '#333333',
-                      height: '100%',
-                      width: 120,
-                    }}>
-                    <Image
-                      source={{
-                        uri: item.image1
-                          ? item.image1
-                          : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+            <View style={{flex: 1, marginTop: 20}}>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={featuredServices}
+                renderItem={({item}) => (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => {
+                        addToJobViewedBy({
+                          serviceProviderID: item._id,
+                          userID: item.provider._id,
+                        });
+                        navigation.navigate('ServiceProviderProfile', {
+                          serviceProviderID: item._id,
+                          userID: item.provider._id,
+                          firstName: item.provider.firstName,
+                          lastName: item.provider.lastName,
+                          email: item.provider.email,
+                          phoneNumber: item.provider.phoneNumber,
+                          profilePicture: item.provider.profilePicture,
+                          location: item.provider.location,
+                          bio: item.provider.bio,
+                          image1: item.image1,
+                          image2: item.image2,
+                          image3: item.image3,
+                          rate: item.rate,
+                          rating: item.rating,
+                          description: item.description,
+                          isPromoted: item.isPromoted,
+                          serviceName: item.service.serviceName,
+                        });
                       }}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  </View>
-
-                  <View style={{flex: 1, margin: 10, justifyContent: 'center'}}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        top: 0,
-                        width: '100%',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text
+                      key={item._id}
+                      style={styles.card}>
+                      <View
                         style={{
-                          color: 'white',
-                          fontWeight: '700',
-                          fontSize: 16,
-                          marginRight: 10,
+                          backgroundColor: '#333333',
+                          height: '100%',
+                          width: 120,
                         }}>
-                        {item.provider.firstName.length <= 15
-                          ? item.provider.firstName
-                          : item.provider.firstName.slice(0, 15) + '...'}
-                      </Text>
+                        <Image
+                          source={{
+                            uri: item.image1
+                              ? item.image1
+                              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                          }}
+                          style={{width: '100%', height: '100%'}}
+                        />
+                      </View>
 
                       <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <AntDesign name="star" size={15} color="orange" />
+                        style={{flex: 1, margin: 10, justifyContent: 'center'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            top: 0,
+                            width: '100%',
+                            justifyContent: 'space-between',
+                          }}>
+                          <Text
+                            style={{
+                              color: 'white',
+                              fontWeight: '700',
+                              fontSize: 16,
+                              marginRight: 10,
+                            }}>
+                            {item.provider.firstName.length <= 15
+                              ? item.provider.firstName
+                              : item.provider.firstName.slice(0, 15) + '...'}
+                          </Text>
+
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                            }}>
+                            <AntDesign name="star" size={15} color="orange" />
+
+                            <Text
+                              style={{
+                                marginLeft: 10,
+                                color: 'orange',
+                                fontWeight: '700',
+                              }}>
+                              {item.rating.toFixed(1)}
+                            </Text>
+                          </View>
+                        </View>
 
                         <Text
                           style={{
-                            marginLeft: 10,
-                            color: 'orange',
+                            color: '#cc0066',
                             fontWeight: '700',
+                            fontSize: 12,
                           }}>
-                          {item.rating.toFixed(1)}
+                          {item.service.serviceName.length <= 30
+                            ? item.service.serviceName
+                            : item.service.serviceName.slice(0, 30) + '...'}
                         </Text>
+
+                        <Text
+                          style={{
+                            color: '#a6a6a6',
+                            fontSize: 10,
+                          }}>
+                          {item.description.length <= 65
+                            ? item.description
+                            : item.description.slice(0, 65) + '...'}
+                        </Text>
+
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: 10,
+                            position: 'absolute',
+                            bottom: 0,
+                            width: '100%',
+                          }}>
+                          <Text
+                            style={{
+                              color: '#33cccc',
+                              fontSize: 12,
+                              fontWeight: '700',
+                              marginRight: 20,
+                            }}>
+                            {item.provider.location.length <= 15
+                              ? item.provider.location
+                              : item.provider.location.slice(0, 15) + '...'}
+                          </Text>
+
+                          <Text
+                            style={{
+                              color: '#ff6600',
+                              fontWeight: '700',
+                              fontSize: 12,
+                            }}>
+                            KSH. {item.rate}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-
-                    <Text
-                      style={{
-                        color: '#cc0066',
-                        fontWeight: '700',
-                        fontSize: 12,
-                      }}>
-                      {item.service.serviceName.length <= 30
-                        ? item.service.serviceName
-                        : item.service.serviceName.slice(0, 30) + '...'}
-                    </Text>
-
-                    <Text
-                      style={{
-                        color: '#a6a6a6',
-                        fontSize: 10,
-                      }}>
-                      {item.description.length <= 65
-                        ? item.description
-                        : item.description.slice(0, 65) + '...'}
-                    </Text>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 10,
-                        position: 'absolute',
-                        bottom: 0,
-                        width: '100%',
-                      }}>
-                      <Text
-                        style={{
-                          color: '#33cccc',
-                          fontSize: 12,
-                          fontWeight: '700',
-                          marginRight: 20,
-                        }}>
-                        {item.provider.location.length <= 15
-                          ? item.provider.location
-                          : item.provider.location.slice(0, 15) + '...'}
-                      </Text>
-
-                      <Text
-                        style={{
-                          color: '#ff6600',
-                          fontWeight: '700',
-                          fontSize: 12,
-                        }}>
-                        KSH. {item.rate}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </>
-            )}
-          />
-        </View>
+                    </TouchableOpacity>
+                  </>
+                )}
+              />
+            </View>
+          </>
+        )}
 
         {/* -------------------------Recently viewed------------------------------------------------- */}
 
-        {noRecentlyViewed == false && (
-          <View style={styles.topAndViewContainer}>
-            <Text style={styles.topText}>Recently viewed</Text>
-            <Text style={styles.viewAll}>View all</Text>
-          </View>
-        )}
+        {viewedUsersList.length > 0 && (
+          <>
+            <View style={styles.topAndViewContainer}>
+              <Text style={styles.topText}>Recently viewed</Text>
+              <Text style={styles.viewAll}>View all</Text>
+            </View>
 
-        <View style={{flex: 1, marginTop: 20}}>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={viewedUsersList}
-            renderItem={({item}) => (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ServiceProviderProfile', {
-                      serviceProviderID: item.provider._id,
-                      userID: item.provider.provider._id,
-                      firstName: item.provider.provider.firstName,
-                      lastName: item.provider.provider.lastName,
-                      email: item.provider.provider.email,
-                      phoneNumber: item.provider.provider.phoneNumber,
-                      profilePicture: item.provider.provider.profilePicture,
-                      location: item.provider.provider.location,
-                      bio: item.provider.provider.bio,
-                      image1: item.provider.image1,
-                      image2: item.provider.image2,
-                      image3: item.provider.image3,
-                      rate: item.provider.rate,
-                      rating: item.provider.rating,
-                      description: item.provider.description,
-                      isPromoted: item.provider.isPromoted,
-                      serviceName: item.provider.service.serviceName,
-                    });
-                  }}
-                  key={item._id}
-                  style={styles.card}>
-                  <View
-                    style={{
-                      backgroundColor: '#333333',
-                      height: '100%',
-                      width: 120,
-                    }}>
-                    <Image
-                      source={{
-                        uri: item.provider.image1
-                          ? item.provider.image1
-                          : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-                      }}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  </View>
-
-                  <View style={{flex: 1, margin: 10, justifyContent: 'center'}}>
+            <View style={{flex: 1, marginTop: 20}}>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={viewedUsersList}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('ServiceProviderProfile', {
+                        serviceProviderID: item.provider._id,
+                        userID: item.provider.provider._id,
+                        firstName: item.provider.provider.firstName,
+                        lastName: item.provider.provider.lastName,
+                        email: item.provider.provider.email,
+                        phoneNumber: item.provider.provider.phoneNumber,
+                        profilePicture: item.provider.provider.profilePicture,
+                        location: item.provider.provider.location,
+                        bio: item.provider.provider.bio,
+                        image1: item.provider.image1,
+                        image2: item.provider.image2,
+                        image3: item.provider.image3,
+                        rate: item.provider.rate,
+                        rating: item.provider.rating,
+                        description: item.provider.description,
+                        isPromoted: item.provider.isPromoted,
+                        serviceName: item.provider.service.serviceName,
+                      });
+                    }}
+                    key={item._id}
+                    style={styles.card}>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        top: 0,
-                        justifyContent: 'space-between',
-                        width: '100%',
+                        backgroundColor: '#333333',
+                        height: '100%',
+                        width: 120,
                       }}>
+                      <Image
+                        source={{
+                          uri: item.provider.image1
+                            ? item.provider.image1
+                            : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                        }}
+                        style={{width: '100%', height: '100%'}}
+                      />
+                    </View>
+
+                    <View
+                      style={{flex: 1, margin: 10, justifyContent: 'center'}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          position: 'absolute',
+                          top: 0,
+                          justifyContent: 'space-between',
+                          width: '100%',
+                        }}>
+                        <Text
+                          style={{
+                            color: 'white',
+                            fontWeight: '700',
+                            fontSize: 16,
+                            marginRight: 10,
+                          }}>
+                          {item.provider.provider.firstName.length <= 15
+                            ? item.provider.provider.firstName
+                            : item.provider.provider.firstName.slice(0, 15) +
+                              '...'}
+                        </Text>
+
+                        <View
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          <AntDesign name="star" size={15} color="orange" />
+
+                          <Text
+                            style={{
+                              marginLeft: 10,
+                              color: 'orange',
+                              fontWeight: '700',
+                            }}>
+                            {item.provider.rating.toFixed(1)}
+                          </Text>
+                        </View>
+                      </View>
+
                       <Text
                         style={{
-                          color: 'white',
+                          color: '#cc0066',
                           fontWeight: '700',
-                          fontSize: 16,
-                          marginRight: 10,
+                          fontSize: 12,
                         }}>
-                        {item.provider.provider.firstName.length <= 15
-                          ? item.provider.provider.firstName
-                          : item.provider.provider.firstName.slice(0, 15) +
+                        {item.provider.service.serviceName.length <= 30
+                          ? item.provider.service.serviceName
+                          : item.provider.service.serviceName.slice(0, 30) +
                             '...'}
+                      </Text>
+
+                      <Text
+                        style={{
+                          color: '#a6a6a6',
+                          fontSize: 10,
+                        }}>
+                        {item.provider.description.length <= 75
+                          ? item.provider.description
+                          : item.provider.description.slice(0, 75) + '...'}
                       </Text>
 
                       <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <AntDesign name="star" size={15} color="orange" />
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginTop: 10,
+                          position: 'absolute',
+                          bottom: 0,
+                          width: '100%',
+                        }}>
+                        <Text
+                          style={{
+                            color: '#33cccc',
+                            fontSize: 12,
+                            fontWeight: '700',
+                            marginRight: 20,
+                          }}>
+                          {item.provider.provider.location.length <= 20
+                            ? item.provider.provider.location
+                            : item.provider.provider.location.slice(0, 20) +
+                              '...'}
+                        </Text>
 
                         <Text
                           style={{
-                            marginLeft: 10,
-                            color: 'orange',
+                            color: '#ff6600',
                             fontWeight: '700',
+                            fontSize: 12,
                           }}>
-                          {item.provider.rating.toFixed(1)}
+                          KSH. {item.provider.rate}
                         </Text>
                       </View>
                     </View>
-
-                    <Text
-                      style={{
-                        color: '#cc0066',
-                        fontWeight: '700',
-                        fontSize: 12,
-                      }}>
-                      {item.provider.service.serviceName.length <= 30
-                        ? item.provider.service.serviceName
-                        : item.provider.service.serviceName.slice(0, 30) +
-                          '...'}
-                    </Text>
-
-                    <Text
-                      style={{
-                        color: '#a6a6a6',
-                        fontSize: 10,
-                      }}>
-                      {item.provider.description.length <= 75
-                        ? item.provider.description
-                        : item.provider.description.slice(0, 75) + '...'}
-                    </Text>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 10,
-                        position: 'absolute',
-                        bottom: 0,
-                        width: '100%',
-                      }}>
-                      <Text
-                        style={{
-                          color: '#33cccc',
-                          fontSize: 12,
-                          fontWeight: '700',
-                          marginRight: 20,
-                        }}>
-                        {item.provider.provider.location.length <= 20
-                          ? item.provider.provider.location
-                          : item.provider.provider.location.slice(0, 20) +
-                            '...'}
-                      </Text>
-
-                      <Text
-                        style={{
-                          color: '#ff6600',
-                          fontWeight: '700',
-                          fontSize: 12,
-                        }}>
-                        KSH. {item.provider.rate}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </>
-            )}
-          />
-        </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </>
+        )}
       </View>
     </ScrollView>
   );

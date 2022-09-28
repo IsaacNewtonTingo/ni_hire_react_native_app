@@ -77,17 +77,21 @@ export default function JobMembers({route, navigation}) {
 
   async function addToJobViewedBy({userID, serviceProviderID}) {
     const url = process.env.ADD_TO_MY_VIEWS;
-    await axios
-      .post(url, {
-        serviceProviderID,
-        userID,
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (userID != _id) {
+      await axios
+        .post(url, {
+          serviceProviderID,
+          userID,
+        })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      return;
+    }
   }
 
   function Capitalize(str) {
