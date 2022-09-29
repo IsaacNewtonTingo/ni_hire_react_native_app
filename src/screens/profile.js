@@ -44,7 +44,7 @@ export default function Profile({route, navigation}) {
 
   const [jobsList, setJobsList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
-  const [viewList, setViewList] = useState();
+  const [profileVisits, setProfileVisits] = useState();
 
   const [noReviews, setNoReviews] = useState(false);
   const [noData, setNoData] = useState(false);
@@ -146,7 +146,20 @@ export default function Profile({route, navigation}) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  function getProfileVisits() {}
+  async function getProfileVisits() {
+    const url = process.env.GET_PROFILE_VISITS + currentUserID;
+    await axios
+      .get(url)
+      .then(response => {
+        console.log(response.data.data.length);
+        setProfileVisits(response.data.data.length);
+        setLoadingData(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   // if (loadingData) {
   //   return (
@@ -265,7 +278,7 @@ export default function Profile({route, navigation}) {
             color="white"
           />
           <Text style={[styles.text, {color: '#8c8c8c'}]}>
-            {viewList} unique profile visit(s)
+            {profileVisits} unique profile visit(s)
           </Text>
         </View>
       </View>
