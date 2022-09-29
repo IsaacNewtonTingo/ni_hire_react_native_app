@@ -161,22 +161,22 @@ export default function Profile({route, navigation}) {
       });
   }
 
-  // if (loadingData) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -201,22 +201,18 @@ export default function Profile({route, navigation}) {
       </ImageBackground>
 
       <View style={styles.detailsContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('EditProfile')}
-          style={{
-            position: 'absolute',
-            right: 20,
-            top: 10,
-          }}>
-          <Text
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EditProfile')}
             style={{
-              color: '#00ffff',
-              fontWeight: '800',
-              fontSize: 18,
+              position: 'absolute',
+              zIndex: 1,
+              right: 20,
+              flex: 1,
             }}>
-            Edit
-          </Text>
-        </TouchableOpacity>
+            <AntDesign name="edit" color="#00ffff" size={25} />
+          </TouchableOpacity>
+        </View>
 
         <View>
           <Fontisto
@@ -392,11 +388,6 @@ export default function Profile({route, navigation}) {
               {jobsList.map(item => (
                 <TouchableOpacity
                   onPress={() => {
-                    // addToJobViewedBy({
-                    //   jobID: item.jobTitle,
-                    //   userID: item.jobUserID,
-                    // });
-
                     navigation.navigate('ServiceProviderProfile', {
                       serviceProviderID: item._id,
                       userID: item.provider._id,
@@ -492,7 +483,7 @@ export default function Profile({route, navigation}) {
                         KSH. {item.rate}
                       </Text>
 
-                      <View
+                      {/* <View
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
@@ -503,7 +494,7 @@ export default function Profile({route, navigation}) {
                           size={13}
                           color="#ffbf80"
                         />
-                        {/* <Text
+                        <Text
                           style={{
                             color: '#ffbf80',
                             fontWeight: '800',
@@ -511,8 +502,8 @@ export default function Profile({route, navigation}) {
                             marginLeft: 10,
                           }}>
                           {item.jobViewedBy.length} view(s)
-                        </Text> */}
-                      </View>
+                        </Text>
+                      </View> */}
                     </View>
                   </View>
                 </TouchableOpacity>

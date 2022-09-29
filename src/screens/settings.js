@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 import {Avatar} from 'react-native-paper';
@@ -28,7 +29,7 @@ export default function Settings({navigation}) {
   const [profilePicture, setProfilePicture] = useState();
 
   const [userCredentials, setUserCredentials] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {storedCredentials, setStoredCredentials} =
@@ -40,7 +41,7 @@ export default function Settings({navigation}) {
   }, []);
 
   const getUserData = async () => {
-    setIsLoading(true);
+    setLoadingData(true);
     const url = process.env.GET_USER_DATA + _id;
 
     await axios
@@ -52,11 +53,11 @@ export default function Settings({navigation}) {
         setLastName(userData.lastName);
         setProfilePicture(userData.profilePicture);
 
-        setIsLoading(false);
+        setLoadingData(false);
       })
       .catch(err => {
         console.log(err);
-        setIsLoading(false);
+        setLoadingData(false);
       });
   };
 
@@ -84,6 +85,23 @@ export default function Settings({navigation}) {
     // } catch (error) {
     //   console.log(error);
     // }
+  }
+
+  if (loadingData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
   }
   return (
     <ScrollView style={styles.container}>

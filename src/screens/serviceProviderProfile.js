@@ -57,9 +57,6 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [defaultRating, setDefaultRating] = useState(1);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
 
-  const [currentUserID, setCurrentUserID] = useState('');
-  const [currentUserName, setCurrentUserName] = useState('');
-
   const [disabled, setDisabled] = useState(false);
 
   const serviceProviderID = route.params.serviceProviderID;
@@ -76,6 +73,7 @@ export default function ServiceProviderProfile({route, navigation}) {
     getOtherServices();
     getReviewList();
     getNumberOfViews();
+    checkIfSaved();
   }, [(newLoading, navigation)]);
 
   async function getOtherServices() {
@@ -131,6 +129,62 @@ export default function ServiceProviderProfile({route, navigation}) {
           setNoReviews(false);
           setLoading(false);
         }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  async function checkIfSaved() {
+    const url =
+      process.env.CHECK_SAVED + serviceProviderID + '?currentUserID=' + _id;
+
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.status === 'Success') {
+          setSaved(true);
+          setLoading(false);
+        } else {
+          setSaved(false);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  async function saveServiceProvider() {
+    const url = process.env.SAVE_SERVICE;
+    setLoading(true);
+    await axios
+      .post(url, {
+        serviceProviderID,
+        userID: _id,
+      })
+      .then(response => {
+        console.log(response.data);
+        checkIfSaved();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  async function unsaveServiceProvider() {
+    setLoading(true);
+    const url =
+      process.env.DELETE_SAVED_SERVICE +
+      serviceProviderID +
+      '?currentUserID=' +
+      _id;
+    console.log(url);
+    await axios
+      .delete(url)
+      .then(response => {
+        console.log(response.data);
+        checkIfSaved();
       })
       .catch(err => {
         console.log(err);
@@ -214,12 +268,6 @@ export default function ServiceProviderProfile({route, navigation}) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  async function save() {
-    // gd
-  }
-
-  async function Unsave() {}
-
   async function deleteService() {
     const url =
       process.env.DELETE_SERVICE_PROVIDER +
@@ -256,22 +304,6 @@ export default function ServiceProviderProfile({route, navigation}) {
     );
   }
 
-  // if (noData == true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Data might have been deleted
-  //       </Text>
-  //     </View>
-  //   );
-  // }
-
   if (loading == true) {
     return (
       <View
@@ -283,7 +315,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         }}>
         <ActivityIndicator color="white" size="large" />
         <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-          Loading data
+          Loading
         </Text>
       </View>
     );
@@ -436,23 +468,19 @@ export default function ServiceProviderProfile({route, navigation}) {
           </Text>
         )}
 
-        {/* {isSaved == true ? (
-          <AntDesign
-            onPress={Unsave}
-            style={{position: 'absolute', right: 20, top: 10}}
-            name="heart"
-            size={20}
-            color="#00ccff"
-          />
+        {isSaved == true ? (
+          <TouchableOpacity
+            onPress={unsaveServiceProvider}
+            style={{position: 'absolute', right: 20, top: 10}}>
+            <AntDesign name="heart" size={20} color="#00ccff" />
+          </TouchableOpacity>
         ) : (
-          <AntDesign
-            onPress={save}
-            style={{position: 'absolute', right: 20, top: 10}}
-            name="hearto"
-            size={20}
-            color="#00ccff"
-          />
-        )} */}
+          <TouchableOpacity
+            onPress={saveServiceProvider}
+            style={{position: 'absolute', right: 20, top: 10}}>
+            <AntDesign name="hearto" size={20} color="#00ccff" />
+          </TouchableOpacity>
+        )}
       </TouchableOpacity>
 
       <View style={{borderWidth: 0.2, borderColor: '#404040'}} />
@@ -728,7 +756,7 @@ export default function ServiceProviderProfile({route, navigation}) {
               style={styles.btn}
               onPress={() =>
                 navigation.navigate('ServicePromotionPayment', {
-                  userID: currentUserID,
+                  userID: _id,
                   jobID: jobId,
                 })
               }>
