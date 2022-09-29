@@ -50,6 +50,9 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   const [isSaved, setSaved] = useState(false);
 
+  const [serviceViews, setServiceViews] = useState();
+  const [numberOfReviews, setNumberOfReviews] = useState();
+
   const [review, setReview] = useState('');
   const [defaultRating, setDefaultRating] = useState(1);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
@@ -72,6 +75,7 @@ export default function ServiceProviderProfile({route, navigation}) {
   useEffect(() => {
     getOtherServices();
     getReviewList();
+    getNumberOfViews();
   }, [(newLoading, navigation)]);
 
   async function getOtherServices() {
@@ -94,6 +98,24 @@ export default function ServiceProviderProfile({route, navigation}) {
       });
   }
 
+  async function getNumberOfViews() {
+    const url =
+      process.env.GET_NUMBER_OF_VIEWS +
+      serviceProviderID +
+      '?providerID=' +
+      userID;
+    await axios
+      .get(url)
+      .then(response => {
+        setServiceViews(response.data.data.length);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }
+
   async function getReviewList() {
     const url = process.env.GET_JOB_REVIEWS + serviceProviderID;
     await axios
@@ -102,8 +124,10 @@ export default function ServiceProviderProfile({route, navigation}) {
         if (response.data.status == 'Failed') {
           setNoReviews(true);
           setLoading(false);
+          setNumberOfReviews(0);
         } else {
           setReviewList(response.data);
+          setNumberOfReviews(response.data.length);
           setNoReviews(false);
           setLoading(false);
         }
@@ -371,9 +395,9 @@ export default function ServiceProviderProfile({route, navigation}) {
               }}>
               {route.params.rating}
             </Text>
-            {/* <Text style={{color: 'gray', marginLeft: 10, fontWeight: '700'}}>
-              ( {totalRating} )
-            </Text> */}
+            <Text style={{color: 'gray', marginLeft: 10, fontWeight: '700'}}>
+              ( {numberOfReviews} )
+            </Text>
           </View>
 
           <Text style={{color: '#cc0066', fontWeight: '700', fontSize: 20}}>
@@ -392,13 +416,13 @@ export default function ServiceProviderProfile({route, navigation}) {
               size={15}
               color="#ffbf80"
             />
-            {/* <Text style={{color: '#ffbf80', fontWeight: '800', fontSize: 12}}>
-              {jobViewedBy ? jobViewedBy.length : 0} view(s)
-            </Text> */}
+            <Text style={{color: '#ffbf80', fontWeight: '800', fontSize: 12}}>
+              {serviceViews} view(s)
+            </Text>
           </View>
         </View>
 
-        {isPromoted == true && (
+        {route.params.isPromoted == true && (
           <Text
             style={{
               color: '#ff8c1a',
