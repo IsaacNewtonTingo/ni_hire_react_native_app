@@ -11,7 +11,7 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -26,6 +26,8 @@ import axios from 'axios';
 
 const filterData = require('../assets/data/filterOptions.json');
 
+import {CredentialsContext} from '../components/credentials-context';
+
 export default function JobMembers({route, navigation}) {
   const [noData, setNoData] = useState(false);
   const [noDataInArea, setNoDataInArea] = useState(false);
@@ -39,6 +41,11 @@ export default function JobMembers({route, navigation}) {
   const [currentUserId, setCurrentUserId] = useState('');
 
   const ref = useRef();
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+
+  const {_id} = storedCredentials;
 
   function getCurrentUser() {}
 

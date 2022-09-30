@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -26,6 +26,7 @@ const servicesData = require('../assets/data/services.json');
 const filterData = require('../assets/data/filterOptions.json');
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import axios from 'axios';
+import {CredentialsContext} from '../components/credentials-context';
 
 const {width} = Dimensions.get('window');
 
@@ -44,6 +45,11 @@ const Discover = ({navigation}) => {
   const [searching, setSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [displayX, setDisplayX] = useState(false);
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+
+  const {_id} = storedCredentials;
 
   let onEndReachedCalledDuringMomentum = false;
   const [lastDoc, setLastDoc] = useState(null);
@@ -133,7 +139,7 @@ const Discover = ({navigation}) => {
           userID,
         })
         .then(response => {
-          console.log(response.data);
+          console.log('Adding to views', response.data);
         })
         .catch(err => {
           console.log(err);
@@ -161,22 +167,22 @@ const Discover = ({navigation}) => {
     );
   };
 
-  // if (loadingData) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData == true) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -189,288 +195,283 @@ const Discover = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{flex: 1}}>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={featuredServiceProviders}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => {
-                addToJobViewedBy({
-                  userID: item._id,
-                  serviceProviderID: item.provider._id,
-                });
-                navigation.navigate('ServiceProviderProfile', {
-                  serviceProviderID: item._id,
-                  userID: item.provider._id,
-                  firstName: item.provider.firstName,
-                  lastName: item.provider.lastName,
-                  email: item.provider.email,
-                  phoneNumber: item.provider.phoneNumber,
-                  profilePicture: item.provider.profilePicture,
-                  location: item.provider.location,
-                  image1: item.image1,
-                  image2: item.image2,
-                  image3: item.image3,
-                  rate: item.rate,
-                  rating: item.rating,
-                  description: item.description,
-                  isPromoted: item.isPromoted,
-                  serviceName: item.service.serviceName,
-                });
-              }}
-              key={item._id}
-              style={styles.card}>
+      <FlatList
+        style={{marginBottom: 20}}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={featuredServiceProviders}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => {
+              addToJobViewedBy({
+                serviceProviderID: item._id,
+                userID: item.provider._id,
+              });
+              navigation.navigate('ServiceProviderProfile', {
+                serviceProviderID: item._id,
+                userID: item.provider._id,
+                firstName: item.provider.firstName,
+                lastName: item.provider.lastName,
+                email: item.provider.email,
+                phoneNumber: item.provider.phoneNumber,
+                profilePicture: item.provider.profilePicture,
+                location: item.provider.location,
+                image1: item.image1,
+                image2: item.image2,
+                image3: item.image3,
+                rate: item.rate,
+                rating: item.rating,
+                description: item.description,
+                isPromoted: item.isPromoted,
+                serviceName: item.service.serviceName,
+              });
+            }}
+            key={item._id}
+            style={styles.card}>
+            <View
+              style={{
+                backgroundColor: '#333333',
+                height: '100%',
+                width: 120,
+              }}>
+              <Image
+                source={{
+                  uri: item.image1
+                    ? item.image1
+                    : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                }}
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+
+            <View style={{flex: 1, margin: 10, justifyContent: 'center'}}>
               <View
                 style={{
-                  backgroundColor: '#333333',
-                  height: '100%',
-                  width: 120,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  top: 0,
+                  width: '100%',
+                  justifyContent: 'space-between',
                 }}>
-                <Image
-                  source={{
-                    uri: item.image1
-                      ? item.image1
-                      : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-                  }}
-                  style={{width: '100%', height: '100%'}}
-                />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: 16,
+                    marginRight: 10,
+                  }}>
+                  {item.provider.firstName.length <= 15
+                    ? item.provider.firstName
+                    : item.provider.firstName.slice(0, 15) + '...'}
+                </Text>
+
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <AntDesign name="star" size={15} color="orange" />
+
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      color: 'orange',
+                      fontWeight: '700',
+                    }}>
+                    {item.rating.toFixed(1)}
+                  </Text>
+                </View>
               </View>
 
-              <View style={{flex: 1, margin: 10, justifyContent: 'center'}}>
+              <Text
+                style={{
+                  color: '#cc0066',
+                  fontWeight: '700',
+                  fontSize: 12,
+                }}>
+                {item.service.serviceName.length <= 30
+                  ? item.service.serviceName
+                  : item.service.serviceName.slice(0, 30) + '...'}
+              </Text>
+
+              <Text
+                style={{
+                  color: '#a6a6a6',
+                  fontSize: 10,
+                }}>
+                {item.description.length <= 65
+                  ? item.description
+                  : item.description.slice(0, 65) + '...'}
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 10,
+                  position: 'absolute',
+                  bottom: 0,
+                  width: '100%',
+                }}>
+                <Text
+                  style={{
+                    color: '#33cccc',
+                    fontSize: 12,
+                    fontWeight: '700',
+                    marginRight: 20,
+                  }}>
+                  {item.provider.location.length <= 15
+                    ? item.provider.location
+                    : item.provider.location.slice(0, 15) + '...'}
+                </Text>
+
+                <Text
+                  style={{
+                    color: '#ff6600',
+                    fontWeight: '700',
+                    fontSize: 12,
+                  }}>
+                  KSH. {item.rate}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+
+      <FlatList
+        data={allServiceProviders}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => {
+              addToJobViewedBy({
+                serviceProviderID: item._id,
+                userID: item.provider._id,
+              });
+
+              navigation.navigate('ServiceProviderProfile', {
+                serviceProviderID: item._id,
+                userID: item.provider._id,
+                firstName: item.provider.firstName,
+                lastName: item.provider.lastName,
+                email: item.provider.email,
+                phoneNumber: item.provider.phoneNumber,
+                profilePicture: item.provider.profilePicture,
+                location: item.provider.location,
+                image1: item.image1,
+                image2: item.image2,
+                image3: item.image3,
+                rate: item.rate,
+                rating: item.rating,
+                description: item.description,
+                isPromoted: item.isPromoted,
+                serviceName: item.service.serviceName,
+              });
+            }}
+            key={item._id}
+            style={styles.allUsersCard}>
+            <View
+              style={{
+                backgroundColor: '#333333',
+                height: '100%',
+                width: 120 * 1.2,
+              }}>
+              <Image
+                source={{
+                  uri: item.image1
+                    ? item.image1
+                    : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                }}
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+
+            <View style={{margin: 10, flex: 1}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 10,
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: 16,
+                    marginRight: 10,
+                  }}>
+                  {item.provider.firstName.length <= 15
+                    ? Capitalize(item.provider.firstName)
+                    : Capitalize(item.provider.firstName.slice(0, 15) + '...')}
+                </Text>
+
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    position: 'absolute',
-                    top: 0,
-                    width: '100%',
-                    justifyContent: 'space-between',
                   }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontWeight: '700',
-                      fontSize: 16,
-                      marginRight: 10,
-                    }}>
-                    {item.provider.firstName.length <= 15
-                      ? item.provider.firstName
-                      : item.provider.firstName.slice(0, 15) + '...'}
-                  </Text>
-
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <AntDesign name="star" size={15} color="orange" />
-
-                    <Text
-                      style={{
-                        marginLeft: 10,
-                        color: 'orange',
-                        fontWeight: '700',
-                      }}>
-                      {item.rating.toFixed(1)}
-                    </Text>
-                  </View>
-                </View>
-
-                <Text
-                  style={{
-                    color: '#cc0066',
-                    fontWeight: '700',
-                    fontSize: 12,
-                  }}>
-                  {item.service.serviceName.length <= 30
-                    ? item.service.serviceName
-                    : item.service.serviceName.slice(0, 30) + '...'}
-                </Text>
-
-                <Text
-                  style={{
-                    color: '#a6a6a6',
-                    fontSize: 10,
-                  }}>
-                  {item.description.length <= 65
-                    ? item.description
-                    : item.description.slice(0, 65) + '...'}
-                </Text>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: 10,
-                    position: 'absolute',
-                    bottom: 0,
-                    width: '100%',
-                  }}>
-                  <Text
-                    style={{
-                      color: '#33cccc',
-                      fontSize: 12,
-                      fontWeight: '700',
-                      marginRight: 20,
-                    }}>
-                    {item.provider.location.length <= 15
-                      ? item.provider.location
-                      : item.provider.location.slice(0, 15) + '...'}
-                  </Text>
+                  <AntDesign name="star" size={15} color="orange" />
 
                   <Text
                     style={{
-                      color: '#ff6600',
+                      marginLeft: 10,
+                      color: 'orange',
                       fontWeight: '700',
-                      fontSize: 12,
                     }}>
-                    KSH. {item.rate}
+                    {item.rating.toFixed(1)}
                   </Text>
                 </View>
               </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
 
-      <View style={{flex: 1}}>
-        <FlatList
-          data={allServiceProviders}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => {
-                addToJobViewedBy({
-                  userID: item._id,
-                  serviceProviderID: item.provider._id,
-                });
+              <Text
+                style={{
+                  color: '#cc0066',
+                  fontWeight: '700',
+                  fontSize: 12,
+                }}>
+                {item.service.serviceName.length <= 30
+                  ? Capitalize(item.service.serviceName)
+                  : Capitalize(item.service.serviceName.slice(0, 30) + '...')}
+              </Text>
 
-                navigation.navigate('ServiceProviderProfile', {
-                  serviceProviderID: item._id,
-                  userID: item.provider._id,
-                  firstName: item.provider.firstName,
-                  lastName: item.provider.lastName,
-                  email: item.provider.email,
-                  phoneNumber: item.provider.phoneNumber,
-                  profilePicture: item.provider.profilePicture,
-                  location: item.provider.location,
-                  image1: item.image1,
-                  image2: item.image2,
-                  image3: item.image3,
-                  rate: item.rate,
-                  rating: item.rating,
-                  description: item.description,
-                  isPromoted: item.isPromoted,
-                  serviceName: item.service.serviceName,
-                });
-              }}
-              key={item._id}
-              style={styles.allUsersCard}>
+              <Text
+                style={{
+                  color: '#a6a6a6',
+                  fontSize: 10,
+                }}>
+                {item.description.length <= 85
+                  ? item.description
+                  : item.description.slice(0, 85) + '...'}
+              </Text>
+
               <View
                 style={{
-                  backgroundColor: '#333333',
-                  height: '100%',
-                  width: 120 * 1.2,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 10,
                 }}>
-                <Image
-                  source={{
-                    uri: item.image1
-                      ? item.image1
-                      : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-                  }}
-                  style={{width: '100%', height: '100%'}}
-                />
-              </View>
-
-              <View style={{margin: 10, flex: 1}}>
-                <View
+                <Text
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: 10,
-                    justifyContent: 'space-between',
+                    color: '#33cccc',
+                    fontSize: 12,
+                    fontWeight: '700',
                   }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontWeight: '700',
-                      fontSize: 16,
-                      marginRight: 10,
-                    }}>
-                    {item.provider.firstName.length <= 15
-                      ? Capitalize(item.provider.firstName)
-                      : Capitalize(
-                          item.provider.firstName.slice(0, 15) + '...',
-                        )}
-                  </Text>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <AntDesign name="star" size={15} color="orange" />
-
-                    <Text
-                      style={{
-                        marginLeft: 10,
-                        color: 'orange',
-                        fontWeight: '700',
-                      }}>
-                      {item.rating.toFixed(1)}
-                    </Text>
-                  </View>
-                </View>
+                  {item.provider.location.length <= 15
+                    ? item.provider.location
+                    : item.provider.location.slice(0, 15) + '...'}
+                </Text>
 
                 <Text
                   style={{
-                    color: '#cc0066',
+                    color: '#ff6600',
                     fontWeight: '700',
                     fontSize: 12,
                   }}>
-                  {item.service.serviceName.length <= 30
-                    ? Capitalize(item.service.serviceName)
-                    : Capitalize(item.service.serviceName.slice(0, 30) + '...')}
+                  KSH. {item.rate}
                 </Text>
-
-                <Text
-                  style={{
-                    color: '#a6a6a6',
-                    fontSize: 10,
-                  }}>
-                  {item.description.length <= 85
-                    ? item.description
-                    : item.description.slice(0, 85) + '...'}
-                </Text>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: 10,
-                  }}>
-                  <Text
-                    style={{
-                      color: '#33cccc',
-                      fontSize: 12,
-                      fontWeight: '700',
-                    }}>
-                    {item.provider.location.length <= 15
-                      ? item.provider.location
-                      : item.provider.location.slice(0, 15) + '...'}
-                  </Text>
-
-                  <Text
-                    style={{
-                      color: '#ff6600',
-                      fontWeight: '700',
-                      fontSize: 12,
-                    }}>
-                    KSH. {item.rate}
-                  </Text>
-                </View>
               </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };

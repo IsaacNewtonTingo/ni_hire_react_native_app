@@ -43,7 +43,7 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [noData, setNoData] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [newLoading, setNewLoading] = useState(true);
+  const [loadingData, setLoadingData] = useState(true);
   const [reLoading, setReLoading] = useState(false);
   const [posting, setIsPosting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -67,14 +67,62 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   const {_id} = storedCredentials;
 
-  navigation.addListener('focus', () => setNewLoading(!newLoading));
+  navigation.addListener('focus', () => setLoading(!loading));
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [location, setLocation] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+
+  const [serviceName, setServiceName] = useState('');
+  const [image1, setImage1] = useState('');
+  const [image2, setImage2] = useState('');
+  const [image3, setImage3] = useState('');
+  const [description, setDescription] = useState('');
+  const [rate, setRate] = useState('');
+  const [rating, setRating] = useState('');
+  const [isFeatured, setIsFeatured] = useState('');
 
   useEffect(() => {
+    getServiceProviderData();
     getOtherServices();
     getReviewList();
     getNumberOfViews();
     checkIfSaved();
-  }, [(newLoading, navigation)]);
+  }, [(loading, navigation)]);
+
+  async function getServiceProviderData() {
+    setLoadingData(true);
+    const url = process.env.GET_SERVICE_PROVIDER_DATA + serviceProviderID;
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.status != 'Failed') {
+          setFirstName(response.data.provider.firstName);
+          setLastName(response.data.provider.lastName);
+          setEmail(response.data.provider.email);
+          setPhoneNumber(response.data.provider.phoneNumber);
+          setLocation(response.data.provider.location);
+          setProfilePicture(response.data.provider.profilePicture);
+
+          setServiceName(response.data.service.serviceName);
+          setRating(response.data.rating);
+          setRate(response.data.rate);
+          setDescription(response.data.description);
+          setImage1(response.data.image1);
+          setImage2(response.data.image2);
+          setImage3(response.data.image3);
+        }
+
+        setLoadingData(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   async function getOtherServices() {
     const url = process.env.GET_MY_OTHER_SERVICES + userID;
@@ -82,16 +130,15 @@ export default function ServiceProviderProfile({route, navigation}) {
       .get(url)
       .then(response => {
         if (response.data.status == 'Failed') {
-          setLoading(false);
           setNoData(true);
         } else {
           setJobsList(response.data);
-          setLoading(false);
+
           setNoData(false);
         }
       })
       .catch(err => {
-        setLoading(false);
+        setLoadingData(false);
         console.log(err);
       });
   }
@@ -106,11 +153,10 @@ export default function ServiceProviderProfile({route, navigation}) {
       .get(url)
       .then(response => {
         setServiceViews(response.data.data.length);
-        setLoading(false);
       })
       .catch(err => {
         console.log(err);
-        setLoading(false);
+        setLoadingData(false);
       });
   }
 
@@ -121,21 +167,21 @@ export default function ServiceProviderProfile({route, navigation}) {
       .then(response => {
         if (response.data.status == 'Failed') {
           setNoReviews(true);
-          setLoading(false);
           setNumberOfReviews(0);
         } else {
           setReviewList(response.data);
           setNumberOfReviews(response.data.length);
           setNoReviews(false);
-          setLoading(false);
         }
       })
       .catch(err => {
         console.log(err);
+        setLoadingData(false);
       });
   }
 
   async function checkIfSaved() {
+    setLoadingData(true);
     const url =
       process.env.CHECK_SAVED + serviceProviderID + '?currentUserID=' + _id;
 
@@ -144,10 +190,10 @@ export default function ServiceProviderProfile({route, navigation}) {
       .then(response => {
         if (response.data.status === 'Success') {
           setSaved(true);
-          setLoading(false);
+          setLoadingData(false);
         } else {
           setSaved(false);
-          setLoading(false);
+          setLoadingData(false);
         }
       })
       .catch(err => {
@@ -157,7 +203,7 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   async function saveServiceProvider() {
     const url = process.env.SAVE_SERVICE;
-    setLoading(true);
+    setLoadingData(true);
     await axios
       .post(url, {
         serviceProviderID,
@@ -173,7 +219,7 @@ export default function ServiceProviderProfile({route, navigation}) {
   }
 
   async function unsaveServiceProvider() {
-    setLoading(true);
+    setLoadingData(true);
     const url =
       process.env.DELETE_SAVED_SERVICE +
       serviceProviderID +
@@ -304,7 +350,7 @@ export default function ServiceProviderProfile({route, navigation}) {
     );
   }
 
-  if (loading == true) {
+  if (loadingData == true) {
     return (
       <View
         style={{
@@ -375,13 +421,13 @@ export default function ServiceProviderProfile({route, navigation}) {
         onPress={() => {
           navigation.navigate('PublicProfile', {
             userID: userID,
-            firstName: route.params.firstName,
-            lastName: route.params.lastName,
-            email: route.params.email,
-            phoneNumber: route.params.phoneNumber,
-            bio: route.params.bio,
-            location: route.params.location,
-            profilePicture: route.params.profilePicture,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+            bio: bio,
+            location: location,
+            profilePicture: profilePicture,
           });
         }}
         style={{
@@ -391,8 +437,8 @@ export default function ServiceProviderProfile({route, navigation}) {
         }}>
         <Image
           source={{
-            uri: route.params.profilePicture
-              ? route.params.profilePicture
+            uri: profilePicture
+              ? profilePicture
               : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
           }}
           style={{
@@ -415,7 +461,7 @@ export default function ServiceProviderProfile({route, navigation}) {
                 fontSize: 16,
                 marginRight: 10,
               }}>
-              {route.params.firstName} {route.params.lastName}
+              {firstName} {lastName}
             </Text>
             <AntDesign name="star" size={15} color="orange" />
             <Text
@@ -425,7 +471,7 @@ export default function ServiceProviderProfile({route, navigation}) {
                 fontSize: 16,
                 marginLeft: 10,
               }}>
-              {route.params.rating}
+              {rating}
             </Text>
             <Text style={{color: 'gray', marginLeft: 10, fontWeight: '700'}}>
               ( {numberOfReviews} )
@@ -433,7 +479,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           </View>
 
           <Text style={{color: '#cc0066', fontWeight: '700', fontSize: 20}}>
-            {Capitalize(route.params.serviceName)}
+            {Capitalize(serviceName)}
           </Text>
 
           <View
@@ -454,7 +500,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           </View>
         </View>
 
-        {route.params.isPromoted == true && (
+        {isPromoted == true && (
           <Text
             style={{
               color: '#ff8c1a',
@@ -487,7 +533,7 @@ export default function ServiceProviderProfile({route, navigation}) {
 
       <View style={{padding: 20}}>
         <Text style={{color: '#b3b3b3', marginVertical: 40, fontSize: 18}}>
-          {route.params.description}
+          {description}
         </Text>
       </View>
 
@@ -509,7 +555,7 @@ export default function ServiceProviderProfile({route, navigation}) {
             color="#cc0066"
           />
           <Text style={{color: 'white', fontWeight: '700'}}>
-            <B>Location</B> : {route.params.location}
+            <B>Location</B> : {location}
           </Text>
         </View>
 
@@ -521,21 +567,21 @@ export default function ServiceProviderProfile({route, navigation}) {
             color="orange"
           />
           <Text style={{color: 'white', fontWeight: '700'}}>
-            <B>Rate</B> : KSH. {route.params.rate}
+            <B>Rate</B> : KSH. {rate}
           </Text>
         </View>
 
         <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:${route.params.phoneNumber}`)}
+          onPress={() => Linking.openURL(`tel:${phoneNumber}`)}
           style={{flexDirection: 'row'}}>
           <Feather style={styles.icons} name="phone" size={20} color="purple" />
           <Text style={{color: 'white', fontWeight: '700'}}>
-            <B>Phone number</B> : {route.params.phoneNumber}
+            <B>Phone number</B> : {phoneNumber}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => Linking.openURL(`mailto:${route.params.email}`)}
+          onPress={() => Linking.openURL(`mailto:${email}`)}
           style={{flexDirection: 'row'}}>
           <MaterialIcons
             style={styles.icons}
@@ -544,7 +590,7 @@ export default function ServiceProviderProfile({route, navigation}) {
             color="#00ccff"
           />
           <Text style={{color: 'white', fontWeight: '700'}}>
-            <B>Email</B> : {route.params.email}
+            <B>Email</B> : {email}
           </Text>
         </TouchableOpacity>
       </View>
@@ -749,7 +795,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         ))}
       </View>
 
-      {_id == userID && (
+      {_id === userID && (
         <View style={styles.payAndDeleteContainer}>
           {route.params.isFeatured == false && (
             <TouchableOpacity

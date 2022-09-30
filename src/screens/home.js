@@ -252,7 +252,10 @@ const Home = ({navigation}) => {
 
         <View style={styles.topAndViewContainer}>
           <Text style={styles.topText}>Featured service providers</Text>
-          <Text style={styles.viewAll}>View all</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('FeaturedUsers')}>
+            <Text style={styles.viewAll}>View all</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={{flex: 1, marginTop: 20}}>
@@ -343,10 +346,6 @@ const Home = ({navigation}) => {
 
         <View style={styles.topAndViewContainer}>
           <Text style={styles.topText}>Top services</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AllFeaturedServiceProviders')}>
-            <Text style={styles.viewAll}>View all</Text>
-          </TouchableOpacity>
         </View>
 
         {/* -----------------------------------Top services---------------------------------------------- */}
