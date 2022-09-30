@@ -89,7 +89,19 @@ const Home = ({navigation}) => {
   //   return str.charAt(0).toUpperCase() + str.slice(1);
   // }
 
-  async function handleProviderClicked({userID, jobID}) {}
+  async function addToProfileVisits({providerID}) {
+    const url =
+      process.env.ADD_PROFILE_VISIT + _id + '?providerID=' + providerID;
+
+    await axios
+      .post(url)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   async function addToJobViewedBy({userID, serviceProviderID}) {
     const url = process.env.ADD_TO_MY_VIEWS;
@@ -267,8 +279,8 @@ const Home = ({navigation}) => {
             renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {
-                  handleProviderClicked({
-                    userID: item._id,
+                  addToProfileVisits({
+                    providerID: item._id,
                   });
                   navigation.navigate('PublicProfile', {
                     userID: item._id,

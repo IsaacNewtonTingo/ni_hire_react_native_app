@@ -34,8 +34,6 @@ const {width} = Dimensions.get('window');
 const B = props => <Text style={{color: 'gray'}}>{props.children}</Text>;
 
 export default function ServiceProviderProfile({route, navigation}) {
-  const [isPromoted, setIsPromoted] = useState();
-
   const [jobsList, setJobsList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
 
@@ -72,9 +70,10 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState();
   const [location, setLocation] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
+  const [bio, setBio] = useState('');
 
   const [serviceName, setServiceName] = useState('');
   const [image1, setImage1] = useState('');
@@ -82,8 +81,8 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [image3, setImage3] = useState('');
   const [description, setDescription] = useState('');
   const [rate, setRate] = useState('');
-  const [rating, setRating] = useState('');
-  const [isFeatured, setIsFeatured] = useState('');
+  const [rating, setRating] = useState();
+  const [isFeatured, setIsFeatured] = useState(false);
 
   useEffect(() => {
     getServiceProviderData();
@@ -106,11 +105,13 @@ export default function ServiceProviderProfile({route, navigation}) {
           setPhoneNumber(response.data.provider.phoneNumber);
           setLocation(response.data.provider.location);
           setProfilePicture(response.data.provider.profilePicture);
+          setBio(response.data.provider.bio);
 
           setServiceName(response.data.service.serviceName);
           setRating(response.data.rating);
           setRate(response.data.rate);
           setDescription(response.data.description);
+          setIsFeatured(response.data.isPromoted);
           setImage1(response.data.image1);
           setImage2(response.data.image2);
           setImage3(response.data.image3);
@@ -283,11 +284,12 @@ export default function ServiceProviderProfile({route, navigation}) {
         rating: defaultRating,
       })
       .then(response => {
-        console.log(response.data);
         Alert.alert(response.data.message);
         setIsPosting(false);
         setDisabled(false);
         getReviewList();
+        getServiceProviderData();
+        setReview('');
       })
       .catch(err => {
         console.log(err);
@@ -350,6 +352,20 @@ export default function ServiceProviderProfile({route, navigation}) {
     );
   }
 
+  async function addToProfileVisits({providerID}) {
+    const url =
+      process.env.ADD_PROFILE_VISIT + _id + '?providerID=' + providerID;
+
+    await axios
+      .post(url)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   if (loadingData == true) {
     return (
       <View
@@ -380,8 +396,8 @@ export default function ServiceProviderProfile({route, navigation}) {
         }}>
         <Image
           source={{
-            uri: route.params.image1
-              ? route.params.image1.toString()
+            uri: image1
+              ? image1.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{
@@ -392,8 +408,8 @@ export default function ServiceProviderProfile({route, navigation}) {
         />
         <Image
           source={{
-            uri: route.params.image2
-              ? route.params.image2.toString()
+            uri: image2
+              ? image2.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{
@@ -405,8 +421,8 @@ export default function ServiceProviderProfile({route, navigation}) {
 
         <Image
           source={{
-            uri: route.params.image3
-              ? route.params.image3.toString()
+            uri: image3
+              ? image3.toString()
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
           }}
           style={{
@@ -419,6 +435,9 @@ export default function ServiceProviderProfile({route, navigation}) {
 
       <TouchableOpacity
         onPress={() => {
+          addToProfileVisits({
+            providerID: userID,
+          });
           navigation.navigate('PublicProfile', {
             userID: userID,
             firstName: firstName,
@@ -500,7 +519,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           </View>
         </View>
 
-        {isPromoted == true && (
+        {isFeatured === true && (
           <Text
             style={{
               color: '#ff8c1a',
@@ -510,7 +529,7 @@ export default function ServiceProviderProfile({route, navigation}) {
               bottom: 10,
               fontSize: 12,
             }}>
-            Promoted
+            Premium
           </Text>
         )}
 

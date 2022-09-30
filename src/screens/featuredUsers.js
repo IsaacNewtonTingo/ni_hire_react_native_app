@@ -47,6 +47,21 @@ export default function FeaturedUsers({route, navigation}) {
         setLoadingData(false);
       });
   }
+
+  async function addToProfileVisits({providerID}) {
+    const url =
+      process.env.ADD_PROFILE_VISIT + _id + '?providerID=' + providerID;
+
+    await axios
+      .post(url)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -54,9 +69,9 @@ export default function FeaturedUsers({route, navigation}) {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => {
-              // handleProviderClicked({
-              //   userID: item._id,
-              // });
+              addToProfileVisits({
+                providerID: item._id,
+              });
               navigation.navigate('PublicProfile', {
                 userID: item._id,
                 firstName: item.firstName,
@@ -124,7 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
     height: 140,
-    width: width,
     backgroundColor: '#262626',
     flexDirection: 'row',
   },
@@ -136,13 +150,11 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontWeight: '700',
     fontSize: 12,
-    marginLeft: 5,
   },
   jobTitle: {
     color: '#cc0066',
     fontWeight: '700',
     fontSize: 12,
-    marginLeft: 5,
   },
   nameText: {
     color: 'white',
@@ -153,10 +165,10 @@ const styles = StyleSheet.create({
   nameAndIcon: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 5,
+    marginBottom: 5,
   },
   rightContainer: {
-    marginLeft: 20,
+    flex: 1,
     padding: 20,
   },
 });

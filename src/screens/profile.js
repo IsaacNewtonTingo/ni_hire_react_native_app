@@ -151,7 +151,6 @@ export default function Profile({route, navigation}) {
     await axios
       .get(url)
       .then(response => {
-        console.log(response.data.data.length);
         setProfileVisits(response.data.data.length);
         setLoadingData(false);
       })
