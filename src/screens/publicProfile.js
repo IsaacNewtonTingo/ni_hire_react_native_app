@@ -44,13 +44,14 @@ export default function PublicProfile({route, navigation}) {
   const [loading, setLoading] = useState(true);
 
   const userID = route.params.userID;
-  const firstName = route.params.firstName;
-  const lastName = route.params.lastName;
-  const email = route.params.email;
-  const phoneNumber = route.params.phoneNumber;
-  const location = route.params.location;
-  const bio = route.params.bio;
-  const profilePicture = route.params.profilePicture;
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [location, setLocation] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [bio, setBio] = useState('');
 
   const [profileVisits, setProfileVisits] = useState();
 
@@ -70,7 +71,37 @@ export default function PublicProfile({route, navigation}) {
     getReviews();
   }, [(navigation, loading)]);
 
-  async function getUserData() {}
+  async function getUserData() {
+    setLoadingData(true);
+    const url = process.env.GET_USER_DATA + userID;
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.status != 'Failed') {
+          setFirstName(response.data.data.firstName);
+          setLastName(response.data.data.lastName);
+          setEmail(response.data.data.email);
+          setPhoneNumber(response.data.data.phoneNumber);
+          setLocation(response.data.data.location);
+          setProfilePicture(response.data.data.profilePicture);
+          setBio(response.data.data.bio);
+        } else {
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPhoneNumber('');
+          setLocation('');
+          setProfilePicture('');
+          setBio('');
+        }
+
+        setLoadingData(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
   async function getJobs() {
     const url = process.env.GET_MY_OTHER_SERVICES + userID;
@@ -95,11 +126,10 @@ export default function PublicProfile({route, navigation}) {
 
   async function getReviews() {
     const url = process.env.GET_ALL_REVIEWS + userID;
-
     await axios
       .get(url)
       .then(response => {
-        if (response.data) {
+        if (response.data.length > 0) {
           setReviewList(response.data);
           setLoadingData(false);
           setNoReviews(false);
@@ -485,112 +515,110 @@ export default function PublicProfile({route, navigation}) {
               ))}
             </View>
 
-            <View
-              style={{
-                flex: 1,
-                width: width,
-                alignItems: 'center',
-              }}>
-              {noReviews == true ? (
-                <View
+            {noReviews == true ? (
+              <View
+                style={{
+                  width: width,
+                  flex: 1,
+                  marginTop: 40,
+                  alignItems: 'center',
+                  padding: 20,
+                  marginBottom: 40,
+                }}>
+                <Text
                   style={{
-                    width: width,
-                    flex: 1,
-                    alignItems: 'center',
+                    color: 'white',
+                    fontWeight: '700',
                   }}>
-                  <Text
+                  No reviews available
+                </Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  width: width,
+                  alignItems: 'center',
+                }}>
+                {reviewList.map(item => (
+                  <View
+                    key={item.key}
                     style={{
-                      color: 'white',
-                      fontWeight: '700',
-                      textAlign: 'center',
-                      marginTop: 40,
+                      backgroundColor: '#1a1a1a',
+                      width: width - 40,
+                      marginBottom: 20,
+                      height: 140,
+                      borderRadius: 10,
+                      padding: 10,
+                      justifyContent: 'center',
                     }}>
-                    You have no reviews
-                  </Text>
-                </View>
-              ) : (
-                <>
-                  {reviewList.map(item => (
                     <View
-                      key={item._id}
                       style={{
-                        backgroundColor: '#1a1a1a',
-                        width: width - 40,
-                        marginBottom: 20,
-                        height: 140,
-                        borderRadius: 10,
-                        padding: 10,
-                        justifyContent: 'center',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        zIndex: 1,
+                        top: 10,
+                        left: 10,
                       }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          position: 'absolute',
-                          zIndex: 1,
-                          top: 10,
-                          left: 10,
-                        }}>
-                        <Text
-                          style={{
-                            color: 'gray',
-                            fontWeight: '700',
-                            marginRight: 10,
-                          }}>
-                          {item.whoReviewed.firstName}{' '}
-                          {item.whoReviewed.lastName}
-                        </Text>
-
-                        <AntDesign name="star" size={15} color="orange" />
-
-                        <Text
-                          style={{
-                            color: 'white',
-                            marginLeft: 10,
-                            fontWeight: '700',
-                          }}>
-                          {item.rating}
-                        </Text>
-                      </View>
-
-                      {/* {currentUserID === item.whoRatedID && (
-                        <TouchableOpacity
-                          style={{
-                            position: 'absolute',
-                            zIndex: 1,
-                            right: 10,
-                            top: 10,
-                          }}
-                          onPress={() => deleteReview({item})}>
-                          <Ionicons name="trash" size={20} color="orange" />
-                        </TouchableOpacity>
-                      )} */}
-
-                      <Text
-                        style={{
-                          fontWeight: '700',
-                          color: 'white',
-                          fontSize: 16,
-                        }}>
-                        {item.reviewMessage}
-                      </Text>
-
                       <Text
                         style={{
                           color: 'gray',
                           fontWeight: '700',
-                          position: 'absolute',
-                          zIndex: 1,
-                          bottom: 10,
-                          left: 10,
+                          marginRight: 10,
                         }}>
-                        {dateFormat(item.createdAt, 'default')}
+                        {item.whoRated}
+                      </Text>
+
+                      <AntDesign name="star" size={15} color="orange" />
+
+                      <Text
+                        style={{
+                          color: 'white',
+                          marginLeft: 10,
+                          fontWeight: '700',
+                        }}>
+                        {item.myStars}
                       </Text>
                     </View>
-                  ))}
-                </>
-              )}
-            </View>
+
+                    {currentUserID === item.whoRatedID && (
+                      <TouchableOpacity
+                        style={{
+                          position: 'absolute',
+                          zIndex: 1,
+                          right: 10,
+                          top: 10,
+                        }}
+                        onPress={() => deleteReview({item})}>
+                        <Ionicons name="trash" size={20} color="orange" />
+                      </TouchableOpacity>
+                    )}
+
+                    <Text
+                      style={{
+                        fontWeight: '700',
+                        color: 'white',
+                        fontSize: 16,
+                      }}>
+                      {item.comment}
+                    </Text>
+
+                    <Text
+                      style={{
+                        color: 'gray',
+                        fontWeight: '700',
+                        position: 'absolute',
+                        zIndex: 1,
+                        bottom: 10,
+                        left: 10,
+                      }}>
+                      {dateFormat(item.createdAt, 'default')}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
           </ScrollView>
         ) : (
           <View

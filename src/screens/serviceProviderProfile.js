@@ -115,6 +115,23 @@ export default function ServiceProviderProfile({route, navigation}) {
           setImage1(response.data.image1);
           setImage2(response.data.image2);
           setImage3(response.data.image3);
+        } else {
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPhoneNumber('');
+          setLocation('');
+          setProfilePicture('');
+          setBio('');
+
+          setServiceName('');
+          setRating(null);
+          setRate(null);
+          setDescription('');
+          setIsFeatured(false);
+          setImage1('');
+          setImage2('');
+          setImage3('');
         }
 
         setLoadingData(false);

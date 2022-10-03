@@ -1518,8 +1518,14 @@ const PostService = () => {
           justifyContent: 'center',
         }}>
         <ActivityIndicator color="white" size="large" />
-        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-          Posting.Please wait
+        <Text
+          style={{
+            color: 'white',
+            fontWeight: '700',
+            marginTop: 10,
+            textAlign: 'center',
+          }}>
+          Posting{'\n'}Please wait
         </Text>
       </View>
     );
