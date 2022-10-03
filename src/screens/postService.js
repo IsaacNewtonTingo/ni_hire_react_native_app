@@ -1508,6 +1508,23 @@ const PostService = () => {
     }
   };
 
+  if (isSubmitting) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Posting.Please wait
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <View style={{backgroundColor: '#1a1a1a', padding: 20}}>
