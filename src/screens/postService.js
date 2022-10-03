@@ -46,8 +46,6 @@ const PostService = () => {
     ref.current?.getAddressText(location);
   }, []);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -58,8 +56,8 @@ const PostService = () => {
   const [image2, setImage2] = useState('');
   const [image3, setImage3] = useState('');
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [transferred, setTransferred] = useState(0);
-  const [uid, setUserId] = useState('');
 
   const [location, setLocation] = useState('');
 
@@ -1267,18 +1265,19 @@ const PostService = () => {
     },
   ]);
 
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   function validate() {
-    if (
-      !firstName ||
-      !lastName ||
-      !phoneNumber ||
-      !email ||
-      !location ||
-      !serviceTitle ||
-      !description ||
-      !rate
-    ) {
-      Alert.alert('All fields are required');
+    if (!serviceTitle) {
+      Alert.alert('Please select a service you offer');
+    } else if (!description) {
+      Alert.alert('Provide a brief description');
+    } else if (!rate) {
+      Alert.alert('Provide your rate');
+    } else if (!image1 || !image2 || !image3) {
+      Alert.alert('3 images are required');
     } else if (description.length <= 100) {
       Alert.alert('Add more details to your description');
     } else {
@@ -1287,25 +1286,24 @@ const PostService = () => {
     }
   }
 
-  //push
+  function selectedItem(item) {
+    setService(item.label);
+    setCategory(item.category);
+  }
 
   async function sendToDB() {
     setDisabled(true);
     setIsSubmitting(true);
     const url = process.env.POST_SERVICE;
 
-    let imageUrl1 = await uploadImage1();
-    let imageUrl2 = await uploadImage2();
-    let imageUrl3 = await uploadImage3();
-
     await axios
       .post(url, {
         service,
         category,
         description,
-        image1: image1 != '' ? imageUrl1.trim().toString() : '',
-        image2: image2 != '' ? imageUrl2.trim().toString() : '',
-        image3: image3 != '' ? imageUrl3.trim().toString() : '',
+        image1: image1 != '' ? await uploadImage1() : '',
+        image2: image2 != '' ? await uploadImage2() : '',
+        image3: image3 != '' ? await uploadImage3() : '',
         rate,
         provider: _id,
       })
@@ -1321,15 +1319,6 @@ const PostService = () => {
         setDisabled(false);
       });
   }
-
-  function selectedItem(item) {
-    setService(item.label);
-    setCategory(item.category);
-  }
-
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   async function getUserData() {
     const url = process.env.GET_USER_DATA + _id;
@@ -1404,36 +1393,12 @@ const PostService = () => {
       });
   }
 
-  // const cloudinaryUpload1 = image1 => {
-  //   const data = new FormData();
-  //   data.append('file', image1);
-  //   data.append('upload_preset', 'nihire');
-  //   data.append('cloud_name', 'drwktiurw');
-
-  //   fetch('https://api.cloudinary.com/v1_1/drwktiurw/image/upload', {
-  //     method: 'post',
-  //     body: data,
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setPhoto(data.secure_url);
-  //     })
-  //     .catch(err => {
-  //       Alert.alert('An Error Occured While Uploading');
-  //     });
-  // };
-
   const uploadImage1 = async () => {
     if (!image1) {
       return null;
     } else {
       const uploadUri = image1;
       let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-
-      // Add timestamp to File Name
-      const extension = filename.split('.').pop();
-      const name = filename.split('.').slice(0, -1).join('.');
-      filename = name + Date.now() + '.' + extension;
 
       setIsSubmitting(true);
       setTransferred(0);
@@ -1449,7 +1414,7 @@ const PostService = () => {
 
         setTransferred(
           Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-            100,
+            10000,
         );
       });
 
@@ -1474,11 +1439,6 @@ const PostService = () => {
     const uploadUri = image2;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
-    // Add timestamp to File Name
-    const extension = filename.split('.').pop();
-    const name = filename.split('.').slice(0, -1).join('.');
-    filename = name + Date.now() + '.' + extension;
-
     setIsSubmitting(true);
     setTransferred(0);
 
@@ -1493,7 +1453,7 @@ const PostService = () => {
 
       setTransferred(
         Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-          100,
+          1000,
       );
     });
 
@@ -1516,11 +1476,6 @@ const PostService = () => {
     }
     const uploadUri = image3;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-
-    // Add timestamp to File Name
-    const extension = filename.split('.').pop();
-    const name = filename.split('.').slice(0, -1).join('.');
-    filename = name + Date.now() + '.' + extension;
 
     setIsSubmitting(true);
     setTransferred(0);
