@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   View,
   Text,
@@ -29,6 +29,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
 
+import {CredentialsContext} from '../components/credentials-context';
+
 export default function PublicProfile({route, navigation}) {
   const [jobsList, setJobsList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
@@ -50,10 +52,16 @@ export default function PublicProfile({route, navigation}) {
   const bio = route.params.bio;
   const profilePicture = route.params.profilePicture;
 
+  const [profileVisits, setProfileVisits] = useState();
+
   navigation.addListener('focus', () => setLoading(!loading));
 
   const scrollSwitching = useRef();
   const animation = useRef(new Animated.Value(0)).current;
+
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
   useEffect(() => {
     getUserData();
@@ -125,24 +133,36 @@ export default function PublicProfile({route, navigation}) {
       });
   }
 
-  function getProfileVisits() {}
+  async function getProfileVisits() {
+    const url = process.env.GET_PROFILE_VISITS + userID;
+    await axios
+      .get(url)
+      .then(response => {
+        setProfileVisits(response.data.data.length);
+        setLoadingData(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
+      });
+  }
 
-  // if (loadingData) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -219,17 +239,19 @@ export default function PublicProfile({route, navigation}) {
           <Text style={[styles.text, {color: '#8c8c8c'}]}>{bio}</Text>
         </View>
 
-        {/* <View style={{marginTop: 20}}>
-          <Entypo
-            style={[styles.icons, {top: 10}]}
-            name="eye"
-            size={20}
-            color="white"
-          />
-          <Text style={[styles.text, {color: '#ffbf80'}]}>
-            {viewList} unique profile visit(s)
-          </Text>
-        </View> */}
+        {_id === userID && (
+          <View style={{marginTop: 10}}>
+            <Entypo
+              style={[styles.icons, {top: 10}]}
+              name="eye"
+              size={20}
+              color="white"
+            />
+            <Text style={[styles.text, {color: '#8c8c8c'}]}>
+              {profileVisits} unique profile visit(s)
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={{marginTop: 240, padding: 10}}>
