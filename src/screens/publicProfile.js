@@ -144,6 +144,20 @@ export default function PublicProfile({route, navigation}) {
       });
   }
 
+  async function deleteReview({item}) {
+    const url = process.env.DELETE_REVIEW + item._id + '?userID=' + _id;
+
+    await axios
+      .delete(url)
+      .then(response => {
+        Alert.alert(response.data.message);
+        getReviews();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -542,7 +556,7 @@ export default function PublicProfile({route, navigation}) {
                 }}>
                 {reviewList.map(item => (
                   <View
-                    key={item.key}
+                    key={item._id}
                     style={{
                       backgroundColor: '#1a1a1a',
                       width: width - 40,
@@ -567,7 +581,7 @@ export default function PublicProfile({route, navigation}) {
                           fontWeight: '700',
                           marginRight: 10,
                         }}>
-                        {item.whoRated}
+                        {item.whoReviewed.firstName} {item.whoReviewed.lastName}
                       </Text>
 
                       <AntDesign name="star" size={15} color="orange" />
@@ -578,11 +592,11 @@ export default function PublicProfile({route, navigation}) {
                           marginLeft: 10,
                           fontWeight: '700',
                         }}>
-                        {item.myStars}
+                        {item.rating}
                       </Text>
                     </View>
 
-                    {currentUserID === item.whoRatedID && (
+                    {_id === item.whoReviewed._id && (
                       <TouchableOpacity
                         style={{
                           position: 'absolute',
@@ -601,7 +615,7 @@ export default function PublicProfile({route, navigation}) {
                         color: 'white',
                         fontSize: 16,
                       }}>
-                      {item.comment}
+                      {item.reviewMessage}
                     </Text>
 
                     <Text
