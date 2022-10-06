@@ -42,8 +42,6 @@ const Home = ({navigation}) => {
   const [noRecentlyViewed, setNoRecentlyViewed] = useState(false);
   const [noFeaturedServices, setNoFeaturedServices] = useState(false);
 
-  const [searchPage, setSearchPage] = useState(false);
-
   const [filtered, setFiltered] = useState(servicesData);
   const [searching, setSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -55,21 +53,27 @@ const Home = ({navigation}) => {
     useContext(CredentialsContext);
   const {_id} = storedCredentials;
 
-  function displaySearchScreen() {
-    setSearchPage(true);
-  }
-
-  function getCurrentUser() {}
-
   useEffect(() => {
-    getCurrentUser();
     getFeaturedUsers();
     getFeaturedServiceProviders();
     getRecentlyViewed();
     getCategoryList();
   }, [(navigation, loading)]);
 
-  function onSearch(text) {}
+  function onSearch(text) {
+    if (text) {
+      setSearching(true);
+      const temp = text.toLowerCase();
+
+      const tempList = servicesData.filter(item => {
+        if (item.name.match(temp)) return item.name;
+      });
+      setFiltered(tempList);
+    } else {
+      setSearching(false);
+      setFiltered(servicesData);
+    }
+  }
 
   async function getFeaturedServiceProviders() {
     setLoadingData(true);
@@ -178,22 +182,22 @@ const Home = ({navigation}) => {
       });
   }
 
-  if (loadingData == true) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'black',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <ActivityIndicator color="white" size="large" />
-        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-          Loading data
-        </Text>
-      </View>
-    );
-  }
+  // if (loadingData == true) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: 'black',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}>
+  //       <ActivityIndicator color="white" size="large" />
+  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+  //         Loading data
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
@@ -217,7 +221,7 @@ const Home = ({navigation}) => {
           }}
           value={searchValue}
         />
-        {displayX == true && (
+        {searchValue != '' && (
           <TouchableOpacity
             onPress={() => {
               setDisplayX(false), setSearching(false), setSearchValue('');

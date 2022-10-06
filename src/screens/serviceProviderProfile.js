@@ -183,6 +183,7 @@ export default function ServiceProviderProfile({route, navigation}) {
     await axios
       .get(url)
       .then(response => {
+        console.log(response.data);
         if (response.data.status == 'Failed') {
           setNoReviews(true);
           setNumberOfReviews(0);

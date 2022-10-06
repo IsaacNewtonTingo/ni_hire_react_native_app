@@ -1531,6 +1531,23 @@ const PostService = () => {
     );
   }
 
+  if (isLoadingData == true) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <View style={{backgroundColor: '#1a1a1a', padding: 20}}>
@@ -1695,6 +1712,10 @@ const PostService = () => {
           </View>
         </View>
 
+        <Text style={{color: '#cccccc', marginVertical: 20, marginLeft: 20}}>
+          This section can only be edited in your profile
+        </Text>
+
         <View>
           <Ionicons
             style={styles.icons}
@@ -1707,7 +1728,7 @@ const PostService = () => {
             maxLength={15}
             onChangeText={setFirstName}
             placeholder="Name"
-            style={styles.input}
+            style={[styles.input, {color: 'gray'}]}
             editable={false}
           />
         </View>
@@ -1724,7 +1745,7 @@ const PostService = () => {
             maxLength={15}
             onChangeText={setLastName}
             placeholder="Name"
-            style={styles.input}
+            style={[styles.input, {color: 'gray'}]}
             editable={false}
           />
         </View>
@@ -1740,7 +1761,7 @@ const PostService = () => {
             value={phoneNumber.toString()}
             onChangeText={setPhoneNumber}
             placeholder="Phone number"
-            style={styles.input}
+            style={[styles.input, {color: 'gray'}]}
             editable={false}
           />
         </View>
@@ -1756,7 +1777,7 @@ const PostService = () => {
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
-            style={styles.input}
+            style={[styles.input, {color: 'gray'}]}
             editable={false}
           />
         </View>
@@ -1772,7 +1793,7 @@ const PostService = () => {
             value={location}
             onChangeText={setLocation}
             placeholder="Email"
-            style={styles.input}
+            style={[styles.input, {color: 'gray'}]}
             editable={false}
           />
         </View>
