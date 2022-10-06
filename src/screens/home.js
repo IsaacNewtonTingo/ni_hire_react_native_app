@@ -245,9 +245,9 @@ const Home = ({navigation}) => {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('JobMembers', {
-                    jobId: item.name,
-                  }),
-                    setSearching(false);
+                    serviceName: item.name,
+                  });
+                  setSearching(false);
                 }}
                 key={item.key}
                 style={{
