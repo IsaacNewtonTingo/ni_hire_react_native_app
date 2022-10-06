@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CredentialsContext} from '../components/credentials-context';
 
 import axios from 'axios';
+import storage from '@react-native-firebase/storage';
 
 const width = Dimensions.get('window');
 
@@ -34,6 +35,8 @@ const EditProfile = ({navigation}) => {
   const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState();
   const [password, setPassword] = useState('');
+
+  const [newProfilePicture, setNewProfilePicture] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -100,7 +103,7 @@ const EditProfile = ({navigation}) => {
         firstName,
         lastName,
         bio,
-        profilePicture,
+        profilePicture: newProfilePicture ? await uploadprofilePicture() : '',
         location,
         password,
         email,
@@ -108,6 +111,8 @@ const EditProfile = ({navigation}) => {
       .then(response => {
         Alert.alert(response.data.message);
         setIsPosting(false);
+        setPassword('');
+        setModalVisible(false);
       })
       .catch(err => {
         setIsPosting(false);
@@ -126,13 +131,52 @@ const EditProfile = ({navigation}) => {
       mediaType: 'photo',
     })
       .then(image => {
-        setProfilePicture(image.path);
+        setNewProfilePicture(image.path);
       })
       .catch(error => {
         console.log(error);
         return null;
       });
   }
+
+  const uploadprofilePicture = async () => {
+    if (!newProfilePicture) {
+      return null;
+    } else {
+      const uploadUri = newProfilePicture;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+      setIsPosting(true);
+      setTransferred(0);
+
+      const storageRef = storage().ref(`photos/${filename}`);
+      const task = storageRef.putFile(uploadUri);
+
+      // Set transferred state
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+
+        setTransferred(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+            10000,
+        );
+      });
+
+      try {
+        await task;
+
+        const url = await storageRef.getDownloadURL();
+
+        setIsPosting(false);
+        return url;
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    }
+  };
 
   const uploadImage = async () => {
     if (profilePicture == null) {
@@ -199,6 +243,8 @@ const EditProfile = ({navigation}) => {
             source={{
               uri: profilePicture
                 ? profilePicture
+                : newProfilePicture
+                ? newProfilePicture
                 : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             }}
           />

@@ -29,6 +29,7 @@ export default function Settings({navigation}) {
   const [profilePicture, setProfilePicture] = useState();
 
   const [userCredentials, setUserCredentials] = useState('');
+  const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -38,7 +39,9 @@ export default function Settings({navigation}) {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [(navigation, loading)]);
+
+  navigation.addListener('focus', () => setLoading(!loading));
 
   const getUserData = async () => {
     setLoadingData(true);
