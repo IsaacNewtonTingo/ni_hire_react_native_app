@@ -551,18 +551,22 @@ export default function ServiceProviderProfile({route, navigation}) {
           </Text>
         )}
 
-        {isSaved == true ? (
-          <TouchableOpacity
-            onPress={unsaveServiceProvider}
-            style={{position: 'absolute', right: 20, top: 10}}>
-            <AntDesign name="heart" size={20} color="#00ccff" />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={saveServiceProvider}
-            style={{position: 'absolute', right: 20, top: 10}}>
-            <AntDesign name="hearto" size={20} color="#00ccff" />
-          </TouchableOpacity>
+        {_id != route.params.userID && (
+          <>
+            {isSaved == true ? (
+              <TouchableOpacity
+                onPress={unsaveServiceProvider}
+                style={{position: 'absolute', right: 20, top: 10}}>
+                <AntDesign name="heart" size={20} color="#00ccff" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={saveServiceProvider}
+                style={{position: 'absolute', right: 20, top: 10}}>
+                <AntDesign name="hearto" size={20} color="#00ccff" />
+              </TouchableOpacity>
+            )}
+          </>
         )}
       </TouchableOpacity>
 

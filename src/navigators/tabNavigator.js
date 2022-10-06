@@ -11,6 +11,7 @@ import HomeStack from './homeStack';
 import ProfileStack from './profileStack';
 import Discover from '../screens/discover';
 import PostService from '../screens/postService';
+import Saved from '../screens/saved';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,6 +72,18 @@ export default function TabNavigator() {
       />
 
       <Tab.Screen
+        name="Saved"
+        component={Saved}
+        options={{
+          tabBarLabel: '',
+          headerTitle: 'Saved items',
+          tabBarIcon: ({focused, color, size}) => {
+            return <Feather name="bookmark" size={30} color={color} />;
+          },
+        }}
+      />
+
+      <Tab.Screen
         name="ProfileStack"
         component={ProfileStack}
         options={{
@@ -83,21 +96,6 @@ export default function TabNavigator() {
           },
         }}
       />
-
-      {/*
-      
-      <Tab.Screen
-        name="Saved"
-        component={Saved}
-        options={{
-          tabBarLabel: '',
-          headerTitle: 'Saved items',
-          tabBarIcon: ({focused, color, size}) => {
-            return <Feather name="bookmark" size={30} color={color} />;
-          },
-        }}
-      />
-       */}
     </Tab.Navigator>
   );
 }

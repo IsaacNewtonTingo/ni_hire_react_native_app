@@ -11,50 +11,65 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function JobMembers({navigation}) {
+import {CredentialsContext} from '../components/credentials-context';
+import axios from 'axios';
+
+export default function Saved({navigation}) {
   const [noData, setNoData] = useState(false);
   const [savedList, setSavedList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingD, setLoadingD] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState('');
+  const [loadingData, setLoadingData] = useState(false);
 
-  navigation.addListener('focus', () => setLoadingD(!loadingD));
+  const {storedCredentials, setStoredCredentials} =
+    useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
-  function getCurrentUser() {
-    const currentUserId = auth().currentUser.uid;
-    setCurrentUserId(currentUserId);
-  }
+  navigation.addListener('focus', () => setLoading(!loading));
 
   useEffect(() => {
-    getCurrentUser();
     getSavedJobs();
-  }, [(navigation, loadingD)]);
+  }, [(navigation, loading)]);
 
-  async function addToJobViewedBy({jobID, jobUserID}) {
-    await firestore()
-      .collection('Services')
-      .doc(jobID)
-      .update({
-        recentViews: firestore.FieldValue.arrayUnion(currentUserId),
+  async function getSavedJobs() {
+    setLoadingData(true);
+    const url = process.env.GET_SAVED_SERVICES + _id;
+
+    await axios
+      .get(url)
+      .then(response => {
+        if (response.data.length > 0) {
+          setSavedList(response.data);
+          setLoadingData(false);
+        } else {
+          setNoData(true);
+          setLoadingData(false);
+        }
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
+        setLoadingData(false);
       });
+  }
 
-    await firestore()
-      .collection('Services')
-      .doc(jobID)
-      .collection('JobUsers')
-      .doc(jobUserID)
-      .update({
-        jobViewedBy: firestore.FieldValue.arrayUnion(currentUserId),
+  async function Unsave({serviceProviderID}) {
+    setLoadingData(true);
+    const url =
+      process.env.DELETE_SAVED_SERVICE +
+      serviceProviderID +
+      '?currentUserID=' +
+      _id;
+    await axios
+      .delete(url)
+      .then(response => {
+        console.log(response.data);
+        getSavedJobs();
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
   }
 
@@ -62,52 +77,7 @@ export default function JobMembers({navigation}) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  function getSavedJobs() {
-    setLoading(true);
-    setNoData(true);
-    const subscriber = firestore()
-      .collectionGroup('JobUsers')
-      .where('savedBy', 'array-contains', currentUserId)
-      .get()
-      .then(querySnapshot => {
-        const users = [];
-
-        if (querySnapshot.size <= 0) {
-          setNoData(true);
-          setLoading(false);
-        } else {
-          querySnapshot.forEach(documentSnapshot => {
-            users.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.data().uniqueID,
-            });
-          });
-          setSavedList(users);
-          setLoading(false);
-          setNoData(false);
-        }
-      });
-    return () => subscriber();
-  }
-
-  async function Unsave({jobUserID, jobID}) {
-    await firestore()
-      .collection('Services')
-      .doc(jobID)
-      .collection('JobUsers')
-      .doc(jobUserID)
-      .update({
-        savedBy: firestore.FieldValue.arrayRemove(currentUserId),
-      })
-      .then(() => {
-        getSavedJobs();
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  if (loading) {
+  if (loadingData === true) {
     return (
       <View
         style={{
@@ -134,16 +104,27 @@ export default function JobMembers({navigation}) {
               <>
                 <TouchableOpacity
                   onPress={() => {
-                    addToJobViewedBy({
-                      jobID: item.jobTitle,
-                      jobUserID: item.jobUserID,
-                    });
                     navigation.navigate('ServiceProviderProfile', {
-                      userId: item.jobUserID,
-                      jobId: item.jobTitle,
+                      serviceProviderID: item.provider._id,
+                      userID: item.provider.provider._id,
+                      firstName: item.provider.provider.firstName,
+                      lastName: item.provider.provider.lastName,
+                      email: item.provider.provider.email,
+                      phoneNumber: item.provider.provider.phoneNumber,
+                      profilePicture: item.provider.provider.profilePicture,
+                      location: item.provider.provider.location,
+                      bio: item.provider.provider.bio,
+                      image1: item.provider.image1,
+                      image2: item.provider.image2,
+                      image3: item.provider.image3,
+                      rate: item.provider.rate,
+                      rating: item.provider.rating,
+                      description: item.provider.description,
+                      isPromoted: item.provider.isPromoted,
+                      serviceName: item.provider.service.serviceName,
                     });
                   }}
-                  key={item.id}
+                  key={item._id}
                   style={styles.card}>
                   <View
                     style={{
@@ -153,7 +134,9 @@ export default function JobMembers({navigation}) {
                     }}>
                     <Image
                       source={{
-                        uri: 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                        uri: item.provider.image1
+                          ? item.provider.image1
+                          : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
                       }}
                       style={{width: '100%', height: '100%'}}
                     />
@@ -173,7 +156,7 @@ export default function JobMembers({navigation}) {
                           fontSize: 16,
                           marginRight: 10,
                         }}>
-                        {item.name}
+                        {item.provider.provider.firstName}
                       </Text>
 
                       <AntDesign name="star" size={15} color="orange" />
@@ -184,14 +167,13 @@ export default function JobMembers({navigation}) {
                           color: 'orange',
                           fontWeight: '700',
                         }}>
-                        {item.rating.toFixed(1)}
+                        {item.provider.rating.toFixed(1)}
                       </Text>
 
                       <AntDesign
                         onPress={() =>
                           Unsave({
-                            jobID: item.jobTitle,
-                            jobUserID: item.jobUserID,
+                            serviceProviderID: item.provider._id,
                           })
                         }
                         style={{position: 'absolute', right: 0}}
@@ -207,7 +189,7 @@ export default function JobMembers({navigation}) {
                         fontWeight: '700',
                         fontSize: 12,
                       }}>
-                      {Capitalize(item.jobTitle)}
+                      {Capitalize(item.provider.service.serviceName)}
                     </Text>
 
                     <Text
@@ -215,7 +197,7 @@ export default function JobMembers({navigation}) {
                         color: '#a6a6a6',
                         fontSize: 10,
                       }}>
-                      {item.description.slice(0, 85) + '...'}
+                      {item.provider.description.slice(0, 85) + '...'}
                     </Text>
 
                     <View
@@ -230,7 +212,7 @@ export default function JobMembers({navigation}) {
                           fontSize: 12,
                           fontWeight: '700',
                         }}>
-                        {item.location}
+                        {item.provider.provider.location}
                       </Text>
 
                       <Text
@@ -239,7 +221,7 @@ export default function JobMembers({navigation}) {
                           fontWeight: '700',
                           fontSize: 12,
                         }}>
-                        KSH. {item.rate}
+                        KSH. {item.provider.rate}
                       </Text>
                     </View>
                   </View>
