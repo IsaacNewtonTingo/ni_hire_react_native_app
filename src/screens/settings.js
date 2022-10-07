@@ -192,6 +192,18 @@ export default function Settings({navigation}) {
 
         <View style={styles.line} />
 
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Support')}
+          style={styles.iconAndTextContainer}>
+          <View style={styles.rightIconContainer}>
+            <Entypo name="bug" color="white" size={25} />
+            <Text style={styles.generalTexts}>Report bug</Text>
+          </View>
+          <MaterialIcons name="keyboard-arrow-right" color="white" size={30} />
+        </TouchableOpacity>
+
+        <View style={styles.line} />
+
         <TouchableOpacity onPress={logout} style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <MaterialIcons name="logout" color="white" size={25} />

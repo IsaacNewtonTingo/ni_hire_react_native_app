@@ -129,11 +129,9 @@ const Home = ({navigation}) => {
 
   async function getRecentlyViewed() {
     const url = process.env.GET_RECENTLY_VIEWED + _id;
-    console.log(url);
     await axios
       .get(url)
       .then(response => {
-        console.log(response.data);
         setLoadingData(false);
         if (response.data.length < 1) {
           setNoRecentlyViewed(true);

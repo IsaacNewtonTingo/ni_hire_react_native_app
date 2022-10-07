@@ -55,35 +55,22 @@ const Discover = ({navigation}) => {
   let onEndReachedCalledDuringMomentum = false;
   const [lastDoc, setLastDoc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isMoreLoading, setIsMoreLoading] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [reachedEnd, setReachedEnd] = useState(false);
 
   const ref = useRef();
 
-  function handleXPress() {
-    ref.current?.setAddressText('');
-    // getAllUsersList();
-    setNewLocation('');
-    setNoDataInArea(false);
-  }
-
-  function onSearch(text) {
-    if (text) {
-      setSearching(true);
-      const temp = text.toLowerCase();
-
-      const tempList = servicesData.filter(item => {
-        if (item.name.match(temp)) return item.name;
-      });
-      setFiltered(tempList);
-    } else {
-      setSearching(false);
-      setFiltered(servicesData);
-    }
-  }
+  let pageNumber = 0;
+  const limit = 10;
 
   useEffect(() => {
     getFeaturedServiceProviders();
     getAllServiceProviders();
+
+    return () => {
+      pageNo = 0;
+      setReachedEnd(false);
+    };
   }, [(navigation, loading)]);
 
   navigation.addListener('focus', () => setLoading(!loading));
@@ -107,16 +94,12 @@ const Discover = ({navigation}) => {
   }
 
   async function getAllServiceProviders() {
-    const url = process.env.GET_SERVICE_PROVIDERS;
+    const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
     await axios
       .get(url)
       .then(response => {
-        if (response.data.status == 'Failed') {
-          setLoadingData(false);
-        } else {
-          setAllServiceProviders(response.data);
-          setLoadingData(false);
-        }
+        setAllServiceProviders(response.data.serviceProviders);
+        setLoadingData(false);
       })
       .catch(err => {
         console.log(err);
@@ -124,11 +107,26 @@ const Discover = ({navigation}) => {
       });
   }
 
-  async function getMore() {}
+  async function getMorePosts() {
+    pageNumber += 1;
 
-  function handleLocationPress({newLocation}) {}
+    const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
 
-  function findKeyAndSearch({item}) {}
+    if (reachedEnd == true) {
+      return;
+    } else {
+      await axios.get(url).then(response => {
+        if (response.data.serviceProviderCount === allServiceProviders.length) {
+          setReachedEnd(true);
+        } else {
+          setAllServiceProviders([
+            ...allServiceProviders,
+            ...response.data.serviceProviders,
+          ]);
+        }
+      });
+    }
+  }
 
   async function addToJobViewedBy({userID, serviceProviderID}) {
     const url = process.env.ADD_TO_MY_VIEWS;
@@ -150,43 +148,25 @@ const Discover = ({navigation}) => {
     }
   }
 
-  const onRefresh = () => {
-    setTimeout(() => {
-      getAllUsersList();
-    }, 1000);
-  };
-
-  const renderFooter = () => {
-    if (!isMoreLoading) return true;
-
+  if (loadingData == true) {
     return (
-      <ActivityIndicator
-        size="small"
-        color={'#D83E64'}
-        style={{marginBottom: 10}}
-      />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
     );
-  };
-
-  // if (loadingData == true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       {/* <View style={styles.topAndViewContainer}>
         <Text style={styles.topText}>Featured</Text>
 
@@ -341,6 +321,10 @@ const Discover = ({navigation}) => {
       </View> */}
 
       <FlatList
+        onEndReached={() => {
+          getMorePosts();
+        }}
+        onEndReachedThreshold={0}
         data={allServiceProviders}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -490,8 +474,24 @@ const Discover = ({navigation}) => {
             </View>
           </TouchableOpacity>
         )}
+        ListFooterComponent={() => {
+          return reachedEnd ? (
+            <Text
+              style={{
+                fontWeight: '700',
+                color: '#d9d9d9',
+                textAlign: 'center',
+                padding: 15,
+                marginBottom: 100,
+              }}>
+              No more data
+            </Text>
+          ) : (
+            <ActivityIndicator size="large" color="white" />
+          );
+        }}
       />
-    </ScrollView>
+    </View>
   );
 };
 

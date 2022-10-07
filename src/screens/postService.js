@@ -1276,9 +1276,11 @@ const PostService = () => {
       Alert.alert('Provide a brief description');
     } else if (!rate) {
       Alert.alert('Provide your rate');
-    } else if (!image1 || !image2 || !image3) {
-      Alert.alert('3 images are required');
-    } else if (description.length <= 100) {
+    }
+    // else if (!image1 || !image2 || !image3) {
+    //   Alert.alert('3 images are required');
+    // }
+    else if (description.length <= 100) {
       Alert.alert('Add more details to your description');
     } else {
       setIsSubmitting(true);

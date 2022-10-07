@@ -60,6 +60,7 @@ export default function Profile({route, navigation}) {
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
+  const {_id} = storedCredentials;
 
   const scrollSwitching = useRef();
   const animation = useRef(new Animated.Value(0)).current;
@@ -139,8 +140,6 @@ export default function Profile({route, navigation}) {
         setLoadingData(false);
       });
   }
-
-  async function addToJobViewedBy({jobID, userID}) {}
 
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -536,7 +535,7 @@ export default function Profile({route, navigation}) {
                 <>
                   {reviewList.map(item => (
                     <View
-                      key={item.key}
+                      key={item._id}
                       style={{
                         backgroundColor: '#1a1a1a',
                         width: width - 40,
@@ -561,7 +560,8 @@ export default function Profile({route, navigation}) {
                             fontWeight: '700',
                             marginRight: 10,
                           }}>
-                          {item.whoRated}
+                          {item.whoReviewed.firstName}{' '}
+                          {item.whoReviewed.lastName}
                         </Text>
 
                         <AntDesign name="star" size={15} color="orange" />
@@ -572,11 +572,11 @@ export default function Profile({route, navigation}) {
                             marginLeft: 10,
                             fontWeight: '700',
                           }}>
-                          {item.myStars}
+                          {item.rating}
                         </Text>
                       </View>
 
-                      {currentUserID === item.whoRatedID && (
+                      {_id === item.whoReviewed._id && (
                         <TouchableOpacity
                           style={{
                             position: 'absolute',
@@ -595,7 +595,7 @@ export default function Profile({route, navigation}) {
                           color: 'white',
                           fontSize: 16,
                         }}>
-                        {item.comment}
+                        {item.reviewMessage}
                       </Text>
 
                       <Text

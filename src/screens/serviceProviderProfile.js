@@ -90,6 +90,14 @@ export default function ServiceProviderProfile({route, navigation}) {
     getReviewList();
     getNumberOfViews();
     checkIfSaved();
+
+    return () => {
+      getServiceProviderData();
+      getOtherServices();
+      getReviewList();
+      getNumberOfViews();
+      checkIfSaved();
+    };
   }, [(loading, navigation)]);
 
   async function getServiceProviderData() {
@@ -162,6 +170,7 @@ export default function ServiceProviderProfile({route, navigation}) {
   }
 
   async function getNumberOfViews() {
+    setLoadingData(true);
     const url =
       process.env.GET_NUMBER_OF_VIEWS +
       serviceProviderID +
