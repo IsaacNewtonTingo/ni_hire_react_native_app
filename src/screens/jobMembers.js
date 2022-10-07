@@ -88,7 +88,7 @@ export default function JobMembers({route, navigation}) {
       await axios
         .post(url, {
           serviceProviderID,
-          userID,
+          userID: _id,
         })
         .then(response => {
           console.log(response.data);

@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
+import Foundation from 'react-native-vector-icons/Foundation';
 
 import axios from 'axios';
 
@@ -113,7 +114,7 @@ const Home = ({navigation}) => {
       await axios
         .post(url, {
           serviceProviderID,
-          userID,
+          userID: _id,
         })
         .then(response => {
           console.log(response.data);
@@ -128,12 +129,13 @@ const Home = ({navigation}) => {
 
   async function getRecentlyViewed() {
     const url = process.env.GET_RECENTLY_VIEWED + _id;
-
+    console.log(url);
     await axios
       .get(url)
       .then(response => {
+        console.log(response.data);
         setLoadingData(false);
-        if (response.data.status == 'Failed') {
+        if (response.data.length < 1) {
           setNoRecentlyViewed(true);
           setLoadingData(false);
         } else {
@@ -182,22 +184,22 @@ const Home = ({navigation}) => {
       });
   }
 
-  // if (loadingData == true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData == true) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
@@ -340,7 +342,7 @@ const Home = ({navigation}) => {
                       : item.firstName.slice(0, 15) + '...'}
                   </Text>
 
-                  <AntDesign name="star" size={12} color="orange" />
+                  <Foundation name="crown" size={20} color="orange" />
                 </View>
 
                 <Text

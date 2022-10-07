@@ -29,7 +29,7 @@ import {CredentialsContext} from '../components/credentials-context';
 import axios from 'axios';
 import storage from '@react-native-firebase/storage';
 
-const width = Dimensions.get('window');
+const {width} = Dimensions.get('window').width;
 
 const EditProfile = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -1123,7 +1123,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
     backgroundColor: 'rgba(0,0,0,0.9)',
   },
   modalView: {
@@ -1131,7 +1130,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     alignItems: 'center',
-    width: 350,
+    width: '90%',
     justifyContent: 'center',
     shadowColor: 'white',
     shadowOffset: {
