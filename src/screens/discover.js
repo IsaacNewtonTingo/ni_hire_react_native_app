@@ -22,7 +22,13 @@ const Discover = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [allServiceProviders, setAllServiceProviders] = useState([]);
-  const [featuredServiceProviders, setFeaturedServiceProviders] = useState([]);
+
+  const [location, setLocation] = useState('');
+  const [serviceName, setServiceName] = useState('');
+
+  const [rate, setRate] = useState('1');
+  const [rating, setRating] = useState('-1');
+  const [isPromoted, setIsPromoted] = useState('-1');
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
@@ -38,7 +44,7 @@ const Discover = ({navigation, route}) => {
   const limit = 20;
 
   useEffect(() => {
-    getFeaturedServiceProviders();
+    // getFeaturedServiceProviders();
     getAllServiceProviders();
 
     return () => {
@@ -53,24 +59,27 @@ const Discover = ({navigation, route}) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  async function getFeaturedServiceProviders() {
-    setLoadingData(true);
-    await axios
-      .get(process.env.GET_FEATURED_SERVICE_PROVIDERS)
-      .then(response => {
-        setFeaturedServiceProviders(response.data);
-        setLoadingData(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoadingData(false);
-      });
-  }
+  // async function getFeaturedServiceProviders() {
+  //   setLoadingData(true);
+  //   await axios
+  //     .get(process.env.GET_FEATURED_SERVICE_PROVIDERS)
+  //     .then(response => {
+  //       setFeaturedServiceProviders(response.data);
+  //       setLoadingData(false);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       setLoadingData(false);
+  //     });
+  // }
 
   async function getAllServiceProviders() {
     const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
+    const filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
+
+    console.log(filterURL);
     await axios
-      .get(url)
+      .get(filterURL)
       .then(response => {
         setAllServiceProviders(response.data.serviceProviders);
         setLoadingData(false);
@@ -141,9 +150,9 @@ const Discover = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <FlatList
-        onEndReached={() => {
-          getMorePosts();
-        }}
+        // onEndReached={() => {
+        //   getMorePosts();
+        // }}
         onEndReachedThreshold={0}
         data={allServiceProviders}
         renderItem={({item}) => (
@@ -294,22 +303,22 @@ const Discover = ({navigation, route}) => {
             </View>
           </TouchableOpacity>
         )}
-        ListFooterComponent={() => {
-          return reachedEnd ? (
-            <Text
-              style={{
-                fontWeight: '700',
-                color: '#d9d9d9',
-                textAlign: 'center',
-                padding: 15,
-                marginBottom: 100,
-              }}>
-              No more data
-            </Text>
-          ) : (
-            <ActivityIndicator size="large" color="white" />
-          );
-        }}
+        // ListFooterComponent={() => {
+        //   return reachedEnd ? (
+        //     <Text
+        //       style={{
+        //         fontWeight: '700',
+        //         color: '#d9d9d9',
+        //         textAlign: 'center',
+        //         padding: 15,
+        //         marginBottom: 100,
+        //       }}>
+        //       No more data
+        //     </Text>
+        //   ) : (
+        //     <ActivityIndicator size="large" color="white" />
+        //   );
+        // }}
       />
     </View>
   );

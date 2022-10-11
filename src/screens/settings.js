@@ -21,6 +21,8 @@ import {CredentialsContext} from '../components/credentials-context';
 
 import axios from 'axios';
 
+import Foundation from 'react-native-vector-icons/Foundation';
+
 // import files from '../assets/filesToShare/filesBase64';
 
 export default function Settings({navigation}) {
@@ -138,15 +140,15 @@ export default function Settings({navigation}) {
           onPress={() => navigation.navigate('PromoteProfile')}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
-            <Octicons name="graph" color="white" size={20} />
-            <Text style={styles.generalTexts}>Promote your profile</Text>
+            <Foundation name="crown" size={30} color="white" />
+            <Text style={styles.generalTexts}>Join premium</Text>
           </View>
           <MaterialIcons name="keyboard-arrow-right" color="white" size={30} />
         </TouchableOpacity>
 
         <View style={styles.line} />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('PromoteService')}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
@@ -156,7 +158,7 @@ export default function Settings({navigation}) {
           <MaterialIcons name="keyboard-arrow-right" color="white" size={30} />
         </TouchableOpacity>
 
-        <View style={styles.line} />
+        <View style={styles.line} /> */}
 
         {/* <TouchableOpacity style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
