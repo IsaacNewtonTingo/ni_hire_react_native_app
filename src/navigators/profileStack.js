@@ -7,6 +7,7 @@ import Settings from '../screens/settings';
 import Support from '../screens/support';
 import PromoteService from '../screens/promoteService';
 import PromoteProfile from '../screens/promoteProfile';
+import BugReport from '../screens/bug-report';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +70,15 @@ export default function ProfileStack() {
         }}
         name="Support"
         component={Support}
+      />
+
+      <Stack.Screen
+        options={{
+          headerTintColor: 'black',
+          headerTitle: 'Report bug',
+        }}
+        name="BugReport"
+        component={BugReport}
       />
     </Stack.Navigator>
   );

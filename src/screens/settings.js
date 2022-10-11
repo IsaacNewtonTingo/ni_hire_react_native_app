@@ -193,7 +193,7 @@ export default function Settings({navigation}) {
         <View style={styles.line} />
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('Support')}
+          onPress={() => navigation.navigate('BugReport')}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <Entypo name="bug" color="white" size={25} />
