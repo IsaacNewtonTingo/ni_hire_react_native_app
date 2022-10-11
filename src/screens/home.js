@@ -340,7 +340,7 @@ const Home = ({navigation}) => {
                       : item.firstName.slice(0, 15) + '...'}
                   </Text>
 
-                  <Foundation name="crown" size={20} color="orange" />
+                  <Foundation name="crown" size={16} color="orange" />
                 </View>
 
                 <Text

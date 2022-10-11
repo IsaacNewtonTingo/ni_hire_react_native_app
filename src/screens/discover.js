@@ -3,58 +3,32 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   FlatList,
   Dimensions,
   ActivityIndicator,
-  Alert,
-  Button,
-  RefreshControl,
 } from 'react-native';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 
-import LinearGradient from 'react-native-linear-gradient';
-
-const servicesData = require('../assets/data/services.json');
-const filterData = require('../assets/data/filterOptions.json');
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import axios from 'axios';
 import {CredentialsContext} from '../components/credentials-context';
 
 const {width} = Dimensions.get('window');
 
-const Discover = ({navigation}) => {
+const Discover = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [noFeaturedServices, setNoFeaturedServices] = useState(false);
-  const [featuredServiceProviders, setFeaturedServiceProviders] = useState([]);
   const [allServiceProviders, setAllServiceProviders] = useState([]);
-
-  const [noDataInArea, setNoDataInArea] = useState(false);
-  const [noData, setNoData] = useState(false);
-  const [newLocation, setNewLocation] = useState('');
-
-  const [filtered, setFiltered] = useState(servicesData);
-  const [searching, setSearching] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [displayX, setDisplayX] = useState(false);
+  const [featuredServiceProviders, setFeaturedServiceProviders] = useState([]);
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
 
   const {_id} = storedCredentials;
 
-  let onEndReachedCalledDuringMomentum = false;
-  const [lastDoc, setLastDoc] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [reachedEnd, setReachedEnd] = useState(false);
 
@@ -109,7 +83,6 @@ const Discover = ({navigation}) => {
 
   async function getMorePosts() {
     pageNumber += 1;
-
     const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
 
     if (reachedEnd == true) {
@@ -167,159 +140,6 @@ const Discover = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.topAndViewContainer}>
-        <Text style={styles.topText}>Featured</Text>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AllFeaturedServiceProviders')}>
-          <Text style={styles.viewAll}>View all</Text>
-        </TouchableOpacity>
-      </View>
-
-      <FlatList
-        style={{height: 300}}
-        horizontal
-        data={featuredServiceProviders}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => {
-              addToJobViewedBy({
-                serviceProviderID: item._id,
-                userID: item.provider._id,
-              });
-              navigation.navigate('ServiceProviderProfile', {
-                serviceProviderID: item._id,
-                userID: item.provider._id,
-                firstName: item.provider.firstName,
-                lastName: item.provider.lastName,
-                email: item.provider.email,
-                phoneNumber: item.provider.phoneNumber,
-                profilePicture: item.provider.profilePicture,
-                location: item.provider.location,
-                image1: item.image1,
-                image2: item.image2,
-                image3: item.image3,
-                rate: item.rate,
-                rating: item.rating,
-                description: item.description,
-                isPromoted: item.isPromoted,
-                serviceName: item.service.serviceName,
-              });
-            }}
-            key={item._id}
-            style={styles.card}>
-            <View
-              style={{
-                backgroundColor: '#333333',
-                height: '100%',
-                width: 120,
-              }}>
-              <Image
-                source={{
-                  uri: item.image1
-                    ? item.image1
-                    : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-                }}
-                style={{width: '100%', height: '100%'}}
-              />
-            </View>
-
-            <View style={{flex: 1, margin: 10, justifyContent: 'center'}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  position: 'absolute',
-                  top: 0,
-                  width: '100%',
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: '700',
-                    fontSize: 16,
-                    marginRight: 10,
-                  }}>
-                  {item.provider.firstName.length <= 15
-                    ? item.provider.firstName
-                    : item.provider.firstName.slice(0, 15) + '...'}
-                </Text>
-
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <AntDesign name="star" size={15} color="orange" />
-
-                  <Text
-                    style={{
-                      marginLeft: 10,
-                      color: 'orange',
-                      fontWeight: '700',
-                    }}>
-                    {item.rating.toFixed(1)}
-                  </Text>
-                </View>
-              </View>
-
-              <Text
-                style={{
-                  color: '#cc0066',
-                  fontWeight: '700',
-                  fontSize: 12,
-                }}>
-                {item.service.serviceName.length <= 30
-                  ? item.service.serviceName
-                  : item.service.serviceName.slice(0, 30) + '...'}
-              </Text>
-
-              <Text
-                style={{
-                  color: '#a6a6a6',
-                  fontSize: 10,
-                }}>
-                {item.description.length <= 65
-                  ? item.description
-                  : item.description.slice(0, 65) + '...'}
-              </Text>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginTop: 10,
-                  position: 'absolute',
-                  bottom: 0,
-                  width: '100%',
-                }}>
-                <Text
-                  style={{
-                    color: '#33cccc',
-                    fontSize: 12,
-                    fontWeight: '700',
-                    marginRight: 20,
-                  }}>
-                  {item.provider.location.length <= 15
-                    ? item.provider.location
-                    : item.provider.location.slice(0, 15) + '...'}
-                </Text>
-
-                <Text
-                  style={{
-                    color: '#ff6600',
-                    fontWeight: '700',
-                    fontSize: 12,
-                  }}>
-                  KSH. {item.rate}
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-      /> */}
-
-      {/* <View style={styles.topAndViewContainer}>
-        <Text style={styles.topText}>Others</Text>
-      </View> */}
-
       <FlatList
         onEndReached={() => {
           getMorePosts();
