@@ -35,7 +35,7 @@ const Discover = ({navigation, route}) => {
   const ref = useRef();
 
   let pageNumber = 0;
-  const limit = 10;
+  const limit = 20;
 
   useEffect(() => {
     getFeaturedServiceProviders();

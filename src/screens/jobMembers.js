@@ -6,25 +6,13 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  TextInput,
-  Modal,
-  Pressable,
-  Alert,
 } from 'react-native';
 import React, {useState, useEffect, useRef, useContext} from 'react';
 
-import LinearGradient from 'react-native-linear-gradient';
-
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import DropDownPicker from 'react-native-dropdown-picker';
-
-import Feather from 'react-native-vector-icons/Feather';
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Octicons from 'react-native-vector-icons/Octicons';
-import axios from 'axios';
+import Foundation from 'react-native-vector-icons/Foundation';
 
-const filterData = require('../assets/data/filterOptions.json');
+import axios from 'axios';
 
 import {CredentialsContext} from '../components/credentials-context';
 
@@ -38,9 +26,6 @@ export default function JobMembers({route, navigation}) {
   const [loadingData, setLoadingData] = useState(true);
 
   const serviceName = route.params.serviceName.toLowerCase();
-  const [currentUserId, setCurrentUserId] = useState('');
-
-  const ref = useRef();
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
@@ -53,14 +38,9 @@ export default function JobMembers({route, navigation}) {
     getCurrentUser();
     getUsers();
     setNewLocation('');
-  }, []);
+  }, [(navigation, loading)]);
 
-  function handleXPress() {
-    // ref.current?.setAddressText('');
-    // getUsers();
-    // setNewLocation('');
-    // setNoDataInArea(false);
-  }
+  navigation.addListener('focus', () => setLoading(!loading));
 
   async function getUsers() {
     const url = process.env.GET_USERS_OF_A_SERVICE + serviceName;
@@ -105,26 +85,22 @@ export default function JobMembers({route, navigation}) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  function handleLocationPress({newLocation}) {}
-
-  function findKeyAndSearch({item}) {}
-
-  // if (loading) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  if (loadingData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -185,19 +161,30 @@ export default function JobMembers({route, navigation}) {
                       marginBottom: 10,
                       justifyContent: 'space-between',
                     }}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontWeight: '700',
-                        fontSize: 16,
-                        marginRight: 10,
-                      }}>
-                      {item.provider.firstName.length <= 15
-                        ? Capitalize(item.provider.firstName)
-                        : Capitalize(
-                            item.provider.firstName.slice(0, 15) + '...',
-                          )}
-                    </Text>
+                    <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: '700',
+                          fontSize: 16,
+                          marginRight: 10,
+                        }}>
+                        {item.provider.firstName.length <= 10
+                          ? Capitalize(item.provider.firstName)
+                          : Capitalize(
+                              item.provider.firstName.slice(0, 10) + '...',
+                            )}
+                      </Text>
+
+                      {item.isPromoted == true && (
+                        <Foundation
+                          style={{marginLeft: 10}}
+                          name="crown"
+                          size={20}
+                          color="orange"
+                        />
+                      )}
+                    </View>
 
                     <View
                       style={{

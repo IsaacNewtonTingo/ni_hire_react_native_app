@@ -57,8 +57,8 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   const [disabled, setDisabled] = useState(false);
 
-  const serviceProviderID = route.params.serviceProviderID;
-  const userID = route.params.userID;
+  let serviceProviderID = route.params.serviceProviderID;
+  let userID = route.params.userID;
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
@@ -180,6 +180,7 @@ export default function ServiceProviderProfile({route, navigation}) {
       .get(url)
       .then(response => {
         setServiceViews(response.data.data.length);
+        setLoadingData(false);
       })
       .catch(err => {
         console.log(err);
@@ -830,7 +831,21 @@ export default function ServiceProviderProfile({route, navigation}) {
         )}
 
         {jobsList.map(item => (
-          <TouchableOpacity style={styles.jobTitleContainer} key={item._id}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('PublicProfile', {
+                userID: userID,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                bio: bio,
+                location: location,
+                profilePicture: profilePicture,
+              });
+            }}
+            style={styles.jobTitleContainer}
+            key={item._id}>
             <Text
               style={{
                 fontWeight: '700',
