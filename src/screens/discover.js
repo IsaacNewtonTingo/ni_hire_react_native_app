@@ -26,21 +26,21 @@ const {width} = Dimensions.get('window');
 const Discover = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [allServiceProviders, setAllServiceProviders] = useState([]);
+  let [allServiceProviders, setAllServiceProviders] = useState([]);
 
-  const [location, setLocation] = useState('');
-  const [serviceName, setServiceName] = useState('');
+  let [location, setLocation] = useState('');
+  let [serviceName, setServiceName] = useState('');
 
-  const [rate, setRate] = useState('1');
-  const [rating, setRating] = useState('-1');
-  const [isPromoted, setIsPromoted] = useState('-1');
+  let [rate, setRate] = useState('1');
+  let [rating, setRating] = useState('-1');
+  let [isPromoted, setIsPromoted] = useState('-1');
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
 
   const {_id} = storedCredentials;
 
-  const [busy, setBusy] = useState(false);
+  const [noData, setNoData] = useState(true);
   const [reachedEnd, setReachedEnd] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -71,14 +71,24 @@ const Discover = ({navigation, route}) => {
   }
 
   async function getAllServiceProviders() {
+    setLoadingData(true);
     // const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
-    const filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
-
+    let filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
+    console.log(
+      `Location:${location},Service:${serviceName},Rate:${rate},Rating:${rating},Is promoted:${isPromoted}`,
+    );
     await axios
       .get(filterURL)
       .then(response => {
-        setAllServiceProviders(response.data.serviceProviders);
-        setLoadingData(false);
+        if (response.data.serviceProviders.length <= 0) {
+          setReachedEnd(true);
+          setLoadingData(false);
+          setNoData(true);
+        } else {
+          setAllServiceProviders(response.data.serviceProviders);
+          setLoadingData(false);
+          setNoData(false);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -129,6 +139,8 @@ const Discover = ({navigation, route}) => {
   const [locationTitle, setlocationTitle] = useState(null);
   const [openlocation, setOpenlocation] = useState(false);
   const [itemslocation, setItemslocation] = useState([
+    {label: 'all', value: '', category: '630e24b284e428f126a46dfd'},
+
     {
       value: 'Nairobi',
       lat: '-1.2864',
@@ -717,6 +729,7 @@ const Discover = ({navigation, route}) => {
   const [serviceTitle, setServiceTitle] = useState(null);
   const [openService, setOpenService] = useState(false);
   const [itemsService, setItemsService] = useState([
+    {label: 'all', value: '', category: '630e24b284e428f126a46dfd'},
     {label: 'actor', value: 'actor', category: '630e24b284e428f126a46dfd'},
     {
       label: 'aesthetician',
@@ -1907,10 +1920,6 @@ const Discover = ({navigation, route}) => {
     },
   ]);
 
-  function selectedItem(item) {
-    setServiceName(item.label);
-  }
-
   if (loadingData == true) {
     return (
       <View
@@ -1930,177 +1939,190 @@ const Discover = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        onEndReached={() => {
-          getMorePosts();
-        }}
-        onEndReachedThreshold={0}
-        data={allServiceProviders}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => {
-              addToJobViewedBy({
-                serviceProviderID: item._id,
-                userID: item.provider._id,
-              });
+      {noData === true ? (
+        <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+          <Text
+            style={{
+              color: 'white',
+              fontWeight: '700',
+              textAlign: 'center',
+            }}>
+            No data found
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          onEndReached={() => {
+            getMorePosts();
+          }}
+          onEndReachedThreshold={0}
+          data={allServiceProviders}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                addToJobViewedBy({
+                  serviceProviderID: item._id,
+                  userID: item.provider._id,
+                });
 
-              navigation.navigate('ServiceProviderProfile', {
-                serviceProviderID: item._id,
-                userID: item.provider._id,
-                firstName: item.provider.firstName,
-                lastName: item.provider.lastName,
-                email: item.provider.email,
-                phoneNumber: item.provider.phoneNumber,
-                profilePicture: item.provider.profilePicture,
-                location: item.provider.location,
-                image1: item.image1,
-                image2: item.image2,
-                image3: item.image3,
-                rate: item.rate,
-                rating: item.rating,
-                description: item.description,
-                isPromoted: item.isPromoted,
-                serviceName: item.service.serviceName,
-              });
-            }}
-            key={item._id}
-            style={styles.allUsersCard}>
-            <View
-              style={{
-                backgroundColor: '#333333',
-                height: '100%',
-                width: 120,
-              }}>
-              <Image
-                source={{
-                  uri: item.image1
-                    ? item.image1
-                    : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-                }}
-                style={{width: '100%', height: '100%'}}
-              />
-            </View>
-
-            <View style={{margin: 10, flex: 1}}>
+                navigation.navigate('ServiceProviderProfile', {
+                  serviceProviderID: item._id,
+                  userID: item.provider._id,
+                  firstName: item.provider.firstName,
+                  lastName: item.provider.lastName,
+                  email: item.provider.email,
+                  phoneNumber: item.provider.phoneNumber,
+                  profilePicture: item.provider.profilePicture,
+                  location: item.provider.location,
+                  image1: item.image1,
+                  image2: item.image2,
+                  image3: item.image3,
+                  rate: item.rate,
+                  rating: item.rating,
+                  description: item.description,
+                  isPromoted: item.isPromoted,
+                  serviceName: item.service.serviceName,
+                });
+              }}
+              key={item._id}
+              style={styles.allUsersCard}>
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginBottom: 10,
-                  justifyContent: 'space-between',
+                  backgroundColor: '#333333',
+                  height: '100%',
+                  width: 120,
                 }}>
-                <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontWeight: '700',
-                      fontSize: 16,
-                      marginRight: 10,
-                    }}>
-                    {item.provider.firstName.length <= 10
-                      ? Capitalize(item.provider.firstName)
-                      : Capitalize(
-                          item.provider.firstName.slice(0, 10) + '...',
-                        )}
-                  </Text>
+                <Image
+                  source={{
+                    uri: item.image1
+                      ? item.image1
+                      : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                  }}
+                  style={{width: '100%', height: '100%'}}
+                />
+              </View>
 
-                  {item.isPromoted == true && (
-                    <Foundation
-                      style={{marginLeft: 10}}
-                      name="crown"
-                      size={20}
-                      color="orange"
-                    />
-                  )}
-                </View>
-
+              <View style={{margin: 10, flex: 1}}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    marginBottom: 10,
+                    justifyContent: 'space-between',
                   }}>
-                  <AntDesign name="star" size={15} color="orange" />
+                  <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: '700',
+                        fontSize: 16,
+                        marginRight: 10,
+                      }}>
+                      {item.provider.firstName.length <= 10
+                        ? Capitalize(item.provider.firstName)
+                        : Capitalize(
+                            item.provider.firstName.slice(0, 10) + '...',
+                          )}
+                    </Text>
+
+                    {item.isPromoted == true && (
+                      <Foundation
+                        style={{marginLeft: 10}}
+                        name="crown"
+                        size={20}
+                        color="orange"
+                      />
+                    )}
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <AntDesign name="star" size={15} color="orange" />
+
+                    <Text
+                      style={{
+                        marginLeft: 10,
+                        color: 'orange',
+                        fontWeight: '700',
+                      }}>
+                      {item.rating.toFixed(1)}
+                    </Text>
+                  </View>
+                </View>
+
+                <Text
+                  style={{
+                    color: '#cc0066',
+                    fontWeight: '700',
+                    fontSize: 12,
+                  }}>
+                  {item.service.serviceName.length <= 30
+                    ? Capitalize(item.service.serviceName)
+                    : Capitalize(item.service.serviceName.slice(0, 30) + '...')}
+                </Text>
+
+                <Text
+                  style={{
+                    color: '#a6a6a6',
+                    fontSize: 10,
+                  }}>
+                  {item.description.length <= 85
+                    ? item.description
+                    : item.description.slice(0, 85) + '...'}
+                </Text>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: 0,
+                    width: '100%',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: '#33cccc',
+                      fontSize: 12,
+                      fontWeight: '700',
+                    }}>
+                    {item.provider.location.length <= 15
+                      ? item.provider.location
+                      : item.provider.location.slice(0, 15) + '...'}
+                  </Text>
 
                   <Text
                     style={{
-                      marginLeft: 10,
-                      color: 'orange',
+                      color: '#ff6600',
                       fontWeight: '700',
+                      fontSize: 12,
                     }}>
-                    {item.rating.toFixed(1)}
+                    KSH. {item.rate}
                   </Text>
                 </View>
               </View>
-
-              <Text
-                style={{
-                  color: '#cc0066',
-                  fontWeight: '700',
-                  fontSize: 12,
-                }}>
-                {item.service.serviceName.length <= 30
-                  ? Capitalize(item.service.serviceName)
-                  : Capitalize(item.service.serviceName.slice(0, 30) + '...')}
-              </Text>
-
-              <Text
-                style={{
-                  color: '#a6a6a6',
-                  fontSize: 10,
-                }}>
-                {item.description.length <= 85
-                  ? item.description
-                  : item.description.slice(0, 85) + '...'}
-              </Text>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  bottom: 0,
-                  width: '100%',
-                  justifyContent: 'space-between',
-                }}>
+            </TouchableOpacity>
+          )}
+          ListFooterComponent={() => {
+            return (
+              reachedEnd && (
                 <Text
                   style={{
-                    color: '#33cccc',
-                    fontSize: 12,
                     fontWeight: '700',
+                    color: '#d9d9d9',
+                    textAlign: 'center',
+                    padding: 15,
+                    marginBottom: 100,
                   }}>
-                  {item.provider.location.length <= 15
-                    ? item.provider.location
-                    : item.provider.location.slice(0, 15) + '...'}
+                  No more data
                 </Text>
-
-                <Text
-                  style={{
-                    color: '#ff6600',
-                    fontWeight: '700',
-                    fontSize: 12,
-                  }}>
-                  KSH. {item.rate}
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-        ListFooterComponent={() => {
-          return reachedEnd ? (
-            <Text
-              style={{
-                fontWeight: '700',
-                color: '#d9d9d9',
-                textAlign: 'center',
-                padding: 15,
-                marginBottom: 100,
-              }}>
-              No more data
-            </Text>
-          ) : (
-            <ActivityIndicator size="large" color="white" />
-          );
-        }}
-      />
+              )
+            );
+          }}
+        />
+      )}
 
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
@@ -2114,6 +2136,7 @@ const Discover = ({navigation, route}) => {
               }}>
               Filter options
             </Text>
+
             <DropDownPicker
               listItemLabelStyle={{
                 color: 'white',
@@ -2139,7 +2162,7 @@ const Discover = ({navigation, route}) => {
               setOpen={setOpenService}
               setValue={setServiceTitle}
               setItems={setItemsService}
-              onSelectItem={item => setServiceName(item.label)}
+              onSelectItem={item => setServiceName(item.value)}
               dropDownContainerStyle={{
                 backgroundColor: '#262626',
                 zIndex: 3000,
@@ -2183,7 +2206,7 @@ const Discover = ({navigation, route}) => {
               setValue={setlocationTitle}
               setItems={setItemslocation}
               onSelectItem={item => {
-                setLocation(item.label);
+                setLocation(item.value);
               }}
               dropDownContainerStyle={{
                 backgroundColor: '#262626',
@@ -2207,9 +2230,9 @@ const Discover = ({navigation, route}) => {
               <View style={styles.radioAndText}>
                 <RadioButton
                   value="-1"
-                  status={rateFilter === '-1' ? 'checked' : 'unchecked'}
+                  status={rate === '-1' ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    setRateFilter('-1');
+                    setRate('-1');
                   }}
                 />
                 <Text style={styles.transText}>High to low</Text>
@@ -2218,9 +2241,9 @@ const Discover = ({navigation, route}) => {
               <View style={styles.radioAndText}>
                 <RadioButton
                   value="1"
-                  status={rateFilter === '1' ? 'checked' : 'unchecked'}
+                  status={rate === '1' ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    setRateFilter('1');
+                    setRate('1');
                   }}
                 />
                 <Text style={styles.transText}>Low to high</Text>
@@ -2232,9 +2255,9 @@ const Discover = ({navigation, route}) => {
               <View style={styles.radioAndText}>
                 <RadioButton
                   value="-1"
-                  status={ratingFilter === '-1' ? 'checked' : 'unchecked'}
+                  status={rating === '-1' ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    setRatingFilter('-1');
+                    setRating('-1');
                   }}
                 />
                 <Text style={styles.transText}>High to low</Text>
@@ -2243,9 +2266,9 @@ const Discover = ({navigation, route}) => {
               <View style={styles.radioAndText}>
                 <RadioButton
                   value="1"
-                  status={ratingFilter === '1' ? 'checked' : 'unchecked'}
+                  status={rating === '1' ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    setRatingFilter('1');
+                    setRating('1');
                   }}
                 />
                 <Text style={styles.transText}>Low to high</Text>
@@ -2253,7 +2276,10 @@ const Discover = ({navigation, route}) => {
             </View>
 
             <TouchableOpacity
-              // onPress={editProfile}
+              onPress={() => {
+                getAllServiceProviders();
+                setModalVisible(false);
+              }}
               style={[
                 styles.buttonMain,
                 {backgroundColor: '#660033', width: '80%'},
@@ -2280,7 +2306,7 @@ const Discover = ({navigation, route}) => {
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={styles.filterContainer}>
-        <AntDesign name="filter" size={50} color="white" />
+        <AntDesign name="filter" size={40} color="white" />
       </TouchableOpacity>
     </View>
   );
