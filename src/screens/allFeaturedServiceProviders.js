@@ -20,62 +20,21 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import LinearGradient from 'react-native-linear-gradient';
-
-const servicesData = require('../assets/data/services.json');
-const filterData = require('../assets/data/filterOptions.json');
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import axios from 'axios';
+
+import Foundation from 'react-native-vector-icons/Foundation';
 
 const {width} = Dimensions.get('window');
 
 const AllFeaturedServiceProviders = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [noFeaturedServiceProviders, setNoFeaturedServiceProviders] =
-    useState(false);
+
   const [featuredServiceProviders, setFeaturedServiceProviders] = useState([]);
 
-  const [noDataInArea, setNoDataInArea] = useState(false);
   const [noData, setNoData] = useState(false);
-  const [newLocation, setNewLocation] = useState('');
-
-  const [filtered, setFiltered] = useState(servicesData);
-  const [searching, setSearching] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [displayX, setDisplayX] = useState(false);
-
-  let onEndReachedCalledDuringMomentum = false;
-  const [lastDoc, setLastDoc] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isMoreLoading, setIsMoreLoading] = useState(false);
-
-  const ref = useRef();
-
-  function handleXPress() {
-    ref.current?.setAddressText('');
-    // getAllUsersList();
-    setNewLocation('');
-    setNoDataInArea(false);
-  }
-
-  function onSearch(text) {
-    if (text) {
-      setSearching(true);
-      const temp = text.toLowerCase();
-
-      const tempList = servicesData.filter(item => {
-        if (item.name.match(temp)) return item.name;
-      });
-      setFiltered(tempList);
-    } else {
-      setSearching(false);
-      setFiltered(servicesData);
-    }
-  }
 
   useEffect(() => {
-    getFeaturedServices();
     getFeaturedServiceProviders();
   }, [(navigation, loading)]);
 
@@ -84,8 +43,6 @@ const AllFeaturedServiceProviders = ({navigation}) => {
   function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-
-  function getFeaturedServices() {}
 
   async function getFeaturedServiceProviders() {
     setLoadingData(true);
@@ -103,46 +60,22 @@ const AllFeaturedServiceProviders = ({navigation}) => {
 
   async function getMore() {}
 
-  function handleLocationPress({newLocation}) {}
-
-  function findKeyAndSearch({item}) {}
-
-  async function addToJobViewedBy({jobID, jobUserID}) {}
-
-  const onRefresh = () => {
-    setTimeout(() => {
-      getAllUsersList();
-    }, 1000);
-  };
-
-  const renderFooter = () => {
-    if (!isMoreLoading) return true;
-
+  if (loadingData) {
     return (
-      <ActivityIndicator
-        size="small"
-        color={'#D83E64'}
-        style={{marginBottom: 10}}
-      />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color="white" size="large" />
+        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+          Loading data
+        </Text>
+      </View>
     );
-  };
-
-  // if (loadingData) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: 'black',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}>
-  //       <ActivityIndicator color="white" size="large" />
-  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-  //         Loading data
-  //       </Text>
-  //     </View>
-  //   );
-  // }
+  }
 
   return (
     <View style={styles.container}>
@@ -203,19 +136,30 @@ const AllFeaturedServiceProviders = ({navigation}) => {
                       marginBottom: 10,
                       justifyContent: 'space-between',
                     }}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontWeight: '700',
-                        fontSize: 16,
-                        marginRight: 10,
-                      }}>
-                      {item.provider.firstName.length <= 15
-                        ? Capitalize(item.provider.firstName)
-                        : Capitalize(
-                            item.provider.firstName.slice(0, 15) + '...',
-                          )}
-                    </Text>
+                    <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: '700',
+                          fontSize: 16,
+                          marginRight: 10,
+                        }}>
+                        {item.provider.firstName.length <= 10
+                          ? Capitalize(item.provider.firstName)
+                          : Capitalize(
+                              item.provider.firstName.slice(0, 10) + '...',
+                            )}
+                      </Text>
+
+                      {item.isPromoted == true && (
+                        <Foundation
+                          style={{marginLeft: 10}}
+                          name="crown"
+                          size={20}
+                          color="orange"
+                        />
+                      )}
+                    </View>
 
                     <View
                       style={{
@@ -261,8 +205,10 @@ const AllFeaturedServiceProviders = ({navigation}) => {
                   <View
                     style={{
                       flexDirection: 'row',
+                      position: 'absolute',
+                      bottom: 0,
+                      width: '100%',
                       justifyContent: 'space-between',
-                      marginTop: 10,
                     }}>
                     <Text
                       style={{

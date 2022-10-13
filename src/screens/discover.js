@@ -26,8 +26,8 @@ const {width} = Dimensions.get('window');
 const Discover = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  let [allServiceProviders, setAllServiceProviders] = useState([]);
 
+  let [allServiceProviders, setAllServiceProviders] = useState([]);
   let [location, setLocation] = useState('');
   let [serviceName, setServiceName] = useState('');
 
@@ -45,11 +45,6 @@ const Discover = ({navigation, route}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
-
-  const [rateFilter, setRateFilter] = useState('-1');
-  const [ratingFilter, setRatingFilter] = useState('-1');
-
-  const ref = useRef();
 
   let pageNumber = 0;
   const limit = 20;
@@ -72,11 +67,8 @@ const Discover = ({navigation, route}) => {
 
   async function getAllServiceProviders() {
     setLoadingData(true);
-    // const url = `${process.env.GET_ALL_SERVICE_PROVIDERS}?pageNumber=${pageNumber}&limit=${limit}`;
     let filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
-    console.log(
-      `Location:${location},Service:${serviceName},Rate:${rate},Rating:${rating},Is promoted:${isPromoted}`,
-    );
+
     await axios
       .get(filterURL)
       .then(response => {
@@ -98,7 +90,7 @@ const Discover = ({navigation, route}) => {
 
   async function getMorePosts() {
     pageNumber += 1;
-    const filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
+    let filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
 
     if (reachedEnd == true) {
       return;
@@ -2106,19 +2098,19 @@ const Discover = ({navigation, route}) => {
             </TouchableOpacity>
           )}
           ListFooterComponent={() => {
-            return (
-              reachedEnd && (
-                <Text
-                  style={{
-                    fontWeight: '700',
-                    color: '#d9d9d9',
-                    textAlign: 'center',
-                    padding: 15,
-                    marginBottom: 100,
-                  }}>
-                  No more data
-                </Text>
-              )
+            return reachedEnd ? (
+              <Text
+                style={{
+                  fontWeight: '700',
+                  color: '#d9d9d9',
+                  textAlign: 'center',
+                  padding: 15,
+                  marginBottom: 100,
+                }}>
+                No more data
+              </Text>
+            ) : (
+              <ActivityIndicator size="large" color="white" />
             );
           }}
         />

@@ -596,7 +596,6 @@ const Home = ({navigation}) => {
           <>
             <View style={styles.topAndViewContainer}>
               <Text style={styles.topText}>Recently viewed</Text>
-              <Text style={styles.viewAll}>View all</Text>
             </View>
 
             <View style={{flex: 1, marginTop: 20}}>
