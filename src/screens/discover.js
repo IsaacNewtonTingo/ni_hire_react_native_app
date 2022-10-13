@@ -68,7 +68,6 @@ const Discover = ({navigation, route}) => {
   async function getAllServiceProviders() {
     setLoadingData(true);
     let filterURL = `${process.env.FILTER_SERVICE_PROVIDERS}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
-
     await axios
       .get(filterURL)
       .then(response => {
@@ -2164,8 +2163,6 @@ const Discover = ({navigation, route}) => {
               }}
               style={{
                 marginBottom: 10,
-                borderBottomWidth: 1,
-                borderWidth: 0,
                 backgroundColor: '#b3d9ff',
                 width: '80%',
                 alignSelf: 'center',
@@ -2208,8 +2205,6 @@ const Discover = ({navigation, route}) => {
                 alignSelf: 'center',
               }}
               style={{
-                borderBottomWidth: 1,
-                borderWidth: 0,
                 backgroundColor: '#b3d9ff',
                 width: '80%',
                 alignSelf: 'center',
