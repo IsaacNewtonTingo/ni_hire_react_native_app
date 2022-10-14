@@ -46,7 +46,13 @@ const EditProfile = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
+  const [editEmailModal, setEditEmailModal] = useState(false);
+  const [editPhoneModal, setEditPhoneModal] = useState(false);
+
+  const [newEmail, setNewEmail] = useState(false);
+
   const [isPosting, setIsPosting] = useState(false);
+  const [isChangingEmail, setIsChangingEmail] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [loadingData, setLoadingData] = useState(true);
@@ -777,6 +783,35 @@ const EditProfile = ({navigation}) => {
     }
   };
 
+  async function changeEmail() {
+    const url = process.env.CHANGE_EMAIL + _id;
+
+    if (!password) {
+      Alert.alert('Password is required');
+    } else if (!newEmail) {
+      Alert.alert('Please input new email');
+    } else {
+      setIsChangingEmail(true);
+      await axios
+        .post(url, {
+          newEmail,
+          password,
+        })
+        .then(response => {
+          Alert.alert(response.data.message);
+          setIsChangingEmail(false);
+          setEditEmailModal(false);
+          setNewEmail('');
+          setPassword('');
+        })
+        .catch(err => {
+          console.log(err);
+          setIsChangingEmail(false);
+          setPassword('');
+        });
+    }
+  }
+
   if (loadingData === true) {
     return (
       <View
@@ -946,6 +981,20 @@ const EditProfile = ({navigation}) => {
             }}
           />
         </View>
+
+        <View style={styles.phoneAndEmailContainer}>
+          <TouchableOpacity style={styles.phoneBTN}>
+            <Text style={styles.phoneText}>Edit phone number</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setEditEmailModal(true);
+            }}
+            style={styles.phoneBTN}>
+            <Text style={styles.phoneText}>Edit email</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {displayButton == true && (
@@ -1036,6 +1085,54 @@ const EditProfile = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
+              style={[
+                styles.buttonMain,
+                {backgroundColor: '#ff3300', width: '80%'},
+              ]}>
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal animationType="slide" transparent={true} visible={editEmailModal}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.text}>New email</Text>
+            <TextInput
+              style={styles.inputPass}
+              placeholder="e.g john@gmail.com"
+              value={newEmail}
+              placeholderTextColor="gray"
+              onChangeText={text => setNewEmail(text)}
+            />
+
+            <Text style={styles.text}>Enter password</Text>
+
+            <TextInput
+              style={styles.inputPass}
+              placeholder="*******"
+              value={password}
+              secureTextEntry={true}
+              placeholderTextColor="gray"
+              onChangeText={text => setPassword(text)}
+            />
+
+            <TouchableOpacity
+              onPress={changeEmail}
+              style={[
+                styles.buttonMain,
+                {backgroundColor: '#660033', width: '80%'},
+              ]}>
+              {isChangingEmail ? (
+                <ActivityIndicator color="white" size="small" animating />
+              ) : (
+                <Text style={styles.buttonText}>Finish</Text>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => setEditEmailModal(false)}
               style={[
                 styles.buttonMain,
                 {backgroundColor: '#ff3300', width: '80%'},
@@ -1167,5 +1264,19 @@ const styles = StyleSheet.create({
     top: 13,
     zIndex: 1,
     left: 20,
+  },
+  phoneAndEmailContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  phoneBTN: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  phoneText: {
+    color: '#33cccc',
+    fontWeight: '800',
   },
 });
