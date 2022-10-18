@@ -17,9 +17,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 
 import Entypo from 'react-native-vector-icons/Entypo';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -28,8 +26,6 @@ import {CredentialsContext} from '../components/credentials-context';
 
 import axios from 'axios';
 import storage from '@react-native-firebase/storage';
-
-const {width} = Dimensions.get('window').width;
 
 const EditProfile = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -44,16 +40,13 @@ const EditProfile = ({navigation}) => {
   const [newProfilePicture, setNewProfilePicture] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const [editEmailModal, setEditEmailModal] = useState(false);
   const [editPhoneModal, setEditPhoneModal] = useState(false);
 
-  const [newEmail, setNewEmail] = useState(false);
-
   const [isPosting, setIsPosting] = useState(false);
   const [isChangingEmail, setIsChangingEmail] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isChangingPhone, setIsChangingPhone] = useState(false);
 
   const [loadingData, setLoadingData] = useState(true);
 
@@ -725,8 +718,6 @@ const EditProfile = ({navigation}) => {
       });
   }
 
-  async function handleDelete() {}
-
   function openLibrary() {
     ImagePicker.openPicker({
       width: 300,
@@ -788,20 +779,19 @@ const EditProfile = ({navigation}) => {
 
     if (!password) {
       Alert.alert('Password is required');
-    } else if (!newEmail) {
+    } else if (!email) {
       Alert.alert('Please input new email');
     } else {
       setIsChangingEmail(true);
       await axios
         .post(url, {
-          newEmail,
+          newEmail: email,
           password,
         })
         .then(response => {
           Alert.alert(response.data.message);
           setIsChangingEmail(false);
           setEditEmailModal(false);
-          setNewEmail('');
           setPassword('');
         })
         .catch(err => {
@@ -810,6 +800,27 @@ const EditProfile = ({navigation}) => {
           setPassword('');
         });
     }
+  }
+
+  async function changePhoneNumber() {
+    const url = process.env.CHANGE_PHONE_NUMBER + _id;
+    setIsChangingPhone(true);
+    await axios
+      .post(url, {
+        phoneNumber,
+        password,
+      })
+      .then(response => {
+        Alert.alert(response.data.message);
+        setIsChangingPhone(false);
+        setEditPhoneModal(false);
+        setPassword('');
+      })
+      .catch(err => {
+        console.log(err);
+        setIsChangingPhone(false);
+        setPassword('');
+      });
   }
 
   if (loadingData === true) {
@@ -983,7 +994,9 @@ const EditProfile = ({navigation}) => {
         </View>
 
         <View style={styles.phoneAndEmailContainer}>
-          <TouchableOpacity style={styles.phoneBTN}>
+          <TouchableOpacity
+            onPress={() => setEditPhoneModal(true)}
+            style={styles.phoneBTN}>
             <Text style={styles.phoneText}>Edit phone number</Text>
           </TouchableOpacity>
 
@@ -1053,48 +1066,6 @@ const EditProfile = ({navigation}) => {
         </View>
       </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={deleteModalVisible}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.text}>Enter password</Text>
-
-            <TextInput
-              style={styles.inputPass}
-              placeholder="*******"
-              value={password}
-              secureTextEntry={true}
-              placeholderTextColor="gray"
-              onChangeText={text => setPassword(text)}
-            />
-
-            <TouchableOpacity
-              onPress={handleDelete}
-              style={[
-                styles.buttonMain,
-                {backgroundColor: '#660033', width: '80%'},
-              ]}>
-              {isDeleting ? (
-                <ActivityIndicator color="white" size="small" animating />
-              ) : (
-                <Text style={styles.buttonText}>Finish</Text>
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={[
-                styles.buttonMain,
-                {backgroundColor: '#ff3300', width: '80%'},
-              ]}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
       <Modal animationType="slide" transparent={true} visible={editEmailModal}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -1102,9 +1073,9 @@ const EditProfile = ({navigation}) => {
             <TextInput
               style={styles.inputPass}
               placeholder="e.g john@gmail.com"
-              value={newEmail}
+              value={email}
               placeholderTextColor="gray"
-              onChangeText={text => setNewEmail(text)}
+              onChangeText={text => setEmail(text)}
             />
 
             <Text style={styles.text}>Enter password</Text>
@@ -1133,6 +1104,54 @@ const EditProfile = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => setEditEmailModal(false)}
+              style={[
+                styles.buttonMain,
+                {backgroundColor: '#ff3300', width: '80%'},
+              ]}>
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal animationType="slide" transparent={true} visible={editPhoneModal}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.text}>Phone number</Text>
+            <TextInput
+              style={styles.inputPass}
+              placeholder="e.g 0725556676"
+              value={phoneNumber}
+              placeholderTextColor="gray"
+              onChangeText={text => setPhoneNumber(text)}
+            />
+
+            <Text style={styles.text}>Enter password</Text>
+
+            <TextInput
+              style={styles.inputPass}
+              placeholder="*******"
+              value={password}
+              secureTextEntry={true}
+              placeholderTextColor="gray"
+              onChangeText={text => setPassword(text)}
+            />
+
+            <TouchableOpacity
+              onPress={changePhoneNumber}
+              style={[
+                styles.buttonMain,
+                {backgroundColor: '#660033', width: '80%'},
+              ]}>
+              {isChangingPhone ? (
+                <ActivityIndicator color="white" size="small" animating />
+              ) : (
+                <Text style={styles.buttonText}>Finish</Text>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => setEditPhoneModal(false)}
               style={[
                 styles.buttonMain,
                 {backgroundColor: '#ff3300', width: '80%'},

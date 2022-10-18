@@ -8,6 +8,7 @@ import Support from '../screens/support';
 import PromoteService from '../screens/promoteService';
 import PromoteProfile from '../screens/promoteProfile';
 import BugReport from '../screens/bug-report';
+import JoinPremium from '../screens/join-premium';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,15 +44,15 @@ export default function ProfileStack() {
         component={EditProfile}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         options={{
-          headerTitle: 'Promotion guide',
+          headerTitle: 'JoinPremium',
           headerTintColor: 'black',
         }}
-        name="PromoteService"
-        component={PromoteService}
+        name="JoinPremium"
+        component={JoinPremium}
       />
-
+      {/* 
       <Stack.Screen
         options={{
           headerTitle: '',

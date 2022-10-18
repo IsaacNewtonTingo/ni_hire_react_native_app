@@ -137,7 +137,7 @@ export default function Settings({navigation}) {
         <View style={styles.line} />
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('PromoteProfile')}
+          onPress={() => navigation.navigate('JoinPremium')}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <Foundation name="crown" size={30} color="white" />
