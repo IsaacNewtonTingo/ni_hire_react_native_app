@@ -11,15 +11,6 @@ import {
 import Home from '../screens/home';
 import ServiceProviderProfile from '../screens/serviceProviderProfile';
 
-// import MyServices from '../screens/myServices';
-// import PostService from '../screens/postService';
-// import JobMembers from '../screens/jobMembers';
-// import JobsInCategories from '../screens/jobsInCategory';
-// import SearchResults from '../screens/searchResultsScreen';
-// import AuthStack from './authStack';
-// import LocationBasedServices from '../screens/locationBasedServices';
-// import PublicProfile from '../screens/publicProfile';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import JobsInCategories from '../screens/jobsInCategory';
@@ -168,50 +159,6 @@ export default function HomeStack() {
         name="FeaturedUsers"
         component={FeaturedUsers}
       />
-
-      {/*
-      <Stack.Screen
-        options={{
-          headerTitle: '',
-          headerShown: false,
-        }}
-        name="LocationSearchScreen"
-        component={LocationSearchScreen}
-      />
-
-      <Stack.Screen
-        options={{
-          headerTitle: '',
-        }}
-        name="SearchResults"
-        component={SearchResults}
-      />
-
-      <Stack.Screen
-        options={{
-          headerTitle: '',
-        }}
-        name="AuthStack"
-        component={AuthStack}
-      />
-
-      <Stack.Screen
-        options={{
-          headerTitle: '',
-        }}
-        name="LocationBasedServices"
-        component={LocationBasedServices}
-      />
-
-      
-      <Stack.Screen
-        options={{
-          // headerTransparent: true,
-          headerTitle: 'Promote',
-        }}
-        name="ServicePromotionPayment"
-        component={ServicePromotionPayment}
-      /> */}
 
       <Stack.Screen
         options={{

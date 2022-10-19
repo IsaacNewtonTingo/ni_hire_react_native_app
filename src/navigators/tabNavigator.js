@@ -50,7 +50,6 @@ export default function TabNavigator() {
         component={DiscoverStack}
         options={{
           headerShown: false,
-          headerTitle: 'Discover',
           tabBarIcon: ({focused, color, size}) => {
             return (
               <MaterialCommunityIcons name="fire" size={35} color={color} />
