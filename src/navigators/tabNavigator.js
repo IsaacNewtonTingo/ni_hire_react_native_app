@@ -12,6 +12,7 @@ import ProfileStack from './profileStack';
 import Discover from '../screens/discover';
 import PostService from '../screens/postService';
 import Saved from '../screens/saved';
+import DiscoverStack from './discover-stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,6 @@ export default function TabNavigator() {
         component={HomeStack}
         options={{
           headerShown: false,
-          tabBarLabel: '',
           headerTitle: '',
           tabBarIcon: ({focused, color, size}) => {
             return <AntDesign name="home" size={30} color={color} />;
@@ -46,10 +46,10 @@ export default function TabNavigator() {
       />
 
       <Tab.Screen
-        name="Discover"
-        component={Discover}
+        name="DiscoverStack"
+        component={DiscoverStack}
         options={{
-          tabBarLabel: '',
+          headerShown: false,
           headerTitle: 'Discover',
           tabBarIcon: ({focused, color, size}) => {
             return (

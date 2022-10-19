@@ -9,6 +9,7 @@ import PromoteService from '../screens/promoteService';
 import PromoteProfile from '../screens/promoteProfile';
 import BugReport from '../screens/bug-report';
 import JoinPremium from '../screens/join-premium';
+import Transactions from '../screens/transactions';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,15 +53,15 @@ export default function ProfileStack() {
         name="JoinPremium"
         component={JoinPremium}
       />
-      {/* 
+
       <Stack.Screen
         options={{
-          headerTitle: '',
+          headerTitle: 'Premium records',
           headerTintColor: 'black',
         }}
-        name="PromoteProfile"
-        component={PromoteProfile}
-      /> */}
+        name="Transactions"
+        component={Transactions}
+      />
 
       <Stack.Screen
         options={{

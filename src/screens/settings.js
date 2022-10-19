@@ -160,15 +160,17 @@ export default function Settings({navigation}) {
 
         <View style={styles.line} /> */}
 
-        {/* <TouchableOpacity style={styles.iconAndTextContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Transactions')}
+          style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
-            <FontAwesome name="credit-card-alt" color="white" size={20} />
+            <FontAwesome name="credit-card-alt" color="white" size={17} />
             <Text style={styles.generalTexts}>Your transactions</Text>
           </View>
           <MaterialIcons name="keyboard-arrow-right" color="white" size={30} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
-        {/* <View style={styles.line} /> */}
+        <View style={styles.line} />
 
         <TouchableOpacity
           // onPress={shareApp}
