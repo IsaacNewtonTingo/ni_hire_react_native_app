@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -705,6 +706,7 @@ const EditProfile = ({navigation}) => {
         location,
         password,
         email,
+        phoneNumber,
       })
       .then(response => {
         Alert.alert(response.data.message);
@@ -922,6 +924,23 @@ const EditProfile = ({navigation}) => {
         </View>
 
         <View>
+          <MaterialIcons
+            style={styles.icons}
+            name="phone"
+            size={20}
+            color="black"
+          />
+          <TextInput
+            value={phoneNumber}
+            onChange={handleDisplayButton}
+            onChangeText={setPhoneNumber}
+            placeholder="Phone number"
+            style={styles.input}
+            placeholderTextColor="gray"
+          />
+        </View>
+
+        <View>
           <MaterialCommunityIcons
             style={styles.icons}
             name="bio"
@@ -942,7 +961,7 @@ const EditProfile = ({navigation}) => {
           <Text
             style={{
               position: 'absolute',
-              right: 10,
+              right: 20,
               top: 10,
               color: 'gray',
               fontSize: 10,
@@ -951,7 +970,7 @@ const EditProfile = ({navigation}) => {
           </Text>
         </View>
 
-        <View style={{padding: 20}}>
+        <View style={{paddingHorizontal: 15}}>
           <DropDownPicker
             listItemLabelStyle={{
               color: 'white',
@@ -994,12 +1013,6 @@ const EditProfile = ({navigation}) => {
         </View>
 
         <View style={styles.phoneAndEmailContainer}>
-          <TouchableOpacity
-            onPress={() => setEditPhoneModal(true)}
-            style={styles.phoneBTN}>
-            <Text style={styles.phoneText}>Edit phone number</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => {
               setEditEmailModal(true);
@@ -1289,6 +1302,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: 20,
+    marginTop: 20,
   },
   phoneBTN: {
     alignItems: 'center',

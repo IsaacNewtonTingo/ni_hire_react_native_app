@@ -30,7 +30,7 @@ export default function JoinPremium({navigation}) {
   const [isPaying, setIsPaying] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const [phoneNumber, setPhoneNumber] = useState('');
+  let [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
   const {storedCredentials, setStoredCredentials} =
@@ -59,6 +59,8 @@ export default function JoinPremium({navigation}) {
   async function joinPremium() {
     const url = process.env.JOIN_PREMIUM + _id;
     setIsPaying(true);
+    phoneNumber = parseInt(phoneNumber);
+    console.log(phoneNumber);
 
     if (!password) {
       setIsPaying(false);
