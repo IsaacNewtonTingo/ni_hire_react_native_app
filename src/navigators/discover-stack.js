@@ -12,6 +12,7 @@ import Discover from '../screens/discover';
 import PublicProfile from '../screens/publicProfile';
 import ServiceProviderProfile from '../screens/serviceProviderProfile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProfileStack from './profileStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +85,14 @@ export default function DiscoverStack({navigation}) {
             backgroundColor: 'transparent',
           },
         }}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ProfileStack"
+        component={ProfileStack}
       />
     </Stack.Navigator>
   );

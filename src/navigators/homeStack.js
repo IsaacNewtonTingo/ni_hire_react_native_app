@@ -19,6 +19,7 @@ import JobMembers from '../screens/jobMembers';
 import AllFeaturedServiceProviders from '../screens/allFeaturedServiceProviders';
 import EditService from '../screens/editService';
 import FeaturedUsers from '../screens/featuredUsers';
+import ProfileStack from './profileStack';
 
 // import LocationSearchScreen from '../screens/locationSearchScreen';
 // import ServicePromotionPayment from '../screens/servicePromotionPayment';
@@ -158,6 +159,14 @@ export default function HomeStack() {
         })}
         name="FeaturedUsers"
         component={FeaturedUsers}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ProfileStack"
+        component={ProfileStack}
       />
 
       <Stack.Screen

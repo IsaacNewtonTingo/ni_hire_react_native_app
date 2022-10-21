@@ -466,16 +466,26 @@ export default function ServiceProviderProfile({route, navigation}) {
           addToProfileVisits({
             providerID: userID,
           });
-          navigation.navigate('PublicProfile', {
-            userID: userID,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
-            bio: bio,
-            location: location,
-            profilePicture: profilePicture,
-          });
+          if (_id == userID) {
+            navigation.navigate(
+              'ProfileStack',
+              {
+                userID: userID,
+              },
+              {screen: 'Profile'},
+            );
+          } else {
+            navigation.navigate('PublicProfile', {
+              userID: userID,
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              phoneNumber: phoneNumber,
+              bio: bio,
+              location: location,
+              profilePicture: profilePicture,
+            });
+          }
         }}
         style={{
           padding: 10,

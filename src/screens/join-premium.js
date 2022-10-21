@@ -32,22 +32,24 @@ export default function JoinPremium({navigation}) {
 
   let [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [isPremium, setIsPremium] = useState(false);
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
   const {_id} = storedCredentials;
 
   useEffect(() => {
-    getPhoneNumber();
+    getUserData();
   }, []);
 
-  async function getPhoneNumber() {
+  async function getUserData() {
     const url = process.env.GET_USER_DATA + _id;
     await axios
       .get(url)
       .then(response => {
         const userData = response.data.data;
         setPhoneNumber(userData.phoneNumber.toString());
+        setIsPremium(userData.isFeatured);
         setIsLoadingData(false);
       })
       .catch(err => {
@@ -126,11 +128,17 @@ export default function JoinPremium({navigation}) {
         as you will use that for payment.
       </Text>
 
-      <TouchableOpacity
-        onPress={() => setPayModal(true)}
-        style={styles.joinBTN}>
-        <Text style={styles.joinBTNText}>Join now</Text>
-      </TouchableOpacity>
+      {isPremium == true ? (
+        <TouchableOpacity disabled={true} style={styles.premiumBTN}>
+          <Text style={styles.premiumBTNText}>You're a premium user</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => setPayModal(true)}
+          style={styles.joinBTN}>
+          <Text style={styles.joinBTNText}>Join now</Text>
+        </TouchableOpacity>
+      )}
 
       <Modal animationType="slide" transparent={true} visible={payModal}>
         <View style={styles.centeredView}>
@@ -227,6 +235,21 @@ const styles = StyleSheet.create({
   },
   joinBTNText: {
     color: 'white',
+    fontWeight: '700',
+  },
+
+  premiumBTN: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: '#cdd6e5',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 100,
+  },
+  premiumBTNText: {
+    color: 'black',
     fontWeight: '700',
   },
 

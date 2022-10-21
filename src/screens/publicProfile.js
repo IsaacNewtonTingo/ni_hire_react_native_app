@@ -22,7 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import dateFormat from 'dateformat';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -246,9 +246,9 @@ export default function PublicProfile({route, navigation}) {
         </View>
 
         <View>
-          <Fontisto
+          <MaterialIcons
             style={[styles.icons, {top: 10}]}
-            name="person"
+            name="miscellaneous-services"
             size={20}
             color="#ff4d4d"
           />
