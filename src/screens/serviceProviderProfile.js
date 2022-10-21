@@ -516,7 +516,7 @@ export default function ServiceProviderProfile({route, navigation}) {
               style={{
                 color: 'white',
                 fontWeight: '700',
-                fontSize: 16,
+                fontSize: 20,
                 marginRight: 10,
               }}>
               {firstName} {lastName}

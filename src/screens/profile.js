@@ -14,6 +14,7 @@ import {
   ImageBackground,
   Animated,
   TouchableWithoutFeedback,
+  Linking,
 } from 'react-native';
 
 const {width} = Dimensions.get('window');
