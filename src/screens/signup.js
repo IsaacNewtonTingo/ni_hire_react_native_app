@@ -103,9 +103,7 @@ function Signup({navigation}) {
   };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="always"
-      style={{backgroundColor: 'black', flex: 1}}>
+    <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
       <View
         style={{
           backgroundColor: 'white',

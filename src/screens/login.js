@@ -96,86 +96,88 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        style={styles.welcomeIMG}
-        source={require('../assets/images/joint.png')}
-      />
+    <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+      <View>
+        <Image
+          style={styles.welcomeIMG}
+          source={require('../assets/images/joint.png')}
+        />
 
-      <View
-        style={{
-          backgroundColor: 'white',
-          padding: 20,
-          borderRadius: 20,
-          marginTop: 20,
-        }}>
-        <View>
-          <MaterialIcons
-            style={styles.icons}
-            name="email"
-            size={20}
-            color="black"
-          />
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Email"
-            style={styles.input}
-          />
+        <View
+          style={{
+            backgroundColor: 'white',
+            padding: 20,
+            borderRadius: 20,
+            marginTop: 20,
+          }}>
+          <View>
+            <MaterialIcons
+              style={styles.icons}
+              name="email"
+              size={20}
+              color="black"
+            />
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Email"
+              style={styles.input}
+            />
+          </View>
+
+          <View>
+            <Fontisto
+              style={styles.icons}
+              name="locked"
+              size={20}
+              color="black"
+            />
+            <TextInput
+              autoCapitalize="none"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Password"
+              style={styles.input}
+            />
+          </View>
+
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={validate}
+            style={styles.addButton}>
+            {isPosting ? (
+              <ActivityIndicator color="white" size="small" animating />
+            ) : (
+              <Text style={styles.buttonText}>Login</Text>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontWeight: '700',
+                fontSize: 16,
+                color: '#e62e00',
+                marginTop: 20,
+              }}>
+              Don't have an account? Signup
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontWeight: '700',
+                fontSize: 16,
+                color: '#6699ff',
+                marginTop: 20,
+              }}>
+              Forgot password? Reset
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View>
-          <Fontisto
-            style={styles.icons}
-            name="locked"
-            size={20}
-            color="black"
-          />
-          <TextInput
-            autoCapitalize="none"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Password"
-            style={styles.input}
-          />
-        </View>
-
-        <TouchableOpacity
-          disabled={disabled}
-          onPress={validate}
-          style={styles.addButton}>
-          {isPosting ? (
-            <ActivityIndicator color="white" size="small" animating />
-          ) : (
-            <Text style={styles.buttonText}>Login</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontWeight: '700',
-              fontSize: 16,
-              color: '#e62e00',
-              marginTop: 20,
-            }}>
-            Don't have an account? Signup
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontWeight: '700',
-              fontSize: 16,
-              color: '#6699ff',
-              marginTop: 20,
-            }}>
-            Forgot password? Reset
-          </Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -187,7 +189,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
     padding: 10,
-    flex: 1,
   },
   welcomeIMG: {
     width: width / 2,

@@ -24,7 +24,7 @@ import ServiceProviderProfile from '../screens/serviceProviderProfile';
 
 const Stack = createNativeStackNavigator();
 
-export default function ProfileStack() {
+export default function ProfileStack({navigation}) {
   return (
     <Stack.Navigator
       initialRouteName="Settings"

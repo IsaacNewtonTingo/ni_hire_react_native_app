@@ -481,6 +481,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           padding: 10,
           flexDirection: 'row',
           alignItems: 'center',
+          flex: 1,
         }}>
         <Image
           source={{
@@ -549,13 +550,12 @@ export default function ServiceProviderProfile({route, navigation}) {
 
         {isFeatured === true && (
           <Foundation
-            style={{right: 20, bottom: 10}}
+            style={{position: 'absolute', right: 10, bottom: 10}}
             name="crown"
             size={20}
             color="orange"
           />
         )}
-
         {_id != route.params.userID && (
           <>
             {isSaved == true ? (
