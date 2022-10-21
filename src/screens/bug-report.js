@@ -51,7 +51,7 @@ export default function BugReport({url, children}) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.centerView}>
         <Text
           style={{
@@ -85,7 +85,7 @@ export default function BugReport({url, children}) {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

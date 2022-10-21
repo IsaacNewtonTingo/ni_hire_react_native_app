@@ -51,6 +51,7 @@ export default function PublicProfile({route, navigation}) {
   const [phoneNumber, setPhoneNumber] = useState();
   const [location, setLocation] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
+  const [generalPromotedTitle, setGeneralTitle] = useState('');
   const [bio, setBio] = useState('');
 
   const [profileVisits, setProfileVisits] = useState();
@@ -83,6 +84,7 @@ export default function PublicProfile({route, navigation}) {
           setEmail(response.data.data.email);
           setPhoneNumber(response.data.data.phoneNumber);
           setLocation(response.data.data.location);
+          setGeneralTitle(userData.generalPromotedTitle);
           setProfilePicture(response.data.data.profilePicture);
           setBio(response.data.data.bio);
         } else {
@@ -240,6 +242,18 @@ export default function PublicProfile({route, navigation}) {
           />
           <Text style={[styles.text, {marginTop: 0}]}>
             {firstName} {lastName}
+          </Text>
+        </View>
+
+        <View>
+          <Fontisto
+            style={[styles.icons, {top: 10}]}
+            name="person"
+            size={20}
+            color="#ff4d4d"
+          />
+          <Text style={[styles.text, {marginTop: 10}]}>
+            {generalPromotedTitle}
           </Text>
         </View>
 

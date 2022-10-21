@@ -550,7 +550,7 @@ export default function ServiceProviderProfile({route, navigation}) {
 
         {isFeatured === true && (
           <Foundation
-            style={{position: 'absolute', right: 10, bottom: 10}}
+            style={{position: 'absolute', right: 20, bottom: 10}}
             name="crown"
             size={20}
             color="orange"

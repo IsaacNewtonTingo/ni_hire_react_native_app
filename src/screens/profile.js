@@ -41,6 +41,7 @@ export default function Profile({route, navigation}) {
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
+  const [generalPromotedTitle, setGeneralTitle] = useState('');
 
   const [jobsList, setJobsList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
@@ -88,6 +89,7 @@ export default function Profile({route, navigation}) {
         setEmail(userData.email);
         setPhoneNumber(userData.phoneNumber);
         setLocation(userData.location);
+        setGeneralTitle(userData.generalPromotedTitle);
         setBio(userData.bio);
         setProfilePicture(userData.profilePicture);
 
@@ -221,6 +223,18 @@ export default function Profile({route, navigation}) {
           />
           <Text style={[styles.text, {marginTop: 0}]}>
             {firstName} {lastName}
+          </Text>
+        </View>
+
+        <View>
+          <Fontisto
+            style={[styles.icons, {top: 10}]}
+            name="person"
+            size={20}
+            color="#ff4d4d"
+          />
+          <Text style={[styles.text, {marginTop: 10}]}>
+            {generalPromotedTitle}
           </Text>
         </View>
 
