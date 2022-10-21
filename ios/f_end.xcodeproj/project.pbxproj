@@ -21,6 +21,8 @@
 		D081F545730043EA8642554F /* PaytoneOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F6BC8F388B8436B90C8320E /* PaytoneOne-Regular.ttf */; };
 		A154D1CF84AE4B4394959FB8 /* TitanOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47D05797219B41CEBAD01948 /* TitanOne-Regular.ttf */; };
 		776584FE2A694E25949F2838 /* Ultra-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C26BE7E88C3F477499310369 /* Ultra-Regular.ttf */; };
+		CB6A0034BB804D15A7686DE1 /* FuturaLT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CD36D92582E46F6BCDCE520 /* FuturaLT-Bold.ttf */; };
+		59E60617A91D47609D72B6CF /* FuturaLT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5A855C8D1344B918FEE61CD /* FuturaLT.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		3F6BC8F388B8436B90C8320E /* PaytoneOne-Regular.ttf */ = {isa = PBXFileReference; name = "PaytoneOne-Regular.ttf"; path = "../src/assets/fonts/PaytoneOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		47D05797219B41CEBAD01948 /* TitanOne-Regular.ttf */ = {isa = PBXFileReference; name = "TitanOne-Regular.ttf"; path = "../src/assets/fonts/TitanOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		C26BE7E88C3F477499310369 /* Ultra-Regular.ttf */ = {isa = PBXFileReference; name = "Ultra-Regular.ttf"; path = "../src/assets/fonts/Ultra-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6CD36D92582E46F6BCDCE520 /* FuturaLT-Bold.ttf */ = {isa = PBXFileReference; name = "FuturaLT-Bold.ttf"; path = "../src/assets/fonts/FuturaLT-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E5A855C8D1344B918FEE61CD /* FuturaLT.ttf */ = {isa = PBXFileReference; name = "FuturaLT.ttf"; path = "../src/assets/fonts/FuturaLT.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +177,8 @@
 				3F6BC8F388B8436B90C8320E /* PaytoneOne-Regular.ttf */,
 				47D05797219B41CEBAD01948 /* TitanOne-Regular.ttf */,
 				C26BE7E88C3F477499310369 /* Ultra-Regular.ttf */,
+				6CD36D92582E46F6BCDCE520 /* FuturaLT-Bold.ttf */,
+				E5A855C8D1344B918FEE61CD /* FuturaLT.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -281,6 +287,8 @@
 				D081F545730043EA8642554F /* PaytoneOne-Regular.ttf in Resources */,
 				A154D1CF84AE4B4394959FB8 /* TitanOne-Regular.ttf in Resources */,
 				776584FE2A694E25949F2838 /* Ultra-Regular.ttf in Resources */,
+				CB6A0034BB804D15A7686DE1 /* FuturaLT-Bold.ttf in Resources */,
+				59E60617A91D47609D72B6CF /* FuturaLT.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

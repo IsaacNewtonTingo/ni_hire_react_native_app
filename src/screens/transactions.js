@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 
@@ -16,6 +17,7 @@ import axios from 'axios';
 
 import {FlatList} from 'react-native-gesture-handler';
 
+const {width} = Dimensions.get('window');
 // import files from '../assets/filesToShare/filesBase64';
 
 const A = props => <Text style={{fontWeight: '800'}}>{props.children}</Text>;
@@ -66,11 +68,12 @@ export default function Transactions({navigation}) {
       .then(response => {
         if (response.data.status == 'Failed') {
           setLoadingData(false);
+          setNoData(true);
         } else {
           setPremiumRecords(response.data);
           setLoadingData(false);
+          setNoData(false);
         }
-        setNoData(false);
       })
       .catch(err => {
         console.log(err);
@@ -96,7 +99,7 @@ export default function Transactions({navigation}) {
   }
   return (
     <View style={styles.container}>
-      {noData == true ? (
+      {premiumRecords.length < 1 ? (
         <View
           style={{
             width: width,
@@ -105,6 +108,7 @@ export default function Transactions({navigation}) {
             alignItems: 'center',
             padding: 20,
             marginBottom: 40,
+            justifyContent: 'center',
           }}>
           <Text
             style={{

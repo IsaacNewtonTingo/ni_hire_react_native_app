@@ -22,6 +22,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Foundation from 'react-native-vector-icons/Foundation';
 
 import React, {useEffect, useState, useContext} from 'react';
 import axios from 'axios';
@@ -547,17 +548,12 @@ export default function ServiceProviderProfile({route, navigation}) {
         </View>
 
         {isFeatured === true && (
-          <Text
-            style={{
-              color: '#ff8c1a',
-              fontWeight: '800',
-              position: 'absolute',
-              right: 20,
-              bottom: 10,
-              fontSize: 12,
-            }}>
-            Premium
-          </Text>
+          <Foundation
+            style={{right: 20, bottom: 10}}
+            name="crown"
+            size={20}
+            color="orange"
+          />
         )}
 
         {_id != route.params.userID && (

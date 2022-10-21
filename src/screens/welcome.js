@@ -5,8 +5,11 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
+
+const {width} = Dimensions.get('window');
 
 const B = props => (
   <Text
@@ -21,20 +24,22 @@ const B = props => (
 export default function Welcome({navigation}) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* <Image
+      <Image
         style={styles.welcomeIMG}
-        source={require('../assets/images/welcome2.png')}
-      /> */}
+        source={require('../assets/images/welcome.png')}
+      />
 
-      <Text style={styles.companyTextStyles}>
-        ni<B>Hire</B>
-      </Text>
+      {/* <View style={styles.lowerContainer}>
+        <Text style={styles.companyTextStyles}>
+          ni<B>Hire</B>
+        </Text>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Signup')}
-        style={styles.getStartedBTN}>
-        <Text style={styles.getStartedText}>Ge started</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Signup')}
+          style={styles.getStartedBTN}>
+          <Text style={styles.getStartedText}>Ge started</Text>
+        </TouchableOpacity>
+      </View> */}
     </ScrollView>
   );
 }
@@ -43,9 +48,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
     flex: 1,
-    alignItems: 'center',
-    padding: 20,
-    justifyContent: 'center',
   },
   companyTextStyles: {
     color: 'white',
@@ -59,8 +61,9 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
   },
   welcomeIMG: {
-    width: 339,
-    height: '50%',
+    width: width / 1.5,
+    height: '60%',
+    alignSelf: 'center',
   },
   getStartedBTN: {
     backgroundColor: '#336699',
@@ -82,5 +85,12 @@ const styles = StyleSheet.create({
   getStartedText: {
     color: 'white',
     fontWeight: '900',
+  },
+  lowerContainer: {
+    width: width,
+    height: '40%',
+    backgroundColor: '#3d3d5c',
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
   },
 });

@@ -8,6 +8,8 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  Image,
+  Dimensions,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -18,6 +20,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {CredentialsContext} from '../components/credentials-context';
+
+const {width} = Dimensions.get('window');
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -33,6 +37,16 @@ const Login = ({navigation}) => {
     setEmail('');
     setPassword('');
   };
+
+  const B = props => (
+    <Text
+      style={{
+        color: '#33cccc',
+        fontWeight: '900',
+      }}>
+      {props.children}
+    </Text>
+  );
 
   const validate = () => {
     if (!email || !password) {
@@ -82,15 +96,26 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        style={styles.welcomeIMG}
+        source={require('../assets/images/joint.png')}
+      />
+
+      <Text style={styles.companyTextStyles}>
+        ni<B>Hire</B>
+      </Text>
+
+      <View
         keyboardShouldPersistTaps="always"
-        contentContainerStyle={{
+        style={{
           backgroundColor: 'white',
           padding: 20,
           borderRadius: 20,
-          marginTop: 40,
+          marginTop: 20,
         }}>
+        <Text>Login</Text>
+
         <View>
           <MaterialIcons
             style={styles.icons}
@@ -158,8 +183,8 @@ const Login = ({navigation}) => {
             Forgot password? Reset
           </Text>
         </TouchableOpacity>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -170,6 +195,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 10,
     flex: 1,
+  },
+  welcomeIMG: {
+    width: width / 1.8,
+    height: '40%',
+    alignSelf: 'center',
+  },
+  companyTextStyles: {
+    color: 'white',
+    fontSize: 60,
+    fontFamily: 'PaytoneOne-Regular',
+    textShadowColor: '#993333',
+    textShadowOffset: {
+      height: 1,
+      width: 2,
+    },
+    textShadowRadius: 10,
   },
   input: {
     height: 50,

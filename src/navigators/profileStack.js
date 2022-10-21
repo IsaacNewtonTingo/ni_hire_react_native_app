@@ -1,4 +1,14 @@
 import * as React from 'react';
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Text,
+  View,
+  Image,
+} from 'react-native';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Profile from '../screens/profile';
@@ -10,6 +20,7 @@ import PromoteProfile from '../screens/promoteProfile';
 import BugReport from '../screens/bug-report';
 import JoinPremium from '../screens/join-premium';
 import Transactions from '../screens/transactions';
+import ServiceProviderProfile from '../screens/serviceProviderProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +92,33 @@ export default function ProfileStack() {
         }}
         name="BugReport"
         component={BugReport}
+      />
+
+      <Stack.Screen
+        name="ServiceProviderProfile"
+        component={ServiceProviderProfile}
+        options={{
+          headerLeft: props => (
+            <TouchableOpacity onPress={() => navigation.pop()} {...props}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 20,
+                  backgroundColor: '#262626',
+                }}>
+                <Ionicons name="arrow-back" size={24} color="white" />
+              </View>
+            </TouchableOpacity>
+          ),
+          title: '',
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+        }}
       />
     </Stack.Navigator>
   );

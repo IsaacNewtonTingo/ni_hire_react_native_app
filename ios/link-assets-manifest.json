@@ -14,6 +14,14 @@
       "sha1": "c4377bea37b4f84e6d2183741664025d5cecef3e"
     },
     {
+      "path": "src/assets/fonts/FuturaLT-Bold.ttf",
+      "sha1": "69fe30403a72f8432b723d70677e02760af30fba"
+    },
+    {
+      "path": "src/assets/fonts/FuturaLT.ttf",
+      "sha1": "90cf3231e5a1ddde16a26e460199ffc5f3c5925a"
+    },
+    {
       "path": "src/assets/fonts/LuckiestGuy-Regular.ttf",
       "sha1": "7701304fb627ae9caa78cd982dce30d99a591296"
     },
