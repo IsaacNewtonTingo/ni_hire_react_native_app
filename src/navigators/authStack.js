@@ -1,4 +1,11 @@
 import React, {useState, useEffect} from 'react';
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Text,
+  View,
+  Image,
+} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Signup from '../screens/signup';
@@ -15,6 +22,37 @@ import TabNavigator from './tabNavigator';
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
+  const B = props => (
+    <Text
+      style={{
+        color: '#33cccc',
+        fontWeight: '900',
+      }}>
+      {props.children}
+    </Text>
+  );
+
+  function LogoTitle() {
+    return (
+      <View style={{marginHorizontal: 10}}>
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 25,
+            fontFamily: 'PaytoneOne-Regular',
+            textShadowColor: '#993333',
+            textShadowOffset: {
+              height: 1,
+              width: 1,
+            },
+            textShadowRadius: 3,
+          }}>
+          ni<B>Hire</B>
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <CredentialsContext.Consumer>
       {({storedCredentials}) => (
@@ -31,6 +69,8 @@ export default function AuthStack() {
             <>
               <Stack.Screen
                 options={{
+                  title: '',
+                  headerTitle: props => <LogoTitle {...props} />,
                   headerShown: false,
                 }}
                 name="Welcome"
@@ -38,12 +78,29 @@ export default function AuthStack() {
               />
               <Stack.Screen
                 options={{
-                  headerShown: false,
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTitleAlign: 'center',
+                  title: '',
+                  headerTitle: props => <LogoTitle {...props} />,
                 }}
                 name="Login"
                 component={Login}
               />
-              <Stack.Screen name="Signup" component={Signup} />
+              <Stack.Screen
+                options={{
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTintColor: 'white',
+                  headerTitleAlign: 'center',
+                  title: '',
+                  headerTitle: props => <LogoTitle {...props} />,
+                }}
+                name="Signup"
+                component={Signup}
+              />
             </>
           )}
         </Stack.Navigator>

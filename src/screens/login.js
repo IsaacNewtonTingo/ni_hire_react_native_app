@@ -102,20 +102,13 @@ const Login = ({navigation}) => {
         source={require('../assets/images/joint.png')}
       />
 
-      <Text style={styles.companyTextStyles}>
-        ni<B>Hire</B>
-      </Text>
-
       <View
-        keyboardShouldPersistTaps="always"
         style={{
           backgroundColor: 'white',
           padding: 20,
           borderRadius: 20,
           marginTop: 20,
         }}>
-        <Text>Login</Text>
-
         <View>
           <MaterialIcons
             style={styles.icons}
@@ -197,13 +190,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeIMG: {
-    width: width / 1.8,
-    height: '40%',
+    width: width / 2,
+    height: width / 2,
     alignSelf: 'center',
+  },
+  loginText: {
+    color: 'black',
+    fontWeight: '800',
+    fontSize: 20,
+    marginLeft: 20,
   },
   companyTextStyles: {
     color: 'white',
-    fontSize: 60,
+    fontSize: 30,
     fontFamily: 'PaytoneOne-Regular',
     textShadowColor: '#993333',
     textShadowOffset: {
