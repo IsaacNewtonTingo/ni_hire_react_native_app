@@ -58,11 +58,11 @@ export default function JobMembers({route, navigation}) {
 
   async function getUsers() {
     setLoadingData(true);
-    let url = `${process.env.GET_USERS_OF_A_SERVICE}${serviceName}?location=${location}&serviceName=${serviceName}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
+    let url = `${process.env.GET_USERS_OF_A_SERVICE}${serviceName}?location=${location}&rate=${rate}&rating=${rating}&isPromoted=${isPromoted}&pageNumber=${pageNumber}&limit=${limit}`;
     await axios
       .get(url)
       .then(response => {
-        if (response.data.serviceProviders.length <= 0) {
+        if (response.data.status == 'Failed') {
           setReachedEnd(true);
           setLoadingData(false);
           setNoData(true);
@@ -70,6 +70,9 @@ export default function JobMembers({route, navigation}) {
           setUsersList(response.data.serviceProviders);
           setLoadingData(false);
           setNoData(false);
+          if (response.data.serviceProviders.length < 20) {
+            setReachedEnd(true);
+          }
         }
       })
       .catch(err => {
@@ -893,22 +896,24 @@ export default function JobMembers({route, navigation}) {
               </View>
             </TouchableOpacity>
           )}
-          ListFooterComponent={() => {
-            return reachedEnd ? (
-              <Text
-                style={{
-                  fontWeight: '700',
-                  color: '#d9d9d9',
-                  textAlign: 'center',
-                  padding: 15,
-                  marginBottom: 100,
-                }}>
-                No more data
-              </Text>
-            ) : (
-              <ActivityIndicator size="large" color="white" />
-            );
-          }}
+          ListFooterComponent={() => (
+            <>
+              {reachedEnd == true ? (
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    color: '#d9d9d9',
+                    textAlign: 'center',
+                    padding: 15,
+                    marginBottom: 100,
+                  }}>
+                  No more data
+                </Text>
+              ) : (
+                <ActivityIndicator size="large" color="white" />
+              )}
+            </>
+          )}
         />
       )}
 

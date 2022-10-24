@@ -71,6 +71,7 @@ const Discover = ({navigation, route}) => {
     await axios
       .get(filterURL)
       .then(response => {
+        console.log(response.data.serviceProviders.length);
         if (response.data.serviceProviders.length <= 0) {
           setReachedEnd(true);
           setLoadingData(false);
@@ -79,6 +80,9 @@ const Discover = ({navigation, route}) => {
           setAllServiceProviders(response.data.serviceProviders);
           setLoadingData(false);
           setNoData(false);
+          if (response.data.serviceProviders.length < 20) {
+            setReachedEnd(true);
+          }
         }
       })
       .catch(err => {
