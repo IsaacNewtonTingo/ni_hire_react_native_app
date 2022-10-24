@@ -29,6 +29,9 @@ export default function ProfileStack({navigation}) {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerStyle: {
+          backgroundColor: '#666699',
+        },
         headerTitleAlign: 'center',
         headerTintColor: 'white',
       }}>
@@ -58,8 +61,7 @@ export default function ProfileStack({navigation}) {
 
       <Stack.Screen
         options={{
-          headerTitle: 'JoinPremium',
-          headerTintColor: 'black',
+          headerTitle: 'Join premium',
         }}
         name="JoinPremium"
         component={JoinPremium}
@@ -68,7 +70,6 @@ export default function ProfileStack({navigation}) {
       <Stack.Screen
         options={{
           headerTitle: 'Premium records',
-          headerTintColor: 'black',
         }}
         name="Transactions"
         component={Transactions}
