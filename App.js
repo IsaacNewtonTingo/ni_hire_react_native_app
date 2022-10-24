@@ -8,25 +8,28 @@ import AuthStack from './src/navigators/authStack';
 
 import {CredentialsContext} from './src/components/credentials-context';
 
-import {LogBox} from 'react-native';
-
-LogBox.ignoreLogs([
-  // 'Setting a timer for a long period of time',
-  // 'Warning: Each child in a list should have a unique',
-  // 'Unhandled promise rejection: FirebaseError: Quota exceeded.',
-  // 'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
-  // 'Require cycles',
-  // "Warning: Can't perform a React state update on an unmounted component.",
-  // 'Error: User cancelled image selection...',
-  // 'Error: [storage/unknown] No content provider...',
-  // 'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
-  // 'TypeError: null is not an object...',
-  'Warning: Encountered two children with the same key',
-]);
+import {useNetInfo} from '@react-native-community/netinfo';
+import NoNet from './src/components/noNet';
 
 const App = () => {
   const [appReady, setAppReady] = useState(false);
   const [storedCredentials, setStoredCredentials] = useState('');
+
+  const [notInternet, setNoInternet] = useState(false);
+  const netInfo = useNetInfo();
+
+  const fetchNetInfo = () => {
+    const {isConnected, isInternetReachable} = netInfo;
+    if (isConnected === false && isInternetReachable === false) {
+      setNoInternet(true);
+    } else {
+      setNoInternet(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNetInfo();
+  }, [netInfo]);
 
   useEffect(() => {
     checkLoginCredentials();
@@ -43,6 +46,8 @@ const App = () => {
       })
       .catch(error => console.log(error));
   };
+
+  if (notInternet) return <NoNet onRefresh={fetchNetInfo} />;
 
   return (
     <CredentialsContext.Provider

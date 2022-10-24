@@ -1462,18 +1462,28 @@ function Signup({navigation}) {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            marginTop: 20,
+          }}>
           <Text
             style={{
-              textAlign: 'center',
-              fontWeight: '700',
               fontSize: 16,
-              color: '#e62e00',
-              marginTop: 20,
+              color: 'black',
+              marginRight: 10,
             }}>
-            Already have an account? Login
+            Already have an account?
           </Text>
-        </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={{color: '#e62e00', fontSize: 16, fontWeight: '800'}}>
+              Login
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -1501,9 +1511,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#660033',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: 10,
     alignSelf: 'center',
-    width: '100%',
+    width: '90%',
     marginTop: 20,
     borderWidth: 1,
     borderColor: 'gray',

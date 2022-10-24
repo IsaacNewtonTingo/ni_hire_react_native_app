@@ -27,29 +27,40 @@ export default function NewPassword({route, navigation}) {
   const userID = route.params.userID;
 
   async function resetPassword() {
-    setSubmitting(true);
-    setDisabled(true);
-    const url = process.env.RESET_PASSWORD;
+    if (!resetString) {
+      Alert.alert('Error', 'Please enter secret code');
+    } else if (!password) {
+      Alert.alert('Error', 'Please enter password');
+    } else if (password != confirmPassword) {
+      Alert.alert('Error', "Passwords don't match");
+    } else {
+      setSubmitting(true);
+      setDisabled(true);
+      const url = process.env.RESET_PASSWORD;
 
-    await axios
-      .post(url, {userID, newPassword: password, resetString})
-      .then(response => {
-        console.log(response);
-        setSubmitting(false);
-        setDisabled(false);
+      await axios
+        .post(url, {
+          userId: userID,
+          newPassword: password,
+          resetString: resetString,
+        })
+        .then(response => {
+          setSubmitting(false);
+          setDisabled(false);
 
-        if (response.data.status == 'Success') {
-          Alert.alert('Success', `${response.data.message}.Please login.`);
-          navigation.navigate('Login');
-        } else {
-          Alert.alert(response.data.message);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        setSubmitting(false);
-        setDisabled(false);
-      });
+          if (response.data.status == 'Success') {
+            Alert.alert('Success', `${response.data.message}.Please login.`);
+            navigation.navigate('Login');
+          } else {
+            Alert.alert(response.data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setSubmitting(false);
+          setDisabled(false);
+        });
+    }
   }
 
   return (
@@ -60,13 +71,13 @@ export default function NewPassword({route, navigation}) {
       />
 
       <View style={styles.emailContainer}>
-        <Text style={styles.text}>Reset string (sent to your email)</Text>
+        <Text style={styles.text}>Secret code (sent to your email)</Text>
 
         <View>
           <MaterialCommunityIcons
             style={styles.icons}
             name="code-string"
-            size={20}
+            size={23}
             color="black"
           />
 

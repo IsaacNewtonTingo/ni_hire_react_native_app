@@ -152,32 +152,53 @@ const Login = ({navigation}) => {
               <Text style={styles.buttonText}>Login</Text>
             )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontWeight: '700',
-                fontSize: 16,
-                color: '#e62e00',
-                marginTop: 20,
-              }}>
-              Don't have an account? Signup
-            </Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPassword')}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              marginTop: 20,
+            }}>
             <Text
               style={{
-                textAlign: 'center',
-                fontWeight: '700',
                 fontSize: 16,
-                color: '#6699ff',
-                marginTop: 20,
+                color: 'black',
+                marginRight: 10,
               }}>
-              Forgot password? Reset
+              Don't have an account?
             </Text>
-          </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+              <Text style={{color: '#e62e00', fontSize: 16, fontWeight: '800'}}>
+                Signup
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              marginTop: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: 'black',
+                marginRight: 10,
+              }}>
+              Forgot password?
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={{color: '#6699ff', fontSize: 16, fontWeight: '800'}}>
+                Reset
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>

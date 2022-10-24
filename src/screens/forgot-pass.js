@@ -21,7 +21,6 @@ export default function ForgotPassword({navigation}) {
   const [disabled, setDisabled] = useState(false);
 
   async function requestReset() {
-    console.log(email);
     if (!email) {
       Alert.alert('Please input email');
     } else {
@@ -32,8 +31,8 @@ export default function ForgotPassword({navigation}) {
       await axios
         .post(url, {email})
         .then(response => {
-          console.log(response);
           setSubmitting(false);
+          setDisabled(false);
 
           if (response.data.status == 'Pending') {
             Alert.alert('Reset password email sent');
@@ -41,8 +40,10 @@ export default function ForgotPassword({navigation}) {
             navigation.navigate('NewPassword', {
               userID: response.data.message,
             });
+            setDisabled(false);
           } else {
             Alert.alert(response.data.message);
+            setDisabled(false);
           }
         })
         .catch(err => {
