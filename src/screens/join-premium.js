@@ -14,8 +14,6 @@ import React, {useState, useContext, useEffect} from 'react';
 import {CredentialsContext} from '../components/credentials-context';
 import axios from 'axios';
 
-import Feather from 'react-native-vector-icons/Feather';
-
 export default function JoinPremium({navigation}) {
   const benefits = [
     'All services you offer will appear at the top of search results.',

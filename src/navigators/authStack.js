@@ -18,6 +18,8 @@ import {CredentialsContext} from '../components/credentials-context';
 import HomeStack from './homeStack';
 import Home from '../screens/home';
 import TabNavigator from './tabNavigator';
+import ForgotPassword from '../screens/forgot-pass';
+import NewPassword from '../screens/new-pass';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +90,7 @@ export default function AuthStack() {
                 name="Login"
                 component={Login}
               />
+
               <Stack.Screen
                 options={{
                   headerStyle: {
@@ -100,6 +103,34 @@ export default function AuthStack() {
                 }}
                 name="Signup"
                 component={Signup}
+              />
+
+              <Stack.Screen
+                options={{
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTintColor: 'white',
+                  headerTitleAlign: 'center',
+                  title: '',
+                  headerTitle: props => <LogoTitle {...props} />,
+                }}
+                name="ForgotPassword"
+                component={ForgotPassword}
+              />
+
+              <Stack.Screen
+                options={{
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTintColor: 'white',
+                  headerTitleAlign: 'center',
+                  title: '',
+                  headerTitle: props => <LogoTitle {...props} />,
+                }}
+                name="NewPassword"
+                component={NewPassword}
               />
             </>
           )}

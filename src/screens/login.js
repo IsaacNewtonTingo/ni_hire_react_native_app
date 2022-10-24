@@ -165,7 +165,8 @@ const Login = ({navigation}) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgotPassword')}>
             <Text
               style={{
                 textAlign: 'center',
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#660033',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: 10,
     alignSelf: 'center',
     width: '100%',
     marginTop: 20,
