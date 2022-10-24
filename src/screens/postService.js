@@ -14,13 +14,9 @@ import {
   Dimensions,
 } from 'react-native';
 
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {Bar} from 'react-native-progress';
 
 import ImagePicker from 'react-native-image-crop-picker';
-
-// import {GOOGLE_API_KEY} from '@env';
-
-import uuid from 'react-native-uuid';
 
 const {width} = Dimensions.get('window');
 
@@ -57,7 +53,10 @@ const PostService = () => {
   const [image3, setImage3] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [transferred, setTransferred] = useState(0);
+
+  const [transferred1, setTransferred1] = useState(0);
+  const [transferred2, setTransferred2] = useState(0);
+  const [transferred3, setTransferred3] = useState(0);
 
   const [location, setLocation] = useState('');
 
@@ -1276,11 +1275,9 @@ const PostService = () => {
       Alert.alert('Provide a brief description');
     } else if (!rate) {
       Alert.alert('Provide your rate');
-    }
-    // else if (!image1 || !image2 || !image3) {
-    //   Alert.alert('3 images are required');
-    // }
-    else if (description.length <= 100) {
+    } else if (!image1 || !image2 || !image3) {
+      Alert.alert('3 images are required');
+    } else if (description.length <= 100) {
       Alert.alert('Add more details to your description');
     } else {
       setIsSubmitting(true);
@@ -1314,6 +1311,17 @@ const PostService = () => {
         Alert.alert(response.data.message);
         setIsSubmitting(false);
         setDisabled(false);
+
+        setDescription('');
+        setRate('');
+        // setImage1('');
+        // setImage2('');
+        // setImage3('');
+        setTransferred1('');
+        setTransferred2(0);
+        setTransferred3('');
+        setService('');
+        setServiceTitle(null);
       })
       .catch(err => {
         console.log(err);
@@ -1403,7 +1411,7 @@ const PostService = () => {
       let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
       setIsSubmitting(true);
-      setTransferred(0);
+      setTransferred1(0);
 
       const storageRef = storage().ref(`photos/${filename}`);
       const task = storageRef.putFile(uploadUri);
@@ -1414,10 +1422,9 @@ const PostService = () => {
           `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
         );
 
-        setTransferred(
-          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-            10000,
-        );
+        setTransferred1(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+        ) * 10000;
       });
 
       try {
@@ -1442,7 +1449,7 @@ const PostService = () => {
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
     setIsSubmitting(true);
-    setTransferred(0);
+    setTransferred2(0);
 
     const storageRef = storage().ref(`photos/${filename}`);
     const task = storageRef.putFile(uploadUri);
@@ -1453,10 +1460,9 @@ const PostService = () => {
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
       );
 
-      setTransferred(
-        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-          1000,
-      );
+      setTransferred2(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+      ) * 10000;
     });
 
     try {
@@ -1480,7 +1486,7 @@ const PostService = () => {
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
     setIsSubmitting(true);
-    setTransferred(0);
+    setTransferred3(0);
 
     const storageRef = storage().ref(`photos/${filename}`);
     const task = storageRef.putFile(uploadUri);
@@ -1491,10 +1497,9 @@ const PostService = () => {
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
       );
 
-      setTransferred(
-        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-          100,
-      );
+      setTransferred3(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+      ) * 10000;
     });
 
     try {
@@ -1519,16 +1524,20 @@ const PostService = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <ActivityIndicator color="white" size="large" />
-        <Text
-          style={{
-            color: 'white',
-            fontWeight: '700',
-            marginTop: 10,
-            textAlign: 'center',
-          }}>
-          Posting{'\n'}Please wait
+        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
+          Uploading Image 1
         </Text>
+        <Bar progress={transferred1} width={300} />
+
+        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
+          Uploading Image 2
+        </Text>
+        <Bar progress={transferred2} width={300} />
+
+        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
+          Uploading Image 3
+        </Text>
+        <Bar progress={transferred3} width={300} />
       </View>
     );
   }

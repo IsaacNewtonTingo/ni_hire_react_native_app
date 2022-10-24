@@ -516,7 +516,7 @@ export default function ServiceProviderProfile({route, navigation}) {
               style={{
                 color: 'white',
                 fontWeight: '700',
-                fontSize: 20,
+                fontSize: 16,
                 marginRight: 10,
               }}>
               {firstName} {lastName}
@@ -536,7 +536,7 @@ export default function ServiceProviderProfile({route, navigation}) {
             </Text>
           </View>
 
-          <Text style={{color: '#cc0066', fontWeight: '700', fontSize: 20}}>
+          <Text style={{color: '#cc0066', fontWeight: '700', fontSize: 16}}>
             {Capitalize(serviceName)}
           </Text>
 

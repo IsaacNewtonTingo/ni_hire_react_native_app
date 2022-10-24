@@ -29,8 +29,8 @@ export default function Settings({navigation}) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profilePicture, setProfilePicture] = useState();
+  const [isPremium, setIsPremium] = useState(false);
 
-  const [userCredentials, setUserCredentials] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,6 +57,7 @@ export default function Settings({navigation}) {
         setFirstName(userData.firstName);
         setLastName(userData.lastName);
         setProfilePicture(userData.profilePicture);
+        setIsPremium(userData.isFeatured);
 
         setLoadingData(false);
       })
@@ -127,9 +128,19 @@ export default function Settings({navigation}) {
             }}
           />
           <View style={{marginLeft: 20}}>
-            <Text style={styles.name}>
-              {firstName} {lastName}
-            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.name}>
+                {firstName} {lastName}
+              </Text>
+              {isPremium === true && (
+                <Foundation
+                  style={{marginLeft: 10}}
+                  name="crown"
+                  size={20}
+                  color="orange"
+                />
+              )}
+            </View>
             <Text style={styles.viewProfileText}>View profile</Text>
           </View>
         </TouchableOpacity>
@@ -172,17 +183,17 @@ export default function Settings({navigation}) {
 
         <View style={styles.line} />
 
-        <TouchableOpacity
-          // onPress={shareApp}
+        {/* <TouchableOpacity
+          onPress={shareApp}
           style={styles.iconAndTextContainer}>
           <View style={styles.rightIconContainer}>
             <FontAwesome name="share-square-o" color="white" size={25} />
             <Text style={styles.generalTexts}>Talk about us</Text>
           </View>
           <MaterialIcons name="keyboard-arrow-right" color="white" size={30} />
-        </TouchableOpacity>
+        </TouchableOpacity> 
 
-        <View style={styles.line} />
+        <View style={styles.line} />*/}
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Support')}

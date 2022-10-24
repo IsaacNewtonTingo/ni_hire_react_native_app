@@ -51,7 +51,7 @@ export default function BugReport({url, children}) {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.centerView}>
         <Text
           style={{
