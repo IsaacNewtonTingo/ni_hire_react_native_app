@@ -2208,10 +2208,12 @@ const EditProfile = ({navigation}) => {
             dropDownContainerStyle={{
               backgroundColor: '#262626',
               paddingHorizontal: 10,
+              zIndex: 2,
             }}
             style={{
               borderBottomWidth: 1,
               borderWidth: 0,
+              zIndex: 2,
             }}
           />
         </View>
@@ -2248,12 +2250,15 @@ const EditProfile = ({navigation}) => {
           dropDownContainerStyle={{
             backgroundColor: '#262626',
             paddingHorizontal: 10,
+            zIndex: 1,
           }}
           style={{
             marginBottom: 10,
             borderBottomWidth: 1,
             borderWidth: 0,
             alignSelf: 'center',
+            width: '90%',
+            zIndex: 1,
           }}
         />
 
