@@ -229,6 +229,16 @@ export default function Settings({navigation}) {
 
         <View style={styles.line} />
       </View>
+
+      <Text
+        style={{
+          color: 'gray',
+          textAlign: 'center',
+          fontWeight: '800',
+          marginVertical: 20,
+        }}>
+        niHire Beta Version 1.0.0
+      </Text>
     </ScrollView>
   );
 }

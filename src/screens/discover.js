@@ -31,7 +31,7 @@ const Discover = ({navigation, route}) => {
   let [location, setLocation] = useState('');
   let [serviceName, setServiceName] = useState('');
 
-  let [rate, setRate] = useState('1');
+  let [rate, setRate] = useState('');
   let [rating, setRating] = useState('-1');
   let [isPromoted, setIsPromoted] = useState('-1');
 

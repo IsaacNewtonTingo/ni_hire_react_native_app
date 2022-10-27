@@ -1837,10 +1837,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     alignSelf: 'center',
-    width: '1000%',
+    width: '100%',
     marginTop: 20,
     borderWidth: 1,
-    borderColor: 'gray',
+    marginBottom: 100,
   },
   btnText: {
     color: 'white',

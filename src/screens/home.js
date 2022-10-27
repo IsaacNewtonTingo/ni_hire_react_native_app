@@ -537,8 +537,10 @@ const Home = ({navigation}) => {
                             fontSize: 12,
                           }}>
                           {item.service.serviceName.length <= 30
-                            ? item.service.serviceName
-                            : item.service.serviceName.slice(0, 30) + '...'}
+                            ? Capitalize(item.service.serviceName)
+                            : Capitalize(
+                                item.service.serviceName.slice(0, 30) + '...',
+                              )}
                         </Text>
 
                         <Text
@@ -690,9 +692,11 @@ const Home = ({navigation}) => {
                           fontSize: 12,
                         }}>
                         {item.provider.service.serviceName.length <= 30
-                          ? item.provider.service.serviceName
-                          : item.provider.service.serviceName.slice(0, 30) +
-                            '...'}
+                          ? Capitalize(item.provider.service.serviceName)
+                          : Capitalize(
+                              item.provider.service.serviceName.slice(0, 30) +
+                                '...',
+                            )}
                       </Text>
 
                       <Text

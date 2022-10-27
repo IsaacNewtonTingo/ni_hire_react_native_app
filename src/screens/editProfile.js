@@ -2030,22 +2030,22 @@ const EditProfile = ({navigation}) => {
       });
   }
 
-  if (loadingData === true) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'black',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <ActivityIndicator color="white" size="large" />
-        <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
-          Loading data
-        </Text>
-      </View>
-    );
-  }
+  // if (loadingData === true) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: 'black',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}>
+  //       <ActivityIndicator color="white" size="large" />
+  //       <Text style={{color: 'white', fontWeight: '700', marginTop: 10}}>
+  //         Loading data
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
@@ -2175,48 +2175,49 @@ const EditProfile = ({navigation}) => {
           </Text>
         </View>
 
-        <View style={{paddingHorizontal: 15}}>
-          <DropDownPicker
-            listItemLabelStyle={{
-              color: 'white',
-            }}
-            categorySelectable={true}
-            listMode="SCROLLVIEW"
-            searchable={true}
-            searchPlaceholder="Search a location..."
-            searchContainerStyle={{
-              borderBottomColor: 'transparent',
-              marginTop: 10,
-            }}
-            searchTextInputStyle={{
-              borderColor: 'white',
-              color: 'white',
-            }}
-            disableBorderRadius={true}
-            zIndex={2000}
-            placeholder="Select location"
-            open={openlocation}
-            value={locationTitle}
-            items={itemslocation}
-            setOpen={setOpenlocation}
-            setValue={setlocationTitle}
-            setItems={setItemslocation}
-            onSelectItem={item => {
-              setDisplayButton(true);
-              selectedItem(item);
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: '#262626',
-              paddingHorizontal: 10,
-              zIndex: 2,
-            }}
-            style={{
-              borderBottomWidth: 1,
-              borderWidth: 0,
-              zIndex: 2,
-            }}
-          />
-        </View>
+        <DropDownPicker
+          listItemLabelStyle={{
+            color: 'white',
+          }}
+          categorySelectable={true}
+          listMode="SCROLLVIEW"
+          searchable={true}
+          searchPlaceholder="Search a location..."
+          searchContainerStyle={{
+            borderBottomColor: 'transparent',
+            marginTop: 10,
+          }}
+          searchTextInputStyle={{
+            borderColor: 'white',
+            color: 'white',
+          }}
+          disableBorderRadius={true}
+          zIndex={2000}
+          placeholder="Select location"
+          open={openlocation}
+          value={locationTitle}
+          items={itemslocation}
+          setOpen={setOpenlocation}
+          setValue={setlocationTitle}
+          setItems={setItemslocation}
+          onSelectItem={item => {
+            setDisplayButton(true);
+            selectedItem(item);
+          }}
+          dropDownContainerStyle={{
+            backgroundColor: '#262626',
+            paddingHorizontal: 10,
+            zIndex: 2,
+            height: 400,
+            position: 'absolute',
+          }}
+          style={{
+            borderBottomWidth: 1,
+            borderWidth: 0,
+            width: '90%',
+            zIndex: 1,
+          }}
+        />
 
         <DropDownPicker
           listItemLabelStyle={{
@@ -2253,7 +2254,6 @@ const EditProfile = ({navigation}) => {
             zIndex: 1,
           }}
           style={{
-            marginBottom: 10,
             borderBottomWidth: 1,
             borderWidth: 0,
             alignSelf: 'center',
