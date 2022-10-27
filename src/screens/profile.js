@@ -19,7 +19,6 @@ import {
 
 const {width} = Dimensions.get('window');
 
-import LinearGradient from 'react-native-linear-gradient';
 import dateFormat from 'dateformat';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -29,7 +28,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CredentialsContext} from '../components/credentials-context';
 
 import axios from 'axios';
@@ -49,14 +47,11 @@ export default function Profile({route, navigation}) {
   const [profileVisits, setProfileVisits] = useState();
 
   const [noReviews, setNoReviews] = useState(false);
-  const [noData, setNoData] = useState(false);
 
   const [noJobsData, setNoJobsData] = useState(false);
 
   const [loadingData, setLoadingData] = useState(true);
   const [loading, setLoading] = useState(true);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentUserID = route.params.userID;
 
@@ -162,6 +157,21 @@ export default function Profile({route, navigation}) {
       });
   }
 
+  async function opneImageURL() {
+    if (profilePicture) {
+      const supported = Linking.canOpenURL(profilePicture);
+
+      if (supported) {
+        await Linking.openURL(profilePicture);
+        console.log(profilePicture);
+      } else {
+        Alert.alert('Error', 'Not able to open image location');
+      }
+    } else {
+      return null;
+    }
+  }
+
   if (loadingData) {
     return (
       <View
@@ -191,14 +201,16 @@ export default function Profile({route, navigation}) {
         source={{
           uri: 'https://cutewallpaper.org/21/background-images-hd-1080p-free-download/Download-Hd-Video-Backgrounds-1080p-Free-Download-High-.jpg',
         }}>
-        <Image
-          style={{width: 120, height: 120, borderRadius: 60}}
-          source={{
-            uri: profilePicture
-              ? profilePicture
-              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-          }}
-        />
+        <TouchableOpacity onPress={opneImageURL}>
+          <Image
+            style={{width: 120, height: 120, borderRadius: 60}}
+            source={{
+              uri: profilePicture
+                ? profilePicture
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            }}
+          />
+        </TouchableOpacity>
       </ImageBackground>
 
       <View style={styles.detailsContainer}>

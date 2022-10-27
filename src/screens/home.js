@@ -90,9 +90,9 @@ const Home = ({navigation}) => {
       });
   }
 
-  // function Capitalize(str) {
-  //   return str.charAt(0).toUpperCase() + str.slice(1);
-  // }
+  function Capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   async function addToProfileVisits({providerID}) {
     const url =
@@ -266,13 +266,15 @@ const Home = ({navigation}) => {
       <View style={{flex: 1, marginBottom: 100}}>
         {/* ----------------------------------Featured users-------------------------------------------------- */}
 
-        <View style={styles.topAndViewContainer}>
-          <Text style={styles.topText}>Featured service providers</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('FeaturedUsers')}>
-            <Text style={styles.viewAll}>View all</Text>
-          </TouchableOpacity>
-        </View>
+        {usersList > 0 && (
+          <View style={styles.topAndViewContainer}>
+            <Text style={styles.topText}>Featured service providers</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('FeaturedUsers')}>
+              <Text style={styles.viewAll}>View all</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <View style={{flex: 1, marginTop: 20}}>
           <FlatList
@@ -351,8 +353,10 @@ const Home = ({navigation}) => {
                     marginLeft: 5,
                   }}>
                   {item.generalPromotedTitle.length <= 30
-                    ? item.generalPromotedTitle
-                    : item.generalPromotedTitle.slice(0, 30) + '...'}
+                    ? Capitalize(item.generalPromotedTitle)
+                    : Capitalize(
+                        item.generalPromotedTitle.slice(0, 30) + '...',
+                      )}
                 </Text>
               </TouchableOpacity>
             )}
@@ -390,9 +394,11 @@ const Home = ({navigation}) => {
 
         {/* -------------------------Categories text------------------------------------------------- */}
 
-        <View style={styles.topAndViewContainer}>
-          <Text style={styles.topText}>Categories</Text>
-        </View>
+        {categoryList.length > 0 && (
+          <View style={styles.topAndViewContainer}>
+            <Text style={styles.topText}>Categories</Text>
+          </View>
+        )}
 
         {/* -------------------------Categories ------------------------------------------------- */}
 

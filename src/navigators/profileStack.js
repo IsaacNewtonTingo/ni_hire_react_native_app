@@ -27,14 +27,7 @@ const Stack = createNativeStackNavigator();
 
 export default function ProfileStack({navigation}) {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#666699',
-        },
-        headerTitleAlign: 'center',
-        headerTintColor: 'white',
-      }}>
+    <Stack.Navigator screenOptions={{}}>
       <Stack.Screen
         options={{
           headerShown: false,
@@ -46,6 +39,21 @@ export default function ProfileStack({navigation}) {
         options={{
           headerTransparent: true,
           headerTitle: '',
+          headerLeft: props => (
+            <TouchableOpacity onPress={() => navigation.pop()} {...props}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 20,
+                  backgroundColor: '#262626',
+                }}>
+                <Ionicons name="arrow-back" size={24} color="white" />
+              </View>
+            </TouchableOpacity>
+          ),
         }}
         name="Profile"
         component={Profile}
@@ -54,6 +62,22 @@ export default function ProfileStack({navigation}) {
         options={{
           headerTransparent: true,
           headerTitle: '',
+
+          headerLeft: props => (
+            <TouchableOpacity onPress={() => navigation.pop()} {...props}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 20,
+                  backgroundColor: '#262626',
+                }}>
+                <Ionicons name="arrow-back" size={24} color="white" />
+              </View>
+            </TouchableOpacity>
+          ),
         }}
         name="EditProfile"
         component={EditProfile}
@@ -61,6 +85,11 @@ export default function ProfileStack({navigation}) {
 
       <Stack.Screen
         options={{
+          headerStyle: {
+            backgroundColor: '#666699',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
           headerTitle: 'Join premium',
         }}
         name="JoinPremium"
@@ -69,6 +98,11 @@ export default function ProfileStack({navigation}) {
 
       <Stack.Screen
         options={{
+          headerStyle: {
+            backgroundColor: '#666699',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
           headerTitle: 'Premium records',
         }}
         name="Transactions"
@@ -78,8 +112,10 @@ export default function ProfileStack({navigation}) {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: 'black',
+            backgroundColor: '#666699',
           },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
           headerTitle: 'Contact us',
         }}
         name="Support"
@@ -88,7 +124,11 @@ export default function ProfileStack({navigation}) {
 
       <Stack.Screen
         options={{
-          headerTintColor: 'black',
+          headerStyle: {
+            backgroundColor: '#666699',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
           headerTitle: 'Report bug',
         }}
         name="BugReport"

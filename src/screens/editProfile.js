@@ -1892,33 +1892,37 @@ const EditProfile = ({navigation}) => {
   }
 
   async function editProfile() {
-    setIsPosting(true);
-    const url = process.env.EDIT_PROFILE + _id;
+    if (firstName.length < 3 || lastName.length < 3) {
+      Alert.alert('Error', 'Name is too short');
+    } else {
+      setIsPosting(true);
+      const url = process.env.EDIT_PROFILE + _id;
 
-    await axios
-      .put(url, {
-        firstName,
-        lastName,
-        bio,
-        profilePicture: newProfilePicture
-          ? await uploadprofilePicture()
-          : profilePicture,
-        location,
-        password,
-        email,
-        phoneNumber,
-        generalPromotedTitle: service,
-      })
-      .then(response => {
-        Alert.alert(response.data.message);
-        setIsPosting(false);
-        setPassword('');
-        setModalVisible(false);
-      })
-      .catch(err => {
-        setIsPosting(false);
-        console.log(err);
-      });
+      await axios
+        .put(url, {
+          firstName,
+          lastName,
+          bio,
+          profilePicture: newProfilePicture
+            ? await uploadprofilePicture()
+            : profilePicture,
+          location,
+          password,
+          email,
+          phoneNumber,
+          generalPromotedTitle: service,
+        })
+        .then(response => {
+          Alert.alert(response.data.message);
+          setIsPosting(false);
+          setPassword('');
+          setModalVisible(false);
+        })
+        .catch(err => {
+          setIsPosting(false);
+          console.log(err);
+        });
+    }
   }
 
   function openLibrary() {
@@ -2203,7 +2207,6 @@ const EditProfile = ({navigation}) => {
             }}
             dropDownContainerStyle={{
               backgroundColor: '#262626',
-              zIndex: 1,
               paddingHorizontal: 10,
             }}
             style={{
@@ -2244,14 +2247,12 @@ const EditProfile = ({navigation}) => {
           }}
           dropDownContainerStyle={{
             backgroundColor: '#262626',
-            zIndex: 2000,
             paddingHorizontal: 10,
           }}
           style={{
             marginBottom: 10,
             borderBottomWidth: 1,
             borderWidth: 0,
-            width: '93%',
             alignSelf: 'center',
           }}
         />

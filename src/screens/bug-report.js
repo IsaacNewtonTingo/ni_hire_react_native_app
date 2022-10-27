@@ -51,7 +51,9 @@ export default function BugReport({url, children}) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      keyboardShouldPersistTaps="always"
+      contentContainerStyle={styles.container}>
       <View style={styles.centerView}>
         <Text
           style={{

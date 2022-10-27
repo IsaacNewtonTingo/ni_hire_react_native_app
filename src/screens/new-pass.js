@@ -31,6 +31,16 @@ export default function NewPassword({route, navigation}) {
       Alert.alert('Error', 'Please enter secret code');
     } else if (!password) {
       Alert.alert('Error', 'Please enter password');
+    } else if (password.length < 8) {
+      Alert.alert(
+        'Error',
+        'Password is too short. Should be over 8 characters.',
+      );
+    } else if (confirmPassword.length < 8) {
+      Alert.alert(
+        'Error',
+        'Password is too short. Should be over 8 characters.',
+      );
     } else if (password != confirmPassword) {
       Alert.alert('Error', "Passwords don't match");
     } else {
@@ -84,7 +94,7 @@ export default function NewPassword({route, navigation}) {
           <TextInput
             value={resetString}
             onChangeText={setResetString}
-            placeholder="e.g hdgdye6743fbff3yy4763fb"
+            placeholder="e.g 4890"
             style={styles.textInput}
           />
         </View>

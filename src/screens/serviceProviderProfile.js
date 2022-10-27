@@ -368,7 +368,7 @@ export default function ServiceProviderProfile({route, navigation}) {
               .then(response => {
                 Alert.alert(response.data.message);
                 setIsDeleting(false);
-                navigation.navigate('HomeStack', {screen: 'Home'});
+                navigation.navigate('Profile', {userID: userID});
               })
               .catch(err => {
                 console.log(err);
@@ -392,6 +392,51 @@ export default function ServiceProviderProfile({route, navigation}) {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  async function opneImageURL1() {
+    if (image1) {
+      const supported = Linking.canOpenURL(image1);
+
+      if (supported) {
+        await Linking.openURL(image1);
+        console.log(image1);
+      } else {
+        Alert.alert('Error', 'Not able to open image location');
+      }
+    } else {
+      return null;
+    }
+  }
+
+  async function opneImageURL2() {
+    if (image2) {
+      const supported = Linking.canOpenURL(image2);
+
+      if (supported) {
+        await Linking.openURL(image2);
+        console.log(image2);
+      } else {
+        Alert.alert('Error', 'Not able to open image location');
+      }
+    } else {
+      return null;
+    }
+  }
+
+  async function opneImageURL3() {
+    if (image3) {
+      const supported = Linking.canOpenURL(image3);
+
+      if (supported) {
+        await Linking.openURL(image3);
+        console.log(image3);
+      } else {
+        Alert.alert('Error', 'Not able to open image location');
+      }
+    } else {
+      return null;
+    }
   }
 
   if (loadingData == true) {
@@ -422,43 +467,50 @@ export default function ServiceProviderProfile({route, navigation}) {
           width: width,
           flex: 1,
         }}>
-        <Image
-          source={{
-            uri: image1
-              ? image1.toString()
-              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-          }}
-          style={{
-            width: width - 40,
-            height: width / 1.7,
-            marginRight: 10,
-          }}
-        />
-        <Image
-          source={{
-            uri: image2
-              ? image2.toString()
-              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-          }}
-          style={{
-            width: width - 40,
-            height: width / 1.7,
-            marginRight: 10,
-          }}
-        />
+        <TouchableOpacity onPress={opneImageURL1}>
+          <Image
+            source={{
+              uri: image1
+                ? image1.toString()
+                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+            }}
+            style={{
+              width: width - 40,
+              height: width / 1.7,
+              marginRight: 10,
+            }}
+          />
+        </TouchableOpacity>
 
-        <Image
-          source={{
-            uri: image3
-              ? image3.toString()
-              : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
-          }}
-          style={{
-            width: width - 40,
-            height: width / 1.7,
-            marginRight: 10,
-          }}
-        />
+        <TouchableOpacity onPress={opneImageURL2}>
+          <Image
+            source={{
+              uri: image2
+                ? image2.toString()
+                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+            }}
+            style={{
+              width: width - 40,
+              height: width / 1.7,
+              marginRight: 10,
+            }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={opneImageURL3}>
+          <Image
+            source={{
+              uri: image3
+                ? image3.toString()
+                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+            }}
+            style={{
+              width: width - 40,
+              height: width / 1.7,
+              marginRight: 10,
+            }}
+          />
+        </TouchableOpacity>
       </ScrollView>
 
       <TouchableOpacity
@@ -879,20 +931,6 @@ export default function ServiceProviderProfile({route, navigation}) {
               <Text style={styles.payBtnText}>Promote this service</Text>
             </TouchableOpacity>
           )}
-
-          {/* <TouchableOpacity
-            onPress={() => navigation.navigate('EditService')}
-            style={{
-              backgroundColor: '#0099cc',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 50,
-              marginTop: 20,
-              marginHorizontal: 20,
-              borderRadius: 10,
-            }}>
-            <Text style={{color: 'white', fontWeight: '700'}}>Edit</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={deleteService}

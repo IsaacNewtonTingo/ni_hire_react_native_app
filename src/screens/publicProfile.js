@@ -179,6 +179,21 @@ export default function PublicProfile({route, navigation}) {
       });
   }
 
+  async function opneImageURL() {
+    if (profilePicture) {
+      const supported = Linking.canOpenURL(profilePicture);
+
+      if (supported) {
+        await Linking.openURL(profilePicture);
+        console.log(profilePicture);
+      } else {
+        Alert.alert('Error', 'Not able to open image location');
+      }
+    } else {
+      return null;
+    }
+  }
+
   async function getProfileVisits() {
     const url = process.env.GET_PROFILE_VISITS + userID;
     await axios
@@ -222,14 +237,16 @@ export default function PublicProfile({route, navigation}) {
         source={{
           uri: 'https://cutewallpaper.org/21/background-images-hd-1080p-free-download/Download-Hd-Video-Backgrounds-1080p-Free-Download-High-.jpg',
         }}>
-        <Image
-          style={{width: 120, height: 120, borderRadius: 60}}
-          source={{
-            uri: profilePicture
-              ? profilePicture
-              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-          }}
-        />
+        <TouchableOpacity onPress={opneImageURL}>
+          <Image
+            style={{width: 120, height: 120, borderRadius: 60}}
+            source={{
+              uri: profilePicture
+                ? profilePicture
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            }}
+          />
+        </TouchableOpacity>
       </ImageBackground>
 
       <View style={styles.detailsContainer}>
