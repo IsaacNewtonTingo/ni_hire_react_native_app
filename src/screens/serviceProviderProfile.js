@@ -57,6 +57,7 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
 
   const [disabled, setDisabled] = useState(false);
+  const [disabledDeleteBTN, setDisabledDeleteBTN] = useState(false);
 
   let serviceProviderID = route.params.serviceProviderID;
   let userID = route.params.userID;
@@ -363,16 +364,19 @@ export default function ServiceProviderProfile({route, navigation}) {
           text: 'OK',
           onPress: async () => {
             setIsDeleting(true);
+            setDisabledDeleteBTN(true);
             await axios
               .delete(url)
               .then(response => {
                 Alert.alert(response.data.message);
                 setIsDeleting(false);
+                setDisabledDeleteBTN(false);
                 navigation.navigate('Profile', {userID: userID});
               })
               .catch(err => {
                 console.log(err);
                 setIsDeleting(false);
+                setDisabledDeleteBTN(false);
               });
           },
         },
@@ -933,6 +937,7 @@ export default function ServiceProviderProfile({route, navigation}) {
           )}
 
           <TouchableOpacity
+            disabled={disabledDeleteBTN}
             onPress={deleteService}
             style={{
               backgroundColor: '#ff6600',
@@ -944,7 +949,11 @@ export default function ServiceProviderProfile({route, navigation}) {
               marginHorizontal: 20,
               borderRadius: 10,
             }}>
-            <Text style={{color: 'white', fontWeight: '700'}}>Delete</Text>
+            {isDeleting === true ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={{color: 'white', fontWeight: '700'}}>Delete</Text>
+            )}
           </TouchableOpacity>
         </View>
       )}

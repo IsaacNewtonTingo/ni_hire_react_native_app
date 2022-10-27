@@ -23,7 +23,6 @@ import Foundation from 'react-native-vector-icons/Foundation';
 
 import axios from 'axios';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CredentialsContext} from '../components/credentials-context';
 
 const data = require('../assets/data/categories.json');
@@ -31,7 +30,6 @@ const servicesData = require('../assets/data/services.json');
 const topServices = require('../assets/data/topServices.json');
 
 const Home = ({navigation}) => {
-  const [noData, setNoData] = useState(false);
   const [usersList, setUsersList] = useState([]);
   const [viewedUsersList, setViewedUsersList] = useState([]);
   const [featuredServices, setFeaturedServices] = useState([]);
@@ -40,15 +38,10 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [loadingData, setLoadingData] = useState(true);
 
-  const [noRecentlyViewed, setNoRecentlyViewed] = useState(false);
-  const [noFeaturedServices, setNoFeaturedServices] = useState(false);
-
   const [filtered, setFiltered] = useState(servicesData);
   const [searching, setSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [displayX, setDisplayX] = useState(false);
-
-  const [currentUserId, setCurrentUserId] = useState('');
 
   const {storedCredentials, setStoredCredentials} =
     useContext(CredentialsContext);
@@ -134,11 +127,9 @@ const Home = ({navigation}) => {
       .then(response => {
         setLoadingData(false);
         if (response.data.length < 1) {
-          setNoRecentlyViewed(true);
           setLoadingData(false);
         } else {
           setViewedUsersList(response.data);
-          setNoRecentlyViewed(false);
           setLoadingData(false);
         }
       })
@@ -266,7 +257,7 @@ const Home = ({navigation}) => {
       <View style={{flex: 1, marginBottom: 100}}>
         {/* ----------------------------------Featured users-------------------------------------------------- */}
 
-        {usersList > 0 && (
+        {usersList.length > 0 && (
           <View style={styles.topAndViewContainer}>
             <Text style={styles.topText}>Featured service providers</Text>
             <TouchableOpacity
@@ -288,6 +279,9 @@ const Home = ({navigation}) => {
                   addToProfileVisits({
                     providerID: item._id,
                   });
+                  if (item._id === _id) {
+                    navigation.navigate('Profile', {userID: _id});
+                  }
                   navigation.navigate('PublicProfile', {
                     userID: item._id,
                     firstName: item.firstName,

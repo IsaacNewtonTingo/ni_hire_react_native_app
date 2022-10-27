@@ -1620,7 +1620,7 @@ const PostService = () => {
 
           <TextInput
             placeholderTextColor="gray"
-            placeholder="Short desciption"
+            placeholder="Desciption (Minimum 100 characters)"
             style={styles.input}
             value={description}
             maxLength={200}
@@ -1664,10 +1664,6 @@ const PostService = () => {
               onPress={openLibrary1}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
-
-              {/* <Text style={{color: 'black', fontWeight: '900', fontSize: 20}}>
-                Upload cover image
-              </Text> */}
             </TouchableOpacity>
 
             <Image
@@ -1685,10 +1681,6 @@ const PostService = () => {
               onPress={openLibrary2}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
-
-              {/* <Text style={{color: 'black', fontWeight: '900', fontSize: 20}}>
-                Upload cover image
-              </Text> */}
             </TouchableOpacity>
 
             <Image
@@ -1706,10 +1698,6 @@ const PostService = () => {
               onPress={openLibrary3}
               style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
               <Entypo name="camera" color="#cc0066" size={30} />
-
-              {/* <Text style={{color: 'black', fontWeight: '900', fontSize: 20}}>
-                Upload cover image
-              </Text> */}
             </TouchableOpacity>
 
             <Image
@@ -1837,7 +1825,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingHorizontal: 40,
     marginBottom: 10,
-    borderBottomColor: 'white',
+    borderBottomColor: '#595959',
     zIndex: 0,
     color: 'white',
     marginHorizontal: 5,
@@ -1849,11 +1837,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     alignSelf: 'center',
-    width: '100%',
+    width: '1000%',
     marginTop: 20,
     borderWidth: 1,
     borderColor: 'gray',
-    marginBottom: 100,
   },
   btnText: {
     color: 'white',
@@ -1879,5 +1866,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+    borderRadius: 5,
   },
 });
