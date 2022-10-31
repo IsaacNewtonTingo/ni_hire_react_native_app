@@ -2348,6 +2348,7 @@ const EditProfile = ({navigation}) => {
               value={email}
               placeholderTextColor="gray"
               onChangeText={text => setEmail(text)}
+              autoCapitalize="none"
               keyboardType="email-address"
             />
 

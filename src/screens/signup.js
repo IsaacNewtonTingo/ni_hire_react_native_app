@@ -1379,6 +1379,7 @@ function Signup({navigation}) {
             style={styles.input}
             placeholderTextColor="gray"
             keyboardType="email-address"
+            autoCapitalize="none"
           />
         </View>
 
