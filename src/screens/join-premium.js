@@ -9,10 +9,15 @@ import {
   Alert,
   TextInput,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useCallback, useEffect} from 'react';
 import {CredentialsContext} from '../components/credentials-context';
 import axios from 'axios';
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 export default function JoinPremium({navigation}) {
   const benefits = [
@@ -36,8 +41,16 @@ export default function JoinPremium({navigation}) {
     useContext(CredentialsContext);
   const {_id} = storedCredentials;
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     getUserData();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getUserData();
+    wait(2000).then(() => setRefreshing(false));
   }, []);
 
   async function getUserData() {
@@ -60,7 +73,6 @@ export default function JoinPremium({navigation}) {
     const url = process.env.JOIN_PREMIUM + _id;
     setIsPaying(true);
     phoneNumber = parseInt(phoneNumber);
-    console.log(phoneNumber);
 
     if (!password) {
       setIsPaying(false);
@@ -73,24 +85,18 @@ export default function JoinPremium({navigation}) {
         })
         .then(response => {
           console.log(response.data);
-          if (response.data.status == 'Failed') {
-            Alert.alert('Failed', response.data.message);
-            setIsPaying(false);
-            setPassword('');
-          } else if (response.data.CustomerMessage) {
+          if (response.data.status == 'Success') {
             setIsPaying(false);
             Alert.alert(
               'Success',
-              response.data.CustomerMessage + '. Wait for M-PESA prompt',
+              response.data.ResponseDescription +
+                '. Wait for M-PESA prompt. After paying, reload page to see changes',
             );
             setPassword('');
-          } else if (response.data.errorMessage) {
-            setIsPaying(false);
-            Alert.alert('Failed', response.data.errorMessage);
-            setPassword('');
+            setPayModal(false);
           } else {
+            Alert.alert('Error', 'An error occured. Please try again later');
             setIsPaying(false);
-            console.log(response.data);
             setPassword('');
           }
         })
@@ -102,7 +108,12 @@ export default function JoinPremium({navigation}) {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      keyboardShouldPersistTaps="always"
+      style={styles.container}>
       <View style={styles.priceContainer}>
         <Text style={styles.sub}>7 Day plan</Text>
         <Text style={styles.cashText}>KSH. 350</Text>

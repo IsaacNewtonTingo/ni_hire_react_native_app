@@ -1909,7 +1909,6 @@ const EditProfile = ({navigation}) => {
           location,
           password,
           email,
-          phoneNumber,
           generalPromotedTitle: service,
         })
         .then(response => {
