@@ -2348,6 +2348,7 @@ const EditProfile = ({navigation}) => {
               value={email}
               placeholderTextColor="gray"
               onChangeText={text => setEmail(text)}
+              keyboardType="email-address"
             />
 
             <Text style={styles.text}>Enter password</Text>
@@ -2396,6 +2397,7 @@ const EditProfile = ({navigation}) => {
               value={phoneNumber}
               placeholderTextColor="gray"
               onChangeText={text => setPhoneNumber(text)}
+              keyboardType="phone-pad"
             />
 
             <Text style={styles.text}>Enter password</Text>
