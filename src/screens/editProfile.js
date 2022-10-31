@@ -2128,7 +2128,7 @@ const EditProfile = ({navigation}) => {
           />
         </View>
 
-        <View>
+        {/* <View>
           <MaterialIcons
             style={styles.icons}
             name="phone"
@@ -2142,8 +2142,9 @@ const EditProfile = ({navigation}) => {
             placeholder="Phone number"
             style={styles.input}
             placeholderTextColor="gray"
+            editable={false}
           />
-        </View>
+        </View> */}
 
         <View>
           <MaterialCommunityIcons
@@ -2214,8 +2215,9 @@ const EditProfile = ({navigation}) => {
           style={{
             borderBottomWidth: 1,
             borderWidth: 0,
-            width: '90%',
+            width: '87%',
             zIndex: 1,
+            alignSelf: 'center',
           }}
         />
 
@@ -2269,6 +2271,14 @@ const EditProfile = ({navigation}) => {
             }}
             style={styles.phoneBTN}>
             <Text style={styles.phoneText}>Edit email</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setEditPhoneModal(true);
+            }}
+            style={styles.phoneBTN}>
+            <Text style={styles.phoneText}>Edit phone number</Text>
           </TouchableOpacity>
         </View>
       </View>
