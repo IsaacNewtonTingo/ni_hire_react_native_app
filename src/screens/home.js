@@ -280,18 +280,23 @@ const Home = ({navigation}) => {
                     providerID: item._id,
                   });
                   if (item._id === _id) {
-                    navigation.navigate('Profile', {userID: _id});
+                    navigation.navigate(
+                      'ProfileStack',
+                      {userID: _id},
+                      {screen: 'Profile'},
+                    );
+                  } else {
+                    navigation.navigate('PublicProfile', {
+                      userID: item._id,
+                      firstName: item.firstName,
+                      lastName: item.lastName,
+                      email: item.email,
+                      phoneNumber: item.phoneNumber,
+                      bio: item.bio,
+                      location: item.location,
+                      profilePicture: item.profilePicture,
+                    });
                   }
-                  navigation.navigate('PublicProfile', {
-                    userID: item._id,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    email: item.email,
-                    phoneNumber: item.phoneNumber,
-                    bio: item.bio,
-                    location: item.location,
-                    profilePicture: item.profilePicture,
-                  });
                 }}
                 style={{
                   marginRight: 10,

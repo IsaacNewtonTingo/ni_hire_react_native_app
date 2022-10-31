@@ -70,7 +70,9 @@ export default function JobMembers({route, navigation}) {
           setUsersList(response.data.serviceProviders);
           setLoadingData(false);
           setNoData(false);
-          if (response.data.serviceProviders.length < 20) {
+          if (response.data.serviceProviders.length < 1) {
+            setNoData(true);
+          } else if (response.data.serviceProviders.length < 20) {
             setReachedEnd(true);
           }
         }
