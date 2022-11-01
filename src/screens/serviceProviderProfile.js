@@ -575,7 +575,9 @@ export default function ServiceProviderProfile({route, navigation}) {
                 fontSize: 16,
                 marginRight: 10,
               }}>
-              {firstName} {lastName}
+              {firstName.length + lastName.length <= 10
+                ? firstName + ' ' + lastName
+                : firstName + ' ' + lastName.slice(0, 4) + '...'}
             </Text>
             <AntDesign name="star" size={15} color="orange" />
             <Text

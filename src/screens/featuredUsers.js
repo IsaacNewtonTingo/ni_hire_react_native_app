@@ -65,6 +65,7 @@ export default function FeaturedUsers({route, navigation}) {
   return (
     <View style={styles.container}>
       <FlatList
+        style={{flex: 1}}
         data={usersList}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -97,12 +98,9 @@ export default function FeaturedUsers({route, navigation}) {
             <View style={styles.rightContainer}>
               <View style={styles.nameAndIcon}>
                 <Text style={styles.nameText}>
-                  {item.firstName.length <= 15
-                    ? item.firstName
-                    : item.firstName.slice(0, 15) + '...'}{' '}
-                  {item.lastName.length <= 15
-                    ? item.lastName
-                    : item.lastName.slice(0, 15) + '...'}
+                  {item.firstName.length + item.lastName.length <= 10
+                    ? item.firstName + ' ' + item.lastName
+                    : item.firstName + ' ' + item.lastName.slice(0, 5) + '...'}
                 </Text>
 
                 <Foundation name="crown" size={20} color="orange" />
@@ -132,7 +130,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
     padding: 10,
-    paddingBottom: 100,
   },
 
   personCard: {
@@ -166,6 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
+    justifyContent: 'space-between',
   },
   rightContainer: {
     flex: 1,
