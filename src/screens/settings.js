@@ -130,7 +130,9 @@ export default function Settings({navigation}) {
           <View style={{marginLeft: 20}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.name}>
-                {firstName} {lastName}
+                {firstName.length + lastName.length <= 15
+                  ? firstName + ' ' + lastName
+                  : firstName + ' ' + lastName.slice(0, 14) + '...'}
               </Text>
               {isPremium === true && (
                 <Foundation

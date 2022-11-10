@@ -116,7 +116,7 @@ export default function JoinPremium({navigation}) {
       style={styles.container}>
       <View style={styles.priceContainer}>
         <Text style={styles.sub}>7 Day plan</Text>
-        <Text style={styles.cashText}>KSH. 350</Text>
+        <Text style={styles.cashText}>KSH. 100</Text>
         <Text style={styles.sub}>Renewed after 7 days</Text>
       </View>
 
