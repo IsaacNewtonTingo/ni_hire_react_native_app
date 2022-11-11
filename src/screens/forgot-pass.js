@@ -76,6 +76,7 @@ export default function ForgotPassword({navigation}) {
             placeholder="e.g doe@gmail.com"
             keyboardType="email-address"
             style={styles.textInput}
+            autoCapitalize="none"
           />
         </View>
 
