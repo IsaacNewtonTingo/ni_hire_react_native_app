@@ -28,7 +28,6 @@
     "react-native-gesture-handler": "^2.7.0",
     "react-native-google-places-autocomplete": "^2.4.1",
     "react-native-image-crop-picker": "^0.37.3",
-    "react-native-image-picker": "^4.8.3",
     "react-native-indicators": "^0.17.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-markdown-package": "^1.8.2",
