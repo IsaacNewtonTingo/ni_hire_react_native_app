@@ -54,6 +54,7 @@ export default function JoinPremium({navigation}) {
   }, []);
 
   async function getUserData() {
+    setIsLoadingData(true);
     const url = process.env.GET_USER_DATA + _id;
     await axios
       .get(url)
@@ -89,13 +90,13 @@ export default function JoinPremium({navigation}) {
             setIsPaying(false);
             Alert.alert(
               'Success',
-              response.data.ResponseDescription +
-                '. Wait for M-PESA prompt. After paying, reload page to see changes',
+              `${response.data.message}. You are now a premium user.`,
             );
             setPassword('');
             setPayModal(false);
+            getUserData();
           } else {
-            Alert.alert('Error', 'An error occured. Please try again later');
+            Alert.alert('Error', response.data.message);
             setIsPaying(false);
             setPassword('');
           }
