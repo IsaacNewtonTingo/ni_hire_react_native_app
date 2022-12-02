@@ -237,7 +237,7 @@ export default function PublicProfile({route, navigation}) {
         source={{
           uri: 'https://cutewallpaper.org/21/background-images-hd-1080p-free-download/Download-Hd-Video-Backgrounds-1080p-Free-Download-High-.jpg',
         }}>
-        <TouchableOpacity onPress={opneImageURL}>
+        <TouchableOpacity>
           <Image
             style={{width: 120, height: 120, borderRadius: 60}}
             source={{
@@ -537,14 +537,14 @@ export default function PublicProfile({route, navigation}) {
                         }}>
                         KSH. {item.rate}
                       </Text>
-
+                      {/* 
                       <View
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
                         <Entypo name="eye" size={13} color="#ffbf80" />
-                        {/* <Text
+                        <Text
                           style={{
                             color: '#ffbf80',
                             fontWeight: '800',
@@ -552,8 +552,8 @@ export default function PublicProfile({route, navigation}) {
                             marginLeft: 10,
                           }}>
                           {item.jobViewedBy.length} view(s)
-                        </Text> */}
-                      </View>
+                        </Text>
+                      </View> */}
                     </View>
                   </View>
                 </TouchableOpacity>

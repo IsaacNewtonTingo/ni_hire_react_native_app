@@ -52,6 +52,9 @@ const PostService = () => {
   const [image2, setImage2] = useState('');
   const [image3, setImage3] = useState('');
 
+  const noImage =
+    'https://csp-clients.s3.amazonaws.com/easttexasspa/wp-content/uploads/2021/06/no-image-icon-23485.png';
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [transferred1, setTransferred1] = useState(0);
@@ -1275,10 +1278,12 @@ const PostService = () => {
       Alert.alert('Provide a brief description');
     } else if (!rate) {
       Alert.alert('Provide your rate');
-    } else if (!image1 || !image2 || !image3) {
-      Alert.alert('3 images are required');
+    } else if (!image1 && !image2 && !image3) {
+      Alert.alert('Add at least one image');
     } else if (description.length <= 100) {
-      Alert.alert('Add more details to your description');
+      Alert.alert(
+        'Add more details to your description (Minimum 100 characters)',
+      );
     } else {
       setIsSubmitting(true);
       sendToDB();
@@ -1669,9 +1674,7 @@ const PostService = () => {
             <Image
               style={{width: '100%', height: '100%'}}
               source={{
-                uri: image1
-                  ? image1
-                  : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                uri: image1 ? image1 : noImage,
               }}
             />
           </View>
@@ -1686,9 +1689,7 @@ const PostService = () => {
             <Image
               style={{width: '100%', height: '100%'}}
               source={{
-                uri: image2
-                  ? image2
-                  : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                uri: image2 ? image2 : noImage,
               }}
             />
           </View>
@@ -1703,9 +1704,7 @@ const PostService = () => {
             <Image
               style={{width: '100%', height: '100%'}}
               source={{
-                uri: image3
-                  ? image3
-                  : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+                uri: image3 ? image3 : noImage,
               }}
             />
           </View>

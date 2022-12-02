@@ -201,7 +201,7 @@ export default function Profile({route, navigation}) {
         source={{
           uri: 'https://cutewallpaper.org/21/background-images-hd-1080p-free-download/Download-Hd-Video-Backgrounds-1080p-Free-Download-High-.jpg',
         }}>
-        <TouchableOpacity onPress={opneImageURL}>
+        <TouchableOpacity>
           <Image
             style={{width: 120, height: 120, borderRadius: 60}}
             source={{
