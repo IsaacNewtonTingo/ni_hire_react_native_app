@@ -34,7 +34,7 @@ import axios from 'axios';
 
 import storage from '@react-native-firebase/storage';
 
-const PostService = () => {
+const PostService = ({navigation}) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -1313,20 +1313,31 @@ const PostService = () => {
       })
       .then(response => {
         console.log(response.data);
-        Alert.alert(response.data.message);
+
         setIsSubmitting(false);
         setDisabled(false);
 
         setDescription('');
         setRate('');
-        // setImage1('');
-        // setImage2('');
-        // setImage3('');
+        setImage1('');
+        setImage2('');
+        setImage3('');
         setTransferred1('');
         setTransferred2(0);
         setTransferred3('');
         setService('');
         setServiceTitle(null);
+
+        if (response.data.status === 'Success') {
+          Alert.alert(response.data.status, response.data.message);
+
+          navigation.navigate('ServiceProviderProfile', {
+            serviceProviderID: response.data.data,
+            userID: _id,
+          });
+        } else {
+          Alert.alert(response.data.status, response.data.message);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -1529,20 +1540,10 @@ const PostService = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
-          Uploading Image 1
+        <Text style={{color: 'white', fontWeight: '800', marginBottom: 40}}>
+          Posting...
         </Text>
-        <Bar progress={transferred1} width={300} />
-
-        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
-          Uploading Image 2
-        </Text>
-        <Bar progress={transferred2} width={300} />
-
-        <Text style={{color: 'white', fontWeight: '800', marginVertical: 10}}>
-          Uploading Image 3
-        </Text>
-        <Bar progress={transferred3} width={300} />
+        <ActivityIndicator color="white" size="large" />
       </View>
     );
   }

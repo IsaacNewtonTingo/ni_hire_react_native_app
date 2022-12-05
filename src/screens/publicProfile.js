@@ -237,7 +237,7 @@ export default function PublicProfile({route, navigation}) {
         source={{
           uri: 'https://cutewallpaper.org/21/background-images-hd-1080p-free-download/Download-Hd-Video-Backgrounds-1080p-Free-Download-High-.jpg',
         }}>
-        <TouchableOpacity>
+        <View>
           <Image
             style={{width: 120, height: 120, borderRadius: 60}}
             source={{
@@ -246,7 +246,7 @@ export default function PublicProfile({route, navigation}) {
                 : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             }}
           />
-        </TouchableOpacity>
+        </View>
       </ImageBackground>
 
       <View style={styles.detailsContainer}>

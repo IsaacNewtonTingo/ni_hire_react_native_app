@@ -1330,7 +1330,7 @@ function Signup({navigation}) {
             maxLength={14}
             value={firstName}
             onChangeText={setFirstName}
-            placeholder="First name"
+            placeholder="First name *"
             style={styles.input}
             placeholderTextColor="gray"
           />
@@ -1347,7 +1347,7 @@ function Signup({navigation}) {
             maxLength={14}
             value={lastName}
             onChangeText={setLastName}
-            placeholder="Last name"
+            placeholder="Last name *"
             style={styles.input}
             placeholderTextColor="gray"
           />
@@ -1358,7 +1358,7 @@ function Signup({navigation}) {
           <TextInput
             value={phoneNumber}
             onChangeText={setPhoneNumber}
-            placeholder="Phone number"
+            placeholder="Phone number *"
             style={styles.input}
             placeholderTextColor="gray"
             keyboardType="phone-pad"
@@ -1375,7 +1375,7 @@ function Signup({navigation}) {
           <TextInput
             value={email}
             onChangeText={setEmail}
-            placeholder="Email"
+            placeholder="Email *"
             style={styles.input}
             placeholderTextColor="gray"
             keyboardType="email-address"
@@ -1428,7 +1428,7 @@ function Signup({navigation}) {
           <TextInput
             value={password}
             onChangeText={setPassword}
-            placeholder="Password"
+            placeholder="Password *"
             style={styles.input}
             placeholderTextColor="gray"
             secureTextEntry={true}
@@ -1445,7 +1445,7 @@ function Signup({navigation}) {
           <TextInput
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            placeholder="Confirm password"
+            placeholder="Confirm password *"
             style={styles.input}
             placeholderTextColor="gray"
             secureTextEntry={true}

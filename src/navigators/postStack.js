@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import MyServices from '../screens/myServices';
 import PostService from '../screens/postService';
+import ServiceProviderProfile from '../screens/serviceProviderProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,14 @@ export default function PostStack() {
       <Stack.Screen
         name="PostService"
         component={PostService}
+        options={{
+          headerTitle: 'Post your service',
+        }}
+      />
+
+      <Stack.Screen
+        name="ServiceProviderProfile"
+        component={ServiceProviderProfile}
         options={{
           headerTitle: 'Post your service',
         }}

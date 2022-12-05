@@ -41,6 +41,9 @@ export default function ServiceProviderProfile({route, navigation}) {
   const [noReviews, setNoReviews] = useState(false);
   const [noData, setNoData] = useState(false);
 
+  const noImage =
+    'https://csp-clients.s3.amazonaws.com/easttexasspa/wp-content/uploads/2021/06/no-image-icon-23485.png';
+
   const [loading, setLoading] = useState(true);
   const [loadingData, setLoadingData] = useState(true);
   const [reLoading, setReLoading] = useState(false);
@@ -104,7 +107,7 @@ export default function ServiceProviderProfile({route, navigation}) {
 
   async function getServiceProviderData() {
     setLoadingData(true);
-    const url = process.env.GET_SERVICE_PROVIDER_DATA + serviceProviderID;
+    let url = process.env.GET_SERVICE_PROVIDER_DATA + serviceProviderID;
     await axios
       .get(url)
       .then(response => {
@@ -474,9 +477,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <TouchableOpacity onPress={opneImageURL1}>
           <Image
             source={{
-              uri: image1
-                ? image1.toString()
-                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+              uri: image1 ? image1.toString() : noImage,
             }}
             style={{
               width: width - 40,
@@ -489,9 +490,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <TouchableOpacity onPress={opneImageURL2}>
           <Image
             source={{
-              uri: image2
-                ? image2.toString()
-                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+              uri: image2 ? image2.toString() : noImage,
             }}
             style={{
               width: width - 40,
@@ -504,9 +503,7 @@ export default function ServiceProviderProfile({route, navigation}) {
         <TouchableOpacity onPress={opneImageURL3}>
           <Image
             source={{
-              uri: image3
-                ? image3.toString()
-                : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png',
+              uri: image3 ? image3.toString() : noImage,
             }}
             style={{
               width: width - 40,
@@ -897,16 +894,8 @@ export default function ServiceProviderProfile({route, navigation}) {
         {jobsList.map(item => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('PublicProfile', {
-                userID: userID,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phoneNumber: phoneNumber,
-                bio: bio,
-                location: location,
-                profilePicture: profilePicture,
-              });
+              serviceProviderID = item._id;
+              getServiceProviderData({serviceProviderID});
             }}
             style={styles.jobTitleContainer}
             key={item._id}>

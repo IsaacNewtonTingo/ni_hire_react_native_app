@@ -6,41 +6,76 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import React from 'react';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width} = Dimensions.get('window');
 
-const B = props => (
-  <Text
-    style={{
-      color: '#33cccc',
-      fontWeight: '900',
-    }}>
-    {props.children}
-  </Text>
-);
+const slides = [
+  {
+    key: 1,
+    title: 'Title 1',
+    text: 'Description.\nSay something cool',
+    image: require('../assets/images/welcomeIMG.png'),
+    backgroundColor: '#59b2ab',
+  },
+  {
+    key: 2,
+    title: 'Title 2',
+    text: 'Other cool stuff',
+    image: require('../assets/images/welcome.png'),
+    backgroundColor: '#febe29',
+  },
+  {
+    key: 3,
+    title: 'Rocket guy',
+    text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
+    image: require('../assets/images/welcome2.png'),
+    backgroundColor: '#22bcb5',
+  },
+];
 
 export default function Welcome({navigation}) {
+  const renderItem = ({item}) => {
+    return (
+      <ImageBackground
+        source={item.image}
+        style={styles.image}></ImageBackground>
+    );
+  };
+
+  const renderNextButton = () => {
+    return (
+      <View style={styles.buttonCircle}>
+        <Text>Next</Text>
+      </View>
+    );
+  };
+
+  const renderDoneButton = () => {
+    return (
+      <View style={styles.buttonCircle}>
+        <Text style={styles.text}>Done</Text>
+      </View>
+    );
+  };
+
+  const onDone = () => {
+    navigation.navigate('Login');
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        style={styles.welcomeIMG}
-        source={require('../assets/images/welcome.png')}
-      />
-
-      {/* <View style={styles.lowerContainer}>
-        <Text style={styles.companyTextStyles}>
-          ni<B>Hire</B>
-        </Text>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Signup')}
-          style={styles.getStartedBTN}>
-          <Text style={styles.getStartedText}>Ge started</Text>
-        </TouchableOpacity>
-      </View> */}
-    </ScrollView>
+    <AppIntroSlider
+      style={styles.container}
+      data={slides}
+      onDone={onDone}
+      renderItem={renderItem}
+      renderDoneButton={renderDoneButton}
+      renderNextButton={renderNextButton}
+    />
   );
 }
 
@@ -60,37 +95,12 @@ const styles = StyleSheet.create({
     },
     textShadowRadius: 10,
   },
-  welcomeIMG: {
-    width: width / 1.5,
-    height: '60%',
+  image: {
+    width: width - 20,
+    height: '100%',
     alignSelf: 'center',
   },
-  getStartedBTN: {
-    backgroundColor: '#336699',
-    height: 50,
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    shadowColor: 'white',
-    shadowOffset: {
-      height: 3,
-      width: 3,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    elevation: 10,
-  },
-  getStartedText: {
+  text: {
     color: 'white',
-    fontWeight: '900',
-  },
-  lowerContainer: {
-    width: width,
-    height: '40%',
-    backgroundColor: '#3d3d5c',
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
   },
 });

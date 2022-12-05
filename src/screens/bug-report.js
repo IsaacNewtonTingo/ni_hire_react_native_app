@@ -8,15 +8,20 @@ import {
   Alert,
   ActivityIndicator,
   TextInput,
+  Image,
+  Dimensions,
 } from 'react-native';
 import React, {useState, useContext} from 'react';
+const {width} = Dimensions.get('window');
 
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+import ImagePicker from 'react-native-image-crop-picker';
 
 import {CredentialsContext} from '../components/credentials-context';
 import axios from 'axios';
+
+import storage from '@react-native-firebase/storage';
 
 export default function BugReport({url, children}) {
   const {storedCredentials, setStoredCredentials} =
@@ -24,8 +29,19 @@ export default function BugReport({url, children}) {
   const {_id} = storedCredentials;
 
   const [isPosting, setIsPosting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [message, setMessage] = useState('');
+  const [image1, setImage1] = useState('');
+  const [image2, setImage2] = useState('');
+  const [image3, setImage3] = useState('');
+
+  const [transferred1, setTransferred1] = useState(0);
+  const [transferred2, setTransferred2] = useState(0);
+  const [transferred3, setTransferred3] = useState(0);
+
+  const noImage =
+    'https://csp-clients.s3.amazonaws.com/easttexasspa/wp-content/uploads/2021/06/no-image-icon-23485.png';
 
   async function reportBug() {
     const url = process.env.REPORT_BUG + _id;
@@ -36,12 +52,18 @@ export default function BugReport({url, children}) {
       await axios
         .post(url, {
           message,
+          image1: image1 != '' ? await uploadImage1() : '',
+          image2: image2 != '' ? await uploadImage2() : '',
+          image3: image3 != '' ? await uploadImage3() : '',
         })
         .then(response => {
           setIsPosting(false);
 
           Alert.alert(response.data.status, response.data.message);
           setMessage('');
+          setImage1('');
+          setImage2('');
+          setImage2('');
         })
         .catch(err => {
           console.log(err);
@@ -50,6 +72,169 @@ export default function BugReport({url, children}) {
     }
   }
 
+  function openLibrary1() {
+    ImagePicker.openPicker({
+      // width: 300,
+      // height: 300,
+      // cropping: true,
+      compressImageQuality: 0.6,
+      mediaType: 'photo',
+    })
+      .then(image => {
+        setImage1(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+        return null;
+      });
+  }
+
+  function openLibrary2() {
+    ImagePicker.openPicker({
+      // width: 300,
+      // height: 300,
+      // cropping: true,
+      compressImageQuality: 0.6,
+      mediaType: 'photo',
+    })
+      .then(image => {
+        setImage2(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+        return null;
+      });
+  }
+
+  function openLibrary3() {
+    ImagePicker.openPicker({
+      // width: 300,
+      // height: 300,
+      // cropping: true,
+      compressImageQuality: 0.6,
+      mediaType: 'photo',
+    })
+      .then(image => {
+        setImage3(image.path);
+      })
+      .catch(error => {
+        console.log(error);
+        return null;
+      });
+  }
+
+  const uploadImage1 = async () => {
+    if (!image1) {
+      return null;
+    } else {
+      const uploadUri = image1;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+      setIsSubmitting(true);
+      setTransferred1(0);
+
+      const storageRef = storage().ref(`photos/${filename}`);
+      const task = storageRef.putFile(uploadUri);
+
+      // Set transferred state
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+
+        setTransferred1(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+        ) * 10000;
+      });
+
+      try {
+        await task;
+
+        const url = await storageRef.getDownloadURL();
+
+        setIsSubmitting(false);
+        return url;
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    }
+  };
+
+  const uploadImage2 = async () => {
+    if (image2 == null) {
+      return null;
+    }
+    const uploadUri = image2;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    setIsSubmitting(true);
+    setTransferred2(0);
+
+    const storageRef = storage().ref(`photos/${filename}`);
+    const task = storageRef.putFile(uploadUri);
+
+    // Set transferred state
+    task.on('state_changed', taskSnapshot => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+
+      setTransferred2(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+      ) * 10000;
+    });
+
+    try {
+      await task;
+
+      const url = await storageRef.getDownloadURL();
+
+      setIsSubmitting(false);
+      return url;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+
+  const uploadImage3 = async () => {
+    if (image3 == null) {
+      return null;
+    }
+    const uploadUri = image3;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    setIsSubmitting(true);
+    setTransferred3(0);
+
+    const storageRef = storage().ref(`photos/${filename}`);
+    const task = storageRef.putFile(uploadUri);
+
+    // Set transferred state
+    task.on('state_changed', taskSnapshot => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+
+      setTransferred3(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes),
+      ) * 10000;
+    });
+
+    try {
+      await task;
+
+      const url = await storageRef.getDownloadURL();
+
+      setIsSubmitting(false);
+      return url;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="always"
@@ -57,14 +242,14 @@ export default function BugReport({url, children}) {
       <View style={styles.centerView}>
         <Text
           style={{
-            textAlign: 'center',
-            color: 'black',
-            marginHorizontal: 20,
-            marginBottom: 20,
+            color: 'white',
+            marginBottom: 40,
+            fontSize: 16,
           }}>
           Experiencing any errors in our application? Please indicate the issue
           in detail and we will try our best to fix it.
         </Text>
+
         <TextInput
           style={styles.messageInput}
           placeholder="Write something here"
@@ -74,12 +259,58 @@ export default function BugReport({url, children}) {
           multiline={true}
         />
 
-        <TouchableOpacity
-          onPress={reportBug}
-          style={[
-            styles.buttonMain,
-            {backgroundColor: '#660033', width: '80%'},
-          ]}>
+        <Text style={{color: 'white', fontWeight: '800'}}>
+          Add image screenshots
+        </Text>
+
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={styles.imageContainer}>
+            <TouchableOpacity
+              onPress={openLibrary1}
+              style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
+              <Entypo name="camera" color="#cc0066" size={30} />
+            </TouchableOpacity>
+
+            <Image
+              style={{width: '100%', height: '100%'}}
+              source={{
+                uri: image1 ? image1 : noImage,
+              }}
+            />
+          </View>
+
+          <View style={styles.imageContainer}>
+            <TouchableOpacity
+              onPress={openLibrary2}
+              style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
+              <Entypo name="camera" color="#cc0066" size={30} />
+            </TouchableOpacity>
+
+            <Image
+              style={{width: '100%', height: '100%'}}
+              source={{
+                uri: image2 ? image2 : noImage,
+              }}
+            />
+          </View>
+
+          <View style={styles.imageContainer}>
+            <TouchableOpacity
+              onPress={openLibrary3}
+              style={{position: 'absolute', zIndex: 1, alignItems: 'center'}}>
+              <Entypo name="camera" color="#cc0066" size={30} />
+            </TouchableOpacity>
+
+            <Image
+              style={{width: '100%', height: '100%'}}
+              source={{
+                uri: image3 ? image3 : noImage,
+              }}
+            />
+          </View>
+        </View>
+
+        <TouchableOpacity onPress={reportBug} style={styles.buttonMain}>
           {isPosting ? (
             <ActivityIndicator color="white" size="small" animating />
           ) : (
@@ -93,17 +324,15 @@ export default function BugReport({url, children}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
   },
   centerView: {
-    backgroundColor: 'white',
+    backgroundColor: '#262626',
     borderRadius: 20,
-    alignItems: 'center',
     width: '90%',
-    justifyContent: 'center',
     shadowColor: 'white',
     shadowOffset: {
       width: 10,
@@ -112,34 +341,56 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 10,
     elevation: 5,
-    paddingTop: 10,
-    height: 300,
+    padding: 20,
+    paddingTop: 40,
   },
   messageInput: {
-    height: 70,
-    width: '80%',
+    height: 100,
     borderRadius: 10,
-    backgroundColor: 'white',
     paddingHorizontal: 20,
     borderWidth: 1,
-    marginBottom: 20,
-    color: 'black',
+    borderColor: 'white',
+    marginBottom: 40,
+    color: 'white',
   },
   buttonMain: {
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#336699',
+    backgroundColor: '#800060',
     borderRadius: 10,
     padding: 10,
-    borderWidth: 0.5,
-    borderColor: 'gray',
     marginBottom: 20,
-    width: '90%',
     alignSelf: 'center',
+    width: '100%',
   },
   buttonText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
+  },
+  imageContainer: {
+    height: 100,
+    width: width / 3.8,
+    backgroundColor: '#e6e6e6',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+    borderRadius: 5,
+  },
+  bugAndText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  bugIMG: {
+    width: 100,
+    height: 100,
+  },
+  bugText: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: 'white',
   },
 });

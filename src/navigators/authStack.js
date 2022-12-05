@@ -58,7 +58,7 @@ export default function AuthStack() {
   return (
     <CredentialsContext.Consumer>
       {({storedCredentials}) => (
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Welcome">
           {storedCredentials ? (
             <Stack.Screen
               options={{
