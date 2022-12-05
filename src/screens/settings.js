@@ -239,7 +239,7 @@ export default function Settings({navigation}) {
           fontWeight: '800',
           marginVertical: 20,
         }}>
-        niHire Beta Version 1.0.0
+        niHire Beta Version 1.0.3
       </Text>
     </ScrollView>
   );
